@@ -1,101 +1,106 @@
-import React from "react";
+import { useState, useEffect, useRef } from "react";
+import "./App.css";
 
-const App = () => {
+type CommandKey = "help" | "about" | "leaks" | "join";
+
+const Terminal = () => {
+  const [lines, setLines] = useState([
+    "Welcome to Elite Cyber Overlords Terminal",
+    "Type 'help' for a list of commands.",
+    "",
+  ]);
+  const [input, setInput] = useState("");
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    // Auto focus input when component mounts
+    inputRef.current !== null && inputRef.current.focus();
+  }, [lines]);
+
+  const commands: Record<CommandKey, () => string[]> = {
+    help: () => [
+      "Available commands:",
+      "  help       - Show this help message",
+      "  about      - About Elite Cyber Overlords",
+      "  leaks      - Show latest leaks",
+      "  join       - How to join us",
+      "  clear      - Clear the terminal",
+    ],
+    about: () => [
+      "We’re a totally legitimate hacking collective.",
+      "We hack the planet, one fake exploit at a time.",
+    ],
+    leaks: () => [
+      "Latest leaks:",
+      "- Leaked the source code to 'Hello World' — world shaken.",
+      "- Compromised grandma’s cookie jar. Sweet success.",
+      "- Injected memes into the Matrix. Reality destabilizing.",
+    ],
+    join: () => [
+      "Wanna be a keyboard ninja?",
+      "Just bring snacks and questionable morals.",
+      "Recruitment currently open.",
+    ],
+  };
+
+  const isCommandKey = (cmd: string): cmd is CommandKey => {
+    return cmd in commands;
+  };
+
+  const handleCommand = (cmd: string) => {
+    if (cmd === "clear") {
+      setLines([]);
+      return;
+    }
+
+    setLines((prev) => [...prev, `> ${cmd}`]);
+
+    if (isCommandKey(cmd)) {
+      setLines((prev) => [...prev, ...commands[cmd](), ""]);
+    } else {
+      setLines((prev) => [
+        ...prev,
+        `'${cmd}' is not recognized as a command.`,
+        "",
+      ]);
+    }
+  };
+
+  const onSubmit = (e: any) => {
+    e.preventDefault();
+    handleCommand(input);
+    setInput("");
+  };
+
   return (
-    <div style={styles.container}>
-      <header style={styles.header}>
-        <h1 style={styles.title}>🖥️ Elite Cyber Overlords 🕵️‍♂️</h1>
-        <p style={styles.subtitle}>
-          Because the internet needs more chaos... and cat memes.
-        </p>
-      </header>
+    <div
+      className="terminal"
+      onClick={() => inputRef.current !== null && inputRef.current.focus()}
+    >
+      <div className="output">
+        {lines.map((line, idx) => (
+          <div key={idx} className="line">
+            {line}
+          </div>
+        ))}
+      </div>
 
-      <main style={styles.main}>
-        <section style={styles.section}>
-          <h2>About Us</h2>
-          <p>
-            We’re a totally legitimate hacking collective. We hack the planet, 
-            one totally fake exploit at a time.
-          </p>
-        </section>
-
-        <section style={styles.section}>
-          <h2>Latest “Leaks”</h2>
-          <ul>
-            <li>Leaked the source code to “Hello World” — world shaken.</li>
-            <li>Compromised grandma’s cookie jar. Sweet success.</li>
-            <li>Injected memes into the Matrix. Reality destabilizing.</li>
-          </ul>
-        </section>
-
-        <section style={styles.section}>
-          <h2>Join Us</h2>
-          <p>
-            Wanna be a keyboard ninja? Just bring snacks and questionable
-            morals.
-          </p>
-          <button style={styles.button} onClick={() => alert("Welcome to the dark web (of memes)!")}>
-            Recruit Me!
-          </button>
-        </section>
-      </main>
-
-      <footer style={styles.footer}>
-        <small>© 2025 Elite Cyber Overlords. We do not take responsibility for your toaster’s fate.</small>
-      </footer>
+      <form onSubmit={onSubmit} className="input-form">
+        <span className="prompt">$</span>
+        <input
+          ref={inputRef}
+          className="input"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          spellCheck={false}
+          autoComplete="off"
+          autoCorrect="off"
+          autoCapitalize="off"
+        />
+        <span className="cursor" />
+      </form>
     </div>
   );
 };
 
-const styles = {
-  container: {
-    fontFamily: "'Courier New', Courier, monospace",
-    backgroundColor: "#0d0d0d",
-    color: "#33ff33",
-    minHeight: "100vh",
-    padding: "2rem",
-    display: "flex",
-    flexDirection: "column",
-  },
-  header: {
-    textAlign: "center",
-    marginBottom: "2rem",
-    borderBottom: "2px solid #33ff33",
-    paddingBottom: "1rem",
-  },
-  title: {
-    fontSize: "3rem",
-    margin: 0,
-    letterSpacing: "0.1em",
-  },
-  subtitle: {
-    fontSize: "1.2rem",
-    fontStyle: "italic",
-    marginTop: "0.5rem",
-  },
-  main: {
-    flex: 1,
-  },
-  section: {
-    marginBottom: "2rem",
-  },
-  button: {
-    backgroundColor: "#33ff33",
-    border: "none",
-    padding: "0.8rem 1.5rem",
-    color: "#000",
-    fontWeight: "bold",
-    cursor: "pointer",
-    borderRadius: "4px",
-    transition: "background-color 0.3s ease",
-  },
-  footer: {
-    textAlign: "center",
-    borderTop: "2px solid #33ff33",
-    paddingTop: "1rem",
-    fontSize: "0.8rem",
-    color: "#22cc22",
-  },
-};
-
-export default App;
+export default Terminal;

@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import "./App.css";
+import Modal from "@mui/material/Modal";
+import "./Terminal.css";
+import { Box } from "@mui/material";
 
 type CommandKey = "help" | "about" | "leaks" | "join";
 
@@ -73,33 +75,37 @@ const Terminal = () => {
   };
 
   return (
-    <div
-      className="terminal"
+    <Modal
+      open={true}
       onClick={() => inputRef.current !== null && inputRef.current.focus()}
+      // onClose={handleClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
     >
-      <div className="output">
-        {lines.map((line, idx) => (
-          <div key={idx} className="line">
-            {line}
-          </div>
-        ))}
-      </div>
-
-      <form onSubmit={onSubmit} className="input-form">
-        <span className="prompt">$</span>
-        <input
-          ref={inputRef}
-          className="input"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          spellCheck={false}
-          autoComplete="off"
-          autoCorrect="off"
-          autoCapitalize="off"
-        />
-        <span className="cursor" />
-      </form>
-    </div>
+      <Box className="output">
+        <div>
+          {lines.map((line, idx) => (
+            <div key={idx} className="line">
+              {line}
+            </div>
+          ))}
+        </div>
+        <form onSubmit={onSubmit} className="input-form">
+          <span className="prompt">$</span>
+          <input
+            ref={inputRef}
+            className="input"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            spellCheck={false}
+            autoComplete="off"
+            autoCorrect="off"
+            autoCapitalize="off"
+          />
+          <span className="cursor" />
+        </form>
+      </Box>
+    </Modal>
   );
 };
 

@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import Modal from "@mui/material/Modal";
 import "./Terminal.css";
-import { Box } from "@mui/material";
+import { IonModal } from '@ionic/react';
 
 type CommandKey = "help" | "about" | "leaks" | "join";
 
@@ -75,15 +74,15 @@ const Terminal = () => {
   };
 
   return (
-    <Modal
-      open={true}
+    <IonModal
+      className="terminal"
+      isOpen={true}
       onClick={() => inputRef.current !== null && inputRef.current.focus()}
       // onClose={handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box className="output">
-        <div>
+        <div className="output">
           {lines.map((line, idx) => (
             <div key={idx} className="line">
               {line}
@@ -104,8 +103,7 @@ const Terminal = () => {
           />
           <span className="cursor" />
         </form>
-      </Box>
-    </Modal>
+    </IonModal>
   );
 };
 

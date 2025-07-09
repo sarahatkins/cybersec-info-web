@@ -6,8 +6,11 @@ import { IonApp } from '@ionic/react';
 export default function FakeDesktop() {
   return (
     <IonApp>
-      <Terminal />
+      <div className="desktop-view">
+
+      {/* <Terminal /> */}
       <Toolbar />
+      </div>
     </IonApp>
   );
 }

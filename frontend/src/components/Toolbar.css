@@ -1,0 +1,26 @@
+.toolbar {
+    height: 100%;
+    width: 3rem;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(0, 0, 0, 0.75);
+    justify-content: space-between;
+    padding-top: 1rem;
+}
+
+.toolbar-icon {
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+    color: white;
+    font-size:xx-large;
+    transition: 0.5s;
+}
+
+.toolbar-icon:hover {
+    cursor: pointer;
+    transform: scale(1.25);
+}

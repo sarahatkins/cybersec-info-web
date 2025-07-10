@@ -5,7 +5,7 @@ type CommandKey = "help" | "about" | "leaks" | "join";
 
 interface TerminalProps {
   isOpen: boolean;
-  onClose: () => void;
+  onClose: any;
 }
 
 const Terminal: React.FC<TerminalProps> = ({ isOpen, onClose }) => {
@@ -94,7 +94,11 @@ const Terminal: React.FC<TerminalProps> = ({ isOpen, onClose }) => {
     if (isCommandKey(cmd)) {
       setLines((prev) => [...prev, ...commands[cmd](), ""]);
     } else {
-      setLines((prev) => [...prev, `'${cmd}' is not recognized as a command.`, ""]);
+      setLines((prev) => [
+        ...prev,
+        `'${cmd}' is not recognized as a command.`,
+        "",
+      ]);
     }
   };
 
@@ -109,15 +113,23 @@ const Terminal: React.FC<TerminalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="terminal" ref={terminalRef} style={{ top: "50px", left: "50px" }}>
+    <div
+      className="terminal"
+      ref={terminalRef}
+      style={{ top: "50px", left: "50px" }}
+    >
       <div className="terminal-header" onMouseDown={startDrag}>
         <span className="terminal-title">Elite Cyber Terminal</span>
-        <button className="terminal-close" onClick={onClose}>X</button>
+        <button className="terminal-close" onClick={onClose}>
+          X
+        </button>
       </div>
 
       <div className="output">
         {lines.map((line, idx) => (
-          <div key={idx} className="line">{line}</div>
+          <div key={idx} className="line">
+            {line}
+          </div>
         ))}
       </div>
 
@@ -133,7 +145,6 @@ const Terminal: React.FC<TerminalProps> = ({ isOpen, onClose }) => {
           autoCorrect="off"
           autoCapitalize="off"
         />
-        <span className="cursor" />
       </form>
     </div>
   );

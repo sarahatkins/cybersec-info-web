@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import "./Terminal.css";
-
+import { IonIcon } from "@ionic/react";
+import { close, expand, contract } from "ionicons/icons";
 type CommandKey = "help" | "about" | "leaks" | "join";
 
 interface TerminalProps {
@@ -10,7 +11,7 @@ interface TerminalProps {
 
 const Terminal: React.FC<TerminalProps> = ({ isOpen, onClose }) => {
   const [lines, setLines] = useState([
-    "Welcome to Elite Cyber Overlords Terminal",
+    "Welcome to a very fun terminal",
     "Type 'help' for a list of commands.",
     "",
   ]);
@@ -89,7 +90,7 @@ const Terminal: React.FC<TerminalProps> = ({ isOpen, onClose }) => {
       return;
     }
 
-    setLines((prev) => [...prev, `> ${cmd}`]);
+    setLines((prev) => [...prev, `>>> ${cmd}`]);
 
     if (isCommandKey(cmd)) {
       setLines((prev) => [...prev, ...commands[cmd](), ""]);
@@ -111,6 +112,12 @@ const Terminal: React.FC<TerminalProps> = ({ isOpen, onClose }) => {
   };
 
   if (!isOpen) return null;
+  useEffect(() => {
+    const term = terminalRef.current;
+    if (term) {
+      term.scrollTop = term.scrollHeight;
+    }
+  }, [lines]);
 
   return (
     <div
@@ -119,10 +126,12 @@ const Terminal: React.FC<TerminalProps> = ({ isOpen, onClose }) => {
       style={{ top: "50px", left: "50px" }}
     >
       <div className="terminal-header" onMouseDown={startDrag}>
-        <span className="terminal-title">Elite Cyber Terminal</span>
-        <button className="terminal-close" onClick={onClose}>
-          X
-        </button>
+        <div className="terminal-controls" />
+        <div className="terminal-title">blow/up/internet</div>
+        <div className="terminal-actions">
+          <IonIcon icon={expand} onClick={() => console.log("Expand")} />
+          <IonIcon icon={close} color="danger" onClick={onClose} />
+        </div>
       </div>
 
       <div className="output">
@@ -131,21 +140,21 @@ const Terminal: React.FC<TerminalProps> = ({ isOpen, onClose }) => {
             {line}
           </div>
         ))}
-      </div>
 
-      <form onSubmit={onSubmit} className="input-form">
-        <span className="prompt">$</span>
-        <input
-          ref={inputRef}
-          className="input"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          spellCheck={false}
-          autoComplete="off"
-          autoCorrect="off"
-          autoCapitalize="off"
-        />
-      </form>
+        <form onSubmit={onSubmit} className="line input-line">
+          <span className="prompt">file@file-desktop:~$</span>
+          <input
+            ref={inputRef}
+            className="input"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            spellCheck={false}
+            autoComplete="off"
+            autoCorrect="off"
+            autoCapitalize="off"
+          />
+        </form>
+      </div>
     </div>
   );
 };

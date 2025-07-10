@@ -1,10 +1,14 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import "./Terminal.css";
-import { IonModal } from '@ionic/react';
 
 type CommandKey = "help" | "about" | "leaks" | "join";
 
-const Terminal = () => {
+interface TerminalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const Terminal: React.FC<TerminalProps> = ({ isOpen, onClose }) => {
   const [lines, setLines] = useState([
     "Welcome to Elite Cyber Overlords Terminal",
     "Type 'help' for a list of commands.",
@@ -13,10 +17,43 @@ const Terminal = () => {
   const [input, setInput] = useState("");
   const inputRef = useRef<HTMLInputElement | null>(null);
 
+  // Drag logic
+  const terminalRef = useRef<HTMLDivElement>(null);
+  const pos = useRef({ x: 50, y: 50, offsetX: 0, offsetY: 0 });
+
   useEffect(() => {
-    // Auto focus input when component mounts
-    inputRef.current !== null && inputRef.current.focus();
-  }, [lines]);
+    if (isOpen && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isOpen]);
+
+  const startDrag = (e: React.MouseEvent) => {
+    const term = terminalRef.current;
+    if (!term) return;
+
+    pos.current.offsetX = e.clientX - term.offsetLeft;
+    pos.current.offsetY = e.clientY - term.offsetTop;
+
+    document.addEventListener("mousemove", drag);
+    document.addEventListener("mouseup", stopDrag);
+  };
+
+  const drag = (e: MouseEvent) => {
+    const x = e.clientX - pos.current.offsetX;
+    const y = e.clientY - pos.current.offsetY;
+    pos.current.x = x;
+    pos.current.y = y;
+    const term = terminalRef.current;
+    if (term) {
+      term.style.left = `${x}px`;
+      term.style.top = `${y}px`;
+    }
+  };
+
+  const stopDrag = () => {
+    document.removeEventListener("mousemove", drag);
+    document.removeEventListener("mouseup", stopDrag);
+  };
 
   const commands: Record<CommandKey, () => string[]> = {
     help: () => [
@@ -44,9 +81,7 @@ const Terminal = () => {
     ],
   };
 
-  const isCommandKey = (cmd: string): cmd is CommandKey => {
-    return cmd in commands;
-  };
+  const isCommandKey = (cmd: string): cmd is CommandKey => cmd in commands;
 
   const handleCommand = (cmd: string) => {
     if (cmd === "clear") {
@@ -59,51 +94,48 @@ const Terminal = () => {
     if (isCommandKey(cmd)) {
       setLines((prev) => [...prev, ...commands[cmd](), ""]);
     } else {
-      setLines((prev) => [
-        ...prev,
-        `'${cmd}' is not recognized as a command.`,
-        "",
-      ]);
+      setLines((prev) => [...prev, `'${cmd}' is not recognized as a command.`, ""]);
     }
   };
 
-  const onSubmit = (e: any) => {
+  const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    handleCommand(input);
+    if (input.trim()) {
+      handleCommand(input.trim());
+    }
     setInput("");
   };
 
+  if (!isOpen) return null;
+
   return (
-    <IonModal
-      className="terminal"
-      isOpen={true}
-      onClick={() => inputRef.current !== null && inputRef.current.focus()}
-      // onClose={handleClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
-        <div className="output">
-          {lines.map((line, idx) => (
-            <div key={idx} className="line">
-              {line}
-            </div>
-          ))}
-        </div>
-        <form onSubmit={onSubmit} className="input-form">
-          <span className="prompt">$</span>
-          <input
-            ref={inputRef}
-            className="input"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            spellCheck={false}
-            autoComplete="off"
-            autoCorrect="off"
-            autoCapitalize="off"
-          />
-          <span className="cursor" />
-        </form>
-    </IonModal>
+    <div className="terminal" ref={terminalRef} style={{ top: "50px", left: "50px" }}>
+      <div className="terminal-header" onMouseDown={startDrag}>
+        <span className="terminal-title">Elite Cyber Terminal</span>
+        <button className="terminal-close" onClick={onClose}>X</button>
+      </div>
+
+      <div className="output">
+        {lines.map((line, idx) => (
+          <div key={idx} className="line">{line}</div>
+        ))}
+      </div>
+
+      <form onSubmit={onSubmit} className="input-form">
+        <span className="prompt">$</span>
+        <input
+          ref={inputRef}
+          className="input"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          spellCheck={false}
+          autoComplete="off"
+          autoCorrect="off"
+          autoCapitalize="off"
+        />
+        <span className="cursor" />
+      </form>
+    </div>
   );
 };
 

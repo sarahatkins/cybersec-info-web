@@ -1,0 +1,122 @@
+.window {
+  position: absolute;
+  width: 400px;
+  color: black;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  resize: both;
+  overflow: auto;
+  border-radius: 5px;
+}
+
+.window-header {
+  background: #007acc;
+  color: white;
+  padding: 5px 10px;
+  display: flex;
+  justify-content: space-between;
+  cursor: move;
+}
+
+.window-content {
+  padding: 10px;
+}
+
+.fake-browser {
+  border: 1px solid #ccc;
+  background: #fefefe;
+}
+
+.fake-url-bar {
+  background: #eee;
+  padding: 5px 10px;
+  font-family: monospace;
+}
+
+.fake-page-content {
+  padding: 15px;
+}
+
+.fake-browser {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: white;
+  font-family: Arial, sans-serif;
+  user-select: none;
+}
+
+/* Tab Bar */
+.tab-bar {
+  display: flex;
+  background: #f1f3f4;
+  padding: 0 10px;
+  border-bottom: 1px solid #dfe1e5;
+  height: 36px;
+  align-items: center;
+  gap: 10px;
+}
+
+.tab {
+  padding: 5px 15px;
+  border-radius: 8px 8px 0 0;
+  cursor: pointer;
+  font-size: 14px;
+  color: #5f6368;
+  user-select: none;
+}
+
+.tab.active {
+  background: white;
+  box-shadow: 0 0 3px rgba(0,0,0,0.2);
+  color: black;
+  font-weight: 600;
+}
+
+/* Address Bar */
+.address-bar {
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  gap: 10px;
+  background: #e8eaed;
+  border-bottom: 1px solid #dadce0;
+  height: 40px;
+  border-radius: 0 0 8px 8px;
+}
+
+.address-bar .icon {
+  width: 20px;
+  height: 20px;
+  color: #5f6368;
+  cursor: pointer;
+  user-select: none;
+}
+
+.address-bar .lock {
+  margin-left: 4px;
+}
+
+.url-input {
+  flex-grow: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  background: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+  user-select: text;
+}
+
+/* Content */
+.page-content {
+  padding: 20px;
+  overflow-y: auto;
+  flex-grow: 1;
+  background: #fff;
+  color: #202124;
+  user-select: text;
+}

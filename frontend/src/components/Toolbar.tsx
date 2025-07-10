@@ -19,10 +19,10 @@ const Toolbar: React.FC<ToolbarProps> = ({
         <div className="toolbar-icon" onClick={() => openTerminal()}>
           <IonIcon icon={terminal} />
         </div>
-        <div className="toolbar-icon" onClick={() => openWeb()}>
+        <div className="toolbar-icon" onClick={() => openChat()}>
           <IonIcon icon={chatboxEllipses} />
         </div>
-        <div className="toolbar-icon" onClick={() => openChat()}>
+        <div className="toolbar-icon" onClick={() => openWeb()}>
           <IonIcon icon={logoEdge} />
         </div>
       </div>

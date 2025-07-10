@@ -1,0 +1,83 @@
+/* Chatroom.css */
+
+.chatroom-wrapper {
+  position: absolute;
+  background-color: #2f3136;
+  border: 1px solid #444;
+  border-radius: 4px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  user-select: none;
+}
+
+.chatroom-header {
+  background-color: #202225;
+  color: white;
+  padding: 8px 12px;
+  cursor: move;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chatroom-header button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.chatroom {
+  flex: 1;
+  display: flex;
+  height: 100%;
+}
+
+/* Resize handle */
+.resize-handle {
+  width: 12px;
+  height: 12px;
+  background-color: #555;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  cursor: se-resize;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #202225;
+  padding: 10px;
+}
+
+.chat-window {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #36393f;
+}
+
+.messages {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.message-input {
+  display: flex;
+  padding: 10px;
+  background-color: #40444b;
+}
+
+.message-input input {
+  flex: 1;
+  padding: 8px;
+  border-radius: 4px;
+  border: none;
+  background-color: #2f3136;
+  color: white;
+}

@@ -4,6 +4,9 @@ import {
   lockClosedOutline,
   reloadOutline,
   ellipsisVertical,
+  close,
+  contract,
+  expand,
 } from "ionicons/icons";
 import { IonIcon } from "@ionic/react";
 
@@ -52,7 +55,8 @@ const Window: React.FC<WindowProps> = ({ title, isOpen, onClose }) => {
         {/* Tab Bar */}
         <div className="tab-bar" onMouseDown={onMouseDown}>
           <div className="tab active">My Fake Website</div>
-          <div className="tab">New Tab +</div>
+          <IonIcon icon={expand} onClick={onClose}/>          
+          <IonIcon icon={close} onClick={onClose}/>
         </div>
 
         {/* Address Bar */}

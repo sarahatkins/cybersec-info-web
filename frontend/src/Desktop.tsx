@@ -4,11 +4,12 @@ import Toolbar from "./components/Toolbar";
 import Window from "./pages/Web/Window";
 import { IonApp } from '@ionic/react';
 import { useState } from "react";
+import Chatroom from "./pages/Chatroom/Chatroom";
 
 export default function FakeDesktop() {
   const [terminalOpen, setTerminalOpen] = useState<boolean>(false);
-  const [webOpen, setWebOpen] = useState<boolean>(true);
-  const [chatOpen, setChatOpen] = useState<boolean>(false);
+  const [webOpen, setWebOpen] = useState<boolean>(false);
+  const [chatOpen, setChatOpen] = useState<boolean>(true);
 
   return (
     <IonApp>
@@ -16,6 +17,7 @@ export default function FakeDesktop() {
 
       <Terminal isOpen={terminalOpen} onClose={() => setTerminalOpen(false)} />
       <Window title={""} isOpen={webOpen} onClose={() => setWebOpen(false)}/>
+      <Chatroom />
       <Toolbar openTerminal={() => setTerminalOpen(true)} openWeb={() => setWebOpen(true)} openChat={() => setChatOpen(true)} />
       </div>
     </IonApp>

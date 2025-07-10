@@ -111,7 +111,6 @@ const Terminal: React.FC<TerminalProps> = ({ isOpen, onClose }) => {
     setInput("");
   };
 
-  if (!isOpen) return null;
   useEffect(() => {
     const term = terminalRef.current;
     if (term) {
@@ -119,7 +118,8 @@ const Terminal: React.FC<TerminalProps> = ({ isOpen, onClose }) => {
     }
   }, [lines]);
 
-  return (
+  return isOpen ? (
+    
     <div
       className="terminal"
       ref={terminalRef}
@@ -130,7 +130,7 @@ const Terminal: React.FC<TerminalProps> = ({ isOpen, onClose }) => {
         <div className="terminal-title">blow/up/internet</div>
         <div className="terminal-actions">
           <IonIcon icon={expand} onClick={() => console.log("Expand")} />
-          <IonIcon icon={close} color="danger" onClick={onClose} />
+          <IonIcon icon={close} color="danger" onClick={() => onClose(false)} />
         </div>
       </div>
 
@@ -156,7 +156,7 @@ const Terminal: React.FC<TerminalProps> = ({ isOpen, onClose }) => {
         </form>
       </div>
     </div>
-  );
+  ): null;
 };
 
 export default Terminal;

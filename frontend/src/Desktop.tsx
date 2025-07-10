@@ -13,8 +13,8 @@ export default function FakeDesktop() {
     <IonApp>
       <div className="desktop-view">
 
-      <Terminal isOpen={terminalOpen} onClose={setTerminalOpen} />
-      <Toolbar />
+      <Terminal isOpen={terminalOpen} onClose={() => setTerminalOpen(false)} />
+      <Toolbar openTerminal={() => setTerminalOpen(true)} openWeb={() => setWebOpen(true)} openChat={() => setChatOpen(true)} />
       </div>
     </IonApp>
   );

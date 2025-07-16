@@ -3,8 +3,12 @@ import Sidebar from './Sidebar';
 import ChatWindow from './ChatWindow';
 import './Chatroom.css';
 
-const Chatroom: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(true);
+interface ChatroomProps {
+  isOpen:boolean;
+  onClose: any;
+}
+
+const Chatroom: React.FC<ChatroomProps> = ({isOpen, onClose}) => {
   const [position, setPosition] = useState({ x: 100, y: 100 });
   const [size, setSize] = useState({ width: 600, height: 400 });
   const isDragging = useRef(false);
@@ -64,7 +68,7 @@ const Chatroom: React.FC = () => {
     >
       <div className="chatroom-header" onMouseDown={handleMouseDown}>
         <span>Fake Discord Chatroom</span>
-        <button onClick={() => setIsOpen(false)}>×</button>
+        <button onClick={onClose}>×</button>
       </div>
 
       <div className="chatroom">

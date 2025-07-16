@@ -1,6 +1,6 @@
 .window {
   position: absolute;
-  width: 400px;
+  width: 70vw;
   color: black;
   border: 1px solid #ccc;
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
@@ -57,6 +57,13 @@
   height: 36px;
   align-items: center;
   gap: 10px;
+  justify-content: space-between;
+}
+
+.window-tab-btn {
+    margin-left: 0.75rem;
+    font-size: large;
+    cursor: pointer;
 }
 
 .tab {

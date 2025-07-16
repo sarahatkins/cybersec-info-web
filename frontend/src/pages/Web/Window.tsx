@@ -9,6 +9,7 @@ import {
   expand,
 } from "ionicons/icons";
 import { IonIcon } from "@ionic/react";
+import NewsSite from "./WebContentPages/News";
 
 type WindowProps = {
   title: string;
@@ -16,7 +17,7 @@ type WindowProps = {
   onClose: any;
 };
 
-const Window: React.FC<WindowProps> = ({ title, isOpen, onClose }) => {
+const Window: React.FC<WindowProps> = ({ isOpen, onClose }) => {
   const windowRef = useRef<HTMLDivElement>(null);
   const [pos, setPos] = useState({ x: 100, y: 100 });
   const [dragging, setDragging] = useState(false);
@@ -55,8 +56,11 @@ const Window: React.FC<WindowProps> = ({ title, isOpen, onClose }) => {
         {/* Tab Bar */}
         <div className="tab-bar" onMouseDown={onMouseDown}>
           <div className="tab active">My Fake Website</div>
-          <IonIcon icon={expand} onClick={onClose}/>          
-          <IonIcon icon={close} onClick={onClose}/>
+          <div>
+
+          <IonIcon className="window-tab-btn" icon={expand} onClick={onClose}/>          
+          <IonIcon className="window-tab-btn" icon={close} onClick={onClose}/>
+          </div>
         </div>
 
         {/* Address Bar */}
@@ -79,11 +83,7 @@ const Window: React.FC<WindowProps> = ({ title, isOpen, onClose }) => {
 
         {/* Content */}
         <div className="page-content">
-          <h1>Welcome to My Fake Webpage</h1>
-          <p>
-            This page is rendered inside a fake Chrome browser window. Cool,
-            right? 🚀
-          </p>
+          <NewsSite />
         </div>
       </div>
     </div>

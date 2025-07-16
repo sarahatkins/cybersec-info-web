@@ -1,0 +1,64 @@
+/* Base layout */
+.app {
+  display: flex;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 200px;
+  background: #f1f1f1;
+  padding: 1rem;
+  border-right: 1px solid #ccc;
+}
+
+.sidebar-item {
+  margin-bottom: 1rem;
+  cursor: pointer;
+  font-weight: 500;
+  color: #333;
+}
+
+.sidebar-item.active {
+  color: #1976d2;
+}
+
+/* Email list */
+.email-list {
+  flex: 1;
+  padding: 1rem;
+  border-right: 1px solid #ccc;
+  overflow-y: auto;
+}
+
+.email-item {
+  padding: 0.5rem;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  position: relative;
+}
+
+.email-item.selected {
+  background-color: #e3f2fd;
+}
+
+.unread-dot {
+  color: #1976d2;
+  font-size: 1rem;
+  position: absolute;
+  right: 10px;
+  top: 1rem;
+}
+
+/* Email viewer */
+.email-view {
+  flex: 2;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.placeholder {
+  color: #777;
+  font-style: italic;
+}

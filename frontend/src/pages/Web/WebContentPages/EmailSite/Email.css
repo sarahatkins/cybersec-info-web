@@ -1,0 +1,10 @@
+.email-view {
+  flex: 2;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.placeholder {
+  color: #777;
+  font-style: italic;
+}

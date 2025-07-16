@@ -1,16 +1,9 @@
-import React, { useState } from 'react';
-import './Email.css';
+import React, { useState } from "react";
+import "./EmailSite.css";
+import type { EmailInterface } from "./Email";
+import EmailMessage from "./Email";
 
-interface Email {
-  id: number;
-  sender: string;
-  subject: string;
-  body: string;
-  date: string;
-  isRead: boolean;
-}
-
-const mockEmails: Email[] = [
+const mockEmails: EmailInterface[] = [
   {
     id: 1,
     sender: "alice@example.com",
@@ -26,21 +19,23 @@ const mockEmails: Email[] = [
     body: "The new version has been deployed successfully.",
     date: "2025-07-15",
     isRead: true,
-  }
+  },
 ];
 
 const EmailSite: React.FC = () => {
-  const [selectedFolder, setSelectedFolder] = useState<string>('Inbox');
-  const [selectedEmail, setSelectedEmail] = useState<Email | null>(null);
+  const [selectedFolder, setSelectedFolder] = useState<string>("Inbox");
+  const [selectedEmail, setSelectedEmail] = useState<EmailInterface | null>(null);
 
   return (
     <div className="app">
       {/* Sidebar */}
       <div className="sidebar">
-        {['Inbox', 'Sent', 'Drafts'].map(folder => (
+        {["Inbox", "Sent", "Drafts", "Bin"].map((folder) => (
           <div
             key={folder}
-            className={`sidebar-item ${selectedFolder === folder ? 'active' : ''}`}
+            className={`sidebar-item ${
+              selectedFolder === folder ? "active" : ""
+            }`}
             onClick={() => {
               setSelectedFolder(folder);
               setSelectedEmail(null);
@@ -52,22 +47,26 @@ const EmailSite: React.FC = () => {
       </div>
 
       {/* Email List */}
-      <div className="email-list">
-        {mockEmails.map(email => (
-          <div
-            key={email.id}
-            className={`email-item ${selectedEmail?.id === email.id ? 'selected' : ''}`}
-            onClick={() => setSelectedEmail(email)}
-          >
-            <strong>{email.subject}</strong>
-            <p>{email.sender}</p>
-            {!email.isRead && <span className="unread-dot">●</span>}
-          </div>
-        ))}
-      </div>
+      {selectedEmail ? (
+        <EmailMessage selectedEmail={selectedEmail} onBack={() => setSelectedEmail(null)} />
+      ) : (
+        <div className="email-list">
+          {mockEmails.map((email) => (
+            <div
+              key={email.id}
+              className={"email-item"}
+              onClick={() => setSelectedEmail(email)}
+            >
+              <strong>{email.subject}</strong>
+              <p>{email.sender}</p>
+              {!email.isRead && <span className="unread-dot">●</span>}
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Email Viewer */}
-      <div className="email-view">
+      {/* <div className="email-view">
         {selectedEmail ? (
           <>
             <h2>{selectedEmail.subject}</h2>
@@ -78,7 +77,7 @@ const EmailSite: React.FC = () => {
         ) : (
           <div className="placeholder">Select an email to view</div>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -10,6 +10,7 @@
   width: 200px;
   background: #f1f1f1;
   padding: 1rem;
+  height: 100%;
   border-right: 1px solid #ccc;
 }
 
@@ -51,14 +52,3 @@
   top: 1rem;
 }
 
-/* Email viewer */
-.email-view {
-  flex: 2;
-  padding: 1rem;
-  overflow-y: auto;
-}
-
-.placeholder {
-  color: #777;
-  font-style: italic;
-}

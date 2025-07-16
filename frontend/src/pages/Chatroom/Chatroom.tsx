@@ -1,84 +1,98 @@
-import React, { useState, useRef } from 'react';
-import Sidebar from './Sidebar';
-import ChatWindow from './ChatWindow';
-import './Chatroom.css';
+import React, { useState } from "react";
+import "./Chatroom.css";
+
+interface Message {
+  id: number;
+  from: "me" | "them";
+  text: string;
+  time: string;
+}
+
+const initialMessages: Message[] = [
+  {
+    id: 1,
+    from: "them",
+    text: "Hey detective, got a minute?",
+    time: "10:14 AM",
+  },
+  { id: 2, from: "me", text: "Sure, what’s up?", time: "10:15 AM" },
+  {
+    id: 3,
+    from: "them",
+    text: "New lead came in. Warehouse 12 again.",
+    time: "10:15 AM",
+  },
+];
 
 interface ChatroomProps {
-  isOpen:boolean;
+  isOpen: boolean;
   onClose: any;
 }
 
-const Chatroom: React.FC<ChatroomProps> = ({isOpen, onClose}) => {
-  const [position, setPosition] = useState({ x: 100, y: 100 });
-  const [size, setSize] = useState({ width: 600, height: 400 });
-  const isDragging = useRef(false);
-  const isResizing = useRef(false);
-  const offset = useRef({ x: 0, y: 0 });
+const Chatroom: React.FC<ChatroomProps> = ({ isOpen, onClose }) => {
+  const [position, setPosition] = useState({ x: 300, y: 150 });
+  const [dragging, setDragging] = useState(false);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const [messages, setMessages] = useState<Message[]>(initialMessages);
+  const [input, setInput] = useState("");
 
-  // Dragging handlers
-  const handleMouseDown = (e: React.MouseEvent) => {
-    isDragging.current = true;
-    offset.current = {
-      x: e.clientX - position.x,
-      y: e.clientY - position.y,
-    };
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
+  const startDrag = (e: React.MouseEvent<HTMLDivElement>) => {
+    setDragging(true);
+    setOffset({ x: e.clientX - position.x, y: e.clientY - position.y });
   };
 
-  const handleMouseMove = (e: MouseEvent) => {
-    if (isDragging.current) {
-      setPosition({
-        x: e.clientX - offset.current.x,
-        y: e.clientY - offset.current.y,
-      });
-    } else if (isResizing.current) {
-      setSize(prev => ({
-        width: Math.max(300, e.clientX - position.x),
-        height: Math.max(200, e.clientY - position.y),
-      }));
+  const onDrag = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (dragging) {
+      setPosition({ x: e.clientX - offset.x, y: e.clientY - offset.y });
     }
   };
 
-  const handleMouseUp = () => {
-    isDragging.current = false;
-    isResizing.current = false;
-    document.removeEventListener('mousemove', handleMouseMove);
-    document.removeEventListener('mouseup', handleMouseUp);
+  const endDrag = () => setDragging(false);
+
+  const sendMessage = () => {
+    if (input.trim() === "") return;
+    setMessages([
+      ...messages,
+      { id: Date.now(), from: "me", text: input, time: "Now" },
+    ]);
+    setInput("");
   };
 
-  const handleResizeMouseDown = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    isResizing.current = true;
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
-  };
-
-  if (!isOpen) return null;
-
-  return (
-    <div
-      className="chatroom-wrapper"
-      style={{
-        top: position.y,
-        left: position.x,
-        width: size.width,
-        height: size.height,
-      }}
-    >
-      <div className="chatroom-header" onMouseDown={handleMouseDown}>
-        <span>Fake Discord Chatroom</span>
-        <button onClick={onClose}>×</button>
+  return isOpen ? (
+    <div className="chat-window" style={{ top: position.y, left: position.x }}>
+      <div className="chat-header" onMouseDown={startDrag} onMouseUp={endDrag}>
+        Teams Chat – Detective HQ
+        <button className="close-btn" onClick={() => onClose(false)}>
+          ✕
+        </button>
       </div>
 
-      <div className="chatroom">
-        <Sidebar />
-        <ChatWindow />
+      <div className="chat-body">
+        {messages.map((msg) => (
+          <div
+            key={msg.id}
+            className={`chat-message ${
+              msg.from === "me" ? "from-me" : "from-them"
+            }`}
+          >
+            <div className="message-text">{msg.text}</div>
+            <div className="message-time">{msg.time}</div>
+          </div>
+        ))}
       </div>
 
-      <div className="resize-handle" onMouseDown={handleResizeMouseDown} />
+      <div className="chat-input">
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Type a message..."
+          onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+        />
+        <button onClick={sendMessage}>Send</button>
+      </div>
     </div>
-  );
+  ) : null;
 };
 
 export default Chatroom;

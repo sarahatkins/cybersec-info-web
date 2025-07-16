@@ -9,9 +9,9 @@ import CaseFiles from "./pages/CaseFiles/CaseFiles";
 
 export default function FakeDesktop() {
   const [terminalOpen, setTerminalOpen] = useState<boolean>(false);
-  const [webOpen, setWebOpen] = useState<boolean>(false);
+  const [webOpen, setWebOpen] = useState<boolean>(true);
   const [chatOpen, setChatOpen] = useState<boolean>(false);
-  const [caseFilesOpen, setCaseFilesOpen] = useState<boolean>(true);
+  const [caseFilesOpen, setCaseFilesOpen] = useState<boolean>(false);
   return (
     <IonApp>
       <div className="desktop-view">

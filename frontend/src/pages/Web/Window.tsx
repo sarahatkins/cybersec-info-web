@@ -10,6 +10,7 @@ import {
 } from "ionicons/icons";
 import { IonIcon } from "@ionic/react";
 import NewsSite from "./WebContentPages/News";
+import HackerForum from "./WebContentPages/HackerForum";
 
 type WindowProps = {
   title: string;
@@ -83,7 +84,7 @@ const Window: React.FC<WindowProps> = ({ isOpen, onClose }) => {
 
         {/* Content */}
         <div className="page-content">
-          <NewsSite />
+          <HackerForum />
         </div>
       </div>
     </div>

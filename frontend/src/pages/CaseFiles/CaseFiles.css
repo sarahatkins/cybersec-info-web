@@ -1,0 +1,50 @@
+.case-file {
+  width: 300px;
+  background-color: #fefefe;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  position: absolute;
+  z-index: 10;
+  border: 2px solid #222;
+  border-radius: 6px;
+  user-select: none;
+}
+
+.case-header {
+  background-color: #2e2e2e;
+  color: white;
+  padding: 0.5rem;
+  cursor: move;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+.case-content {
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.close-btn {
+  background: transparent;
+  color: white;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.open-button {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background-color: #222;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}

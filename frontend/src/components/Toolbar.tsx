@@ -1,17 +1,19 @@
 import "./Toolbar.css";
 import { IonIcon } from "@ionic/react";
-import { logoEdge, chatboxEllipses, terminal, menu } from "ionicons/icons";
+import { logoEdge, chatboxEllipses, terminal, menu, fileTrayFull } from "ionicons/icons";
 
 interface ToolbarProps {
   openTerminal: any;
   openWeb: any;
   openChat: any;
+  openCaseFiles: any;
 }
 
 const Toolbar: React.FC<ToolbarProps> = ({
   openTerminal,
   openWeb,
   openChat,
+  openCaseFiles,
 }) => {
   return (
     <div className="toolbar">
@@ -24,6 +26,9 @@ const Toolbar: React.FC<ToolbarProps> = ({
         </div>
         <div className="toolbar-icon" onClick={() => openWeb()}>
           <IonIcon icon={logoEdge} />
+        </div>
+        <div className="toolbar-icon" onClick={() => openCaseFiles()}>
+          <IonIcon icon={fileTrayFull} />
         </div>
       </div>
       <div className="toolbar-icon">

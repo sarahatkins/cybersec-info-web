@@ -1,6 +1,6 @@
 import React from "react";
 import "./Email.css";
-
+import { SIDEBAR_OPTIONS } from "./EmailSite";
 export interface EmailInterface {
   id: number;
   sender: string;
@@ -8,6 +8,7 @@ export interface EmailInterface {
   body: string;
   date: string;
   isRead: boolean;
+  folder: "Inbox" | "Spam" | "Bin" | "Sent";
 }
 
 interface EmailProps {

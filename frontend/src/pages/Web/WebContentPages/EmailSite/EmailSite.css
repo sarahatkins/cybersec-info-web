@@ -1,47 +1,80 @@
 /* Base layout */
-.app {
+.email-site {
   display: flex;
-  height: 100vh;
   font-family: Arial, sans-serif;
+  height: 100%;
 }
 
-/* Sidebar */
-.sidebar {
-  width: 200px;
-  background: #f1f1f1;
+/* email-sidebar */
+.email-sidebar {
+  width: 10rem;
+  background: #f9fafe;
   padding: 1rem;
   height: 100%;
-  border-right: 1px solid #ccc;
 }
 
-.sidebar-item {
+.email-write {
+  padding: 1rem;
+  padding-right: 2rem;
+  background-color: #c4e6ff;
+  border-radius: 1rem;
+  width: auto;
+  display: flex;
+  font-size: 16px;
+  margin-bottom: 1rem;
+}
+
+.email-write ion-icon {
+  transform: scale(1.1);
+  margin-right: 1rem;
+}
+
+.email-sidebar-item {
   margin-bottom: 1rem;
   cursor: pointer;
   font-weight: 500;
   color: #333;
 }
 
-.sidebar-item.active {
+.email-sidebar-item.active {
   color: #1976d2;
 }
 
 /* Email list */
-.email-list {
+.email-container {
   flex: 1;
-  padding: 1rem;
   border-right: 1px solid #ccc;
   overflow-y: auto;
 }
 
 .email-item {
+  background-color: rgb(242, 245, 252);
   padding: 0.5rem;
   border-bottom: 1px solid #eee;
   cursor: pointer;
   position: relative;
+  font-size: 16px;
 }
 
-.email-item.selected {
-  background-color: #e3f2fd;
+.email-item p {
+  padding: 0;
+  margin: 0;
+  color: #6f7072;
+}
+
+.unread-email {
+  background-color: white;
+}
+
+.email-summary {
+  margin-left: 1rem;
+}
+
+.unread-email .summary-person {
+  color: black;
+  font-weight: 600;
+}
+.email-item.unread {
 }
 
 .unread-dot {
@@ -51,4 +84,3 @@
   right: 10px;
   top: 1rem;
 }
-

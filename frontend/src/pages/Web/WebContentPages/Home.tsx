@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
-import './Home.css';
+import React, { useState } from "react";
+import "./Home.css";
+import type { WebsiteProps } from "../Window";
 
-const HomeSite: React.FC = () => {
-  const [query, setQuery] = useState('');
+interface HomeSiteProps {
+  urls?: WebsiteProps[];
+}
+const HomeSite: React.FC<HomeSiteProps> = ({ urls }) => {
+  const [query, setQuery] = useState("");
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -11,28 +15,16 @@ const HomeSite: React.FC = () => {
 
   return (
     <div className="google-home">
-      <div className="logo-container">
-        <img
-          src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png"
-          alt="Google"
-          className="google-logo"
-        />
-      </div>
+      <div className="logo-container">Secret Search Engine</div>
 
       <form className="search-form" onSubmit={handleSearch}>
         <input
           type="text"
           className="search-input"
           value={query}
-          onChange={e => setQuery(e.target.value)}
-          placeholder="Search Google or type a URL"
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search or type a URL"
         />
-        <div className="buttons">
-          <button type="submit">Google Search</button>
-          <button type="button" onClick={() => alert('I’m feeling lucky!')}>
-            I'm Feeling Lucky
-          </button>
-        </div>
       </form>
     </div>
   );

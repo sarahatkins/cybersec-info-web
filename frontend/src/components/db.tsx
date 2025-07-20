@@ -18,7 +18,7 @@ export interface EmailInterface {
 
 export const game_emails: EmailInterface[] = [
   {
-    id: 1,
+    id: 0,
     sender: "alison@cybersec.com",
     subject: "Hacker Forum Link",
     summary: "Hey, Thanks for coming to my lecture...",

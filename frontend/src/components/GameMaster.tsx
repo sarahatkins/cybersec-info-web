@@ -30,6 +30,8 @@ const GameMaster: React.FC = ({
 }) => {
   const { gameStage, setGameStage } = useGame();
   // The GAME is just pushing things into an arr
+
+ 
   useEffect(() => {
     console.log(gameStage)
     switch (gameStage) {
@@ -40,7 +42,7 @@ const GameMaster: React.FC = ({
        
         break;
       case 3:
-        game_emails.push({
+        game_emails.unshift({
           id: game_emails.length++,
           sender: "search_engine_ceo@engimail.com",
           subject: "EMERGENCY: Social Media Down",

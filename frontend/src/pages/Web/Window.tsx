@@ -6,29 +6,15 @@ import {
   ellipsisVertical,
   close,
   expand,
+  add,
 } from "ionicons/icons";
 import { IonIcon } from "@ionic/react";
 import NewsSite from "./WebContentPages/News";
 import HackerForum from "./WebContentPages/HackerForum";
 import EmailSite from "./WebContentPages/EmailSite/EmailSite";
 import HomeSite from "./WebContentPages/Home";
-import Home from "./WebContentPages/Home";
 import NotFound from "./WebContentPages/NotFound";
 import React from "react";
-
-type WindowProps = {
-  title: string;
-  isOpen: boolean;
-  onClose: any;
-};
-
-export type WebsiteProps = {
-  id: number;
-  title: string;
-  dns: string;
-  ip_address: number;
-  icon?: any;
-};
 
 const websiteMap: Record<string, React.FC> = {
   "https://home.com": HomeSite,
@@ -36,112 +22,156 @@ const websiteMap: Record<string, React.FC> = {
   "https://your-emails.com": EmailSite,
   "https://global-news.com": NewsSite,
   "https://unknown-address.com": NotFound,
-  // "litespeed-ddos-services.com":
 };
 
-const WINDOW_URLS: WebsiteProps[] = [
-  {
-    id: 3,
-    title: "Home",
-    dns: "https://home.com",
-    ip_address: 0,
-  },
-  {
-    id: 1,
-    title: "Hacker Forum",
-    dns: "https://hackerforum.com",
-    ip_address: 0,
-  },
-  { id: 2, title: "Email", dns: "your-emails.com", ip_address: 0 },
-
-  {
-    id: 4,
-    title: "DDoS Services",
-    dns: "https://litespeed-ddos-services.com",
-    ip_address: 0,
-  },
-  {
-    id: 5,
-    title: "Global News",
-    dns: "https://global-news.com",
-    ip_address: 0,
-  },
-  {
-    id: 6,
-    title: "ProTraf Services",
-    dns: "https://protraf-services.com",
-    ip_address: 0,
-  },
-];
-
-const Window: React.FC<WindowProps> = ({ isOpen, onClose }) => {
+const Window = ({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+}) => {
   const windowRef = useRef<HTMLDivElement>(null);
   const [pos, setPos] = useState({ x: 100, y: 100 });
   const [dragging, setDragging] = useState(false);
   const [rel, setRel] = useState({ x: 0, y: 0 });
-  const [url, setUrl] = useState(WINDOW_URLS[0].dns);
-  const [currentComponent, setCurrentComponent] = useState<React.FC | null>(
-    null
-  );
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [url, setUrl] = useState("https://home.com");
 
-  // const normalizeUrl = (url: string) =>
-  //   url.replace(/^https?:\/\//, "").toLowerCase();
+  const [tabs, setTabs] = useState([
+    { id: 0, url: "https://home.com", title: "Home", Component: HomeSite },
+  ]);
+  const [activeTabId, setActiveTabId] = useState(0);
 
-  const handleNavigate = (e: React.FormEvent) => {
-    e.preventDefault();
-    const Component = websiteMap[url.toLowerCase()] || NotFound;
-    setCurrentComponent(() => Component);
-  };
-
-  const onMouseDown = (e: React.MouseEvent) => {
-    if (windowRef.current) {
-      const bounds = windowRef.current.getBoundingClientRect();
-      setRel({ x: e.clientX - bounds.left, y: e.clientY - bounds.top });
-    }
-    setDragging(true);
-    e.preventDefault();
-  };
-
-  const onMouseMove = (e: MouseEvent) => {
-    if (dragging) {
-      setPos({ x: e.clientX - rel.x, y: e.clientY - rel.y });
-    }
-  };
-
-  const onMouseUp = () => setDragging(false);
+  // Dragging
+  useEffect(() => {
+    const move = (e: MouseEvent) => {
+      if (dragging && !isFullscreen) {
+        setPos({ x: e.clientX - rel.x, y: e.clientY - rel.y });
+      }
+    };
+    const up = () => setDragging(false);
+    window.addEventListener("mousemove", move);
+    window.addEventListener("mouseup", up);
+    return () => {
+      window.removeEventListener("mousemove", move);
+      window.removeEventListener("mouseup", up);
+    };
+  }, [dragging, rel, isFullscreen]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
+    const formattedUrl = url.startsWith("https://") ? url : `https://${url}`;
+    const Component = websiteMap[formattedUrl] || NotFound;
+    const title = formattedUrl.replace("https://", "").split(".")[0];
 
-    const FoundComponent = websiteMap[url] || NotFound;
-
-    setCurrentComponent(() => FoundComponent);
+    setTabs((prev) =>
+      prev.map((tab) =>
+        tab.id === activeTabId
+          ? {
+              ...tab,
+              url: formattedUrl,
+              title: title.charAt(0).toUpperCase() + title.slice(1),
+              Component,
+            }
+          : tab
+      )
+    );
   };
 
-  useEffect(() => {
-    window.addEventListener("mousemove", onMouseMove);
-    window.addEventListener("mouseup", onMouseUp);
-    return () => {
-      window.removeEventListener("mousemove", onMouseMove);
-      window.removeEventListener("mouseup", onMouseUp);
+  const handleExternalSearch = (searchUrl: string) => {
+    const Component = websiteMap[searchUrl] || NotFound;
+    const title = searchUrl.replace("https://", "").split(".")[0];
+
+    const newTab = {
+      id: Date.now(),
+      url: searchUrl,
+      title: title.charAt(0).toUpperCase() + title.slice(1),
+      Component,
     };
-  }, [dragging, rel]);
+
+    setTabs([...tabs, newTab]);
+    setActiveTabId(newTab.id);
+    setUrl(searchUrl);
+  };
+
+  const addTab = () => {
+    const newTab = {
+      id: Date.now(),
+      url: "https://home.com",
+      title: "Home",
+      Component: HomeSite,
+    };
+    setTabs([...tabs, newTab]);
+    setActiveTabId(newTab.id);
+  };
+
+  const closeTab = (id: number) => {
+    setTabs((prev) => {
+      const updated = prev.filter((tab) => tab.id !== id);
+      if (activeTabId === id) {
+        setActiveTabId(updated.length ? updated[0].id : -1);
+      }
+      return updated;
+    });
+  };
+
+  const toggleFullscreen = () => setIsFullscreen(!isFullscreen);
+
+  const activeTab = tabs.find((tab) => tab.id === activeTabId);
+
+  useEffect(() => {
+    const active = tabs.find((tab) => tab.id === activeTabId);
+    if (active) setUrl(active.url);
+  }, [activeTabId, tabs]);
 
   return isOpen ? (
-    <div ref={windowRef} className="window" style={{ top: pos.y, left: pos.x }}>
+    <div
+      ref={windowRef}
+      className={`window ${isFullscreen ? "fullscreen" : ""}`}
+      style={isFullscreen ? {} : { top: pos.y, left: pos.x }}
+    >
       <div className="fake-browser">
-        {/* Tab Bar */}
-        <div className="tab-bar" onMouseDown={onMouseDown}>
-          <div className="tab active">My Fake Website</div>
+        {/* Tabs */}
+        <div
+          className="tab-bar"
+          onMouseDown={(e) => {
+            if (!isFullscreen && windowRef.current) {
+              const bounds = windowRef.current.getBoundingClientRect();
+              setRel({ x: e.clientX - bounds.left, y: e.clientY - bounds.top });
+              setDragging(true);
+            }
+          }}
+        >
+          <div className="tab-container">
+            {tabs.map((tab) => (
+              <div
+                key={tab.id}
+                className={`tab ${tab.id === activeTabId ? "active" : ""}`}
+                onClick={() => setActiveTabId(tab.id)}
+              >
+                {tab.title}
+                <IonIcon
+                  icon={close}
+                  className="tab-close"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    closeTab(tab.id);
+                  }}
+                />
+              </div>
+            ))}
+            <IonIcon icon={add} className="tab-add" onClick={addTab} />
+          </div>
           <div>
             <IonIcon
-              className="window-tab-btn"
               icon={expand}
-              onClick={onClose}
+              className="window-tab-btn"
+              onClick={toggleFullscreen}
             />
             <IonIcon
-              className="window-tab-btn"
               icon={close}
+              className="window-tab-btn"
               onClick={onClose}
             />
           </div>
@@ -155,8 +185,8 @@ const Window: React.FC<WindowProps> = ({ isOpen, onClose }) => {
               type="text"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
-              spellCheck={false}
               className="url-input"
+              spellCheck={false}
             />
           </form>
           <IonIcon
@@ -167,10 +197,17 @@ const Window: React.FC<WindowProps> = ({ isOpen, onClose }) => {
           <IonIcon icon={ellipsisVertical} className="icon menu" />
         </div>
 
-        {/* Content */}
+        {/* Page Content */}
         <div className="page-content">
-          {currentComponent ? React.createElement(currentComponent) : <Home />}
-          {/* <LiteSpeed /> */}
+          {activeTab ? (
+            activeTab.Component === HomeSite ? (
+              <HomeSite onSearchSubmit={handleExternalSearch} />
+            ) : (
+              React.createElement(activeTab.Component)
+            )
+          ) : (
+            <HomeSite onSearchSubmit={handleExternalSearch} />
+          )}
         </div>
       </div>
     </div>

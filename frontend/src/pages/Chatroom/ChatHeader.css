@@ -1,0 +1,78 @@
+.chatlist-container {
+  background-color: #f4f4f6;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #ddd;
+  height: 100%;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.chatlist-header {
+  font-weight: bold;
+  font-size: 20px;
+  padding: 16px;
+  border-bottom: 1px solid #ddd;
+  background-color: #ffffff;
+}
+
+.chatlist-search {
+  padding: 10px 16px;
+  border-bottom: 1px solid #ddd;
+  background-color: #ffffff;
+}
+
+.chatlist-search input {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.chatlist-items {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.chatlist-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background 0.2s;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #fff;
+}
+
+.chatlist-item:hover {
+  background-color: #e7e7ee;
+}
+
+.chatlist-item.unread .chat-name {
+  font-weight: bold;
+}
+
+.avatar {
+  font-size: 24px;
+  margin-right: 12px;
+}
+
+.chat-details {
+  flex-grow: 1;
+}
+
+.chat-name {
+  font-size: 16px;
+  color: #222;
+}
+
+.chat-message {
+  font-size: 14px;
+  color: #666;
+}
+
+.chat-time {
+  font-size: 12px;
+  color: #999;
+  margin-left: 8px;
+}

@@ -22,6 +22,18 @@
   padding: 10px;
 }
 
+.window.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+}
+
+
 .fake-browser {
   border: 1px solid #ccc;
   background: #fefefe;
@@ -60,6 +72,11 @@
   justify-content: space-between;
 }
 
+.tab-container {
+    display: flex;
+    overflow: hidden;
+}
+
 .window-tab-btn {
     margin-left: 0.75rem;
     font-size: large;
@@ -73,6 +90,11 @@
   font-size: 14px;
   color: #5f6368;
   user-select: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 9rem;
+    border-right: 1px solid rgb(215, 215, 215);
 }
 
 .tab.active {
@@ -81,6 +103,24 @@
   color: black;
   font-weight: 600;
 }
+
+.tab.active {
+  background: white;
+  font-weight: bold;
+}
+
+.tab-close {
+  margin-left: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.tab-add {
+  padding: 6px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
 
 /* Address Bar */
 .address-bar {

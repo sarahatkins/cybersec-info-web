@@ -1,65 +1,124 @@
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./CaseFiles.css";
 import { IonIcon } from "@ionic/react";
 import { close, expand, contract } from "ionicons/icons";
-type CommandKey = "help" | "about" | "leaks" | "join";
 
-interface TerminalProps {
+interface CaseFilesProps {
   isOpen: boolean;
-  onClose: any;
+  onClose: () => void;
 }
 
-const CaseFiles: React.FC<TerminalProps> = ({ isOpen, onClose }) => {
-  const [position, setPosition] = useState({ x: 100, y: 100 });
-  const [dragging, setDragging] = useState(false);
-  const [offset, setOffset] = useState({ x: 0, y: 0 });
+interface Case {
+  id: number;
+  name: string;
+  aliases: string[];
+  location: string;
+  notes: string[];
+}
 
-  const startDrag = (e: React.MouseEvent<HTMLDivElement>) => {
+const caseData: Case[] = [
+  {
+    id: 1,
+    name: "John Doe",
+    aliases: ["JD", "The Fox"],
+    location: "Dockyard District",
+    notes: [
+      "Seen with unidentified associate near Warehouse 12",
+      "May be linked to car theft ring",
+      "Surveillance recommended",
+    ],
+  },
+  {
+    id: 2,
+    name: "Maria Espinoza",
+    aliases: ["Red Viper"],
+    location: "Eastside Market",
+    notes: [
+      "Runs an underground gambling ring",
+      "Highly mobile – changes phones weekly",
+      "Possibly working with international contacts",
+    ],
+  },
+];
+
+const CaseFiles: React.FC<CaseFilesProps> = ({ isOpen, onClose }) => {
+  const [position, setPosition] = useState({ x: 150, y: 150 });
+  const [dragging, setDragging] = useState(false);
+  const [fullscreen, setFullscreen] = useState(false);
+  const [activeCase, setActiveCase] = useState<Case>(caseData[0]);
+  const offset = useRef({ x: 0, y: 0 });
+
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (fullscreen) return;
     setDragging(true);
-    setOffset({
+    offset.current = {
       x: e.clientX - position.x,
       y: e.clientY - position.y,
-    });
+    };
   };
 
-  const onDrag = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseMove = (e: MouseEvent) => {
     if (!dragging) return;
     setPosition({
-      x: e.clientX - offset.x,
-      y: e.clientY - offset.y,
+      x: e.clientX - offset.current.x,
+      y: e.clientY - offset.current.y,
     });
   };
 
-  const endDrag = () => {
-    setDragging(false);
-  };
+  const handleMouseUp = () => setDragging(false);
 
-  return isOpen ? (
-        <div
-          className="case-file"
-          style={{ left: position.x, top: position.y }}
-        >
-          <div
-            className="case-header"
-            onMouseDown={startDrag}
-            onMouseUp={endDrag}
-          >
-            🗂️ Detective Case File
-            <button className="close-btn" onClick={() => onClose(false)}>✕</button>
-          </div>
-          <div className="case-content">
-            <p><strong>Suspect Name:</strong> John Doe</p>
-            <p><strong>Known Aliases:</strong> JD, The Fox</p>
-            <p><strong>Last Known Location:</strong> Dockyard District</p>
-            <p><strong>Notes:</strong></p>
-            <ul>
-              <li>Seen with unidentified associate near Warehouse 12</li>
-              <li>May be linked to car theft ring</li>
-              <li>Surveillance recommended</li>
-            </ul>
-          </div>
+  useEffect(() => {
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [dragging]);
+
+  if (!isOpen) return null;
+
+  return (
+    <div
+      className={`case-file-window ${fullscreen ? "fullscreen" : ""}`}
+      style={!fullscreen ? { top: position.y, left: position.x } : {}}
+    >
+      <div className="case-header" onMouseDown={handleMouseDown}>
+        <div className="title">🗂️ Detective Case File</div>
+        <div className="header-actions">
+          <IonIcon
+            icon={fullscreen ? contract : expand}
+            onClick={() => setFullscreen(!fullscreen)}
+          />
+          <IonIcon icon={close} onClick={onClose} />
         </div>
-  ): null;
+      </div>
+
+      <div className="case-selector">
+        {caseData.map((c) => (
+          <button
+            key={c.id}
+            onClick={() => setActiveCase(c)}
+            className={activeCase.id === c.id ? "active" : ""}
+          >
+            {c.name}
+          </button>
+        ))}
+      </div>
+
+      <div className="case-content">
+        <p><strong>Suspect Name:</strong> {activeCase.name}</p>
+        <p><strong>Known Aliases:</strong> {activeCase.aliases.join(", ")}</p>
+        <p><strong>Last Known Location:</strong> {activeCase.location}</p>
+        <p><strong>Notes:</strong></p>
+        <ul>
+          {activeCase.notes.map((note, index) => (
+            <li key={index}>{note}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
 };
 
 export default CaseFiles;

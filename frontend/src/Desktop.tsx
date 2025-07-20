@@ -4,7 +4,7 @@ import Toolbar from "./components/Toolbar";
 import Window from "./pages/Web/Window";
 import { IonApp } from "@ionic/react";
 import { useState } from "react";
-import Chatroom from "./pages/Chatroom/Chatroom";
+import Chatroom from "./pages/Chatroom/ChatApp";
 import CaseFiles from "./pages/CaseFiles/CaseFiles";
 
 export default function FakeDesktop() {
@@ -19,7 +19,7 @@ export default function FakeDesktop() {
           isOpen={terminalOpen}
           onClose={() => setTerminalOpen(false)}
         />
-        <Window title={""} isOpen={webOpen} onClose={() => setWebOpen(false)} />
+        <Window isOpen={webOpen} onClose={() => setWebOpen(false)} />
         <Chatroom isOpen={chatOpen} onClose={() => setChatOpen(false)} />
         <CaseFiles isOpen={caseFilesOpen} onClose={() => setCaseFilesOpen(false)} />
         <Toolbar

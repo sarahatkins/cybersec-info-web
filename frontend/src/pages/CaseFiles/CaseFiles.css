@@ -1,50 +1,71 @@
-.case-file {
-  width: 300px;
-  background-color: #fefefe;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+.case-file-window {
   position: absolute;
-  z-index: 10;
-  border: 2px solid #222;
+  width: 500px;
+  background: #fffef9;
+  border: 2px solid #c4b79b;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  font-family: 'Courier New', Courier, monospace;
   border-radius: 6px;
-  user-select: none;
+  z-index: 1000;
+  resize: both;
+  overflow-y: scroll;
+}
+
+.case-file-window.fullscreen {
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  border-radius: 0;
 }
 
 .case-header {
-  background-color: #2e2e2e;
-  color: white;
-  padding: 0.5rem;
-  cursor: move;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background: #e7dcc1;
+  color: #2a2a2a;
+  padding: 10px 14px;
+  cursor: move;
   font-weight: bold;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
+  border-bottom: 1px solid #c4b79b;
+}
+
+.case-header .header-actions ion-icon {
+  font-size: 20px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.case-selector {
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+  background: #f2ede1;
+  border-bottom: 1px solid #c4b79b;
+}
+
+.case-selector button {
+  background: none;
+  border: 1px solid #aaa;
+  padding: 4px 10px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+.case-selector button.active {
+  background: #d6cdb1;
+  font-weight: bold;
 }
 
 .case-content {
-  padding: 1rem;
-  font-size: 0.9rem;
+  padding: 15px;
+  font-size: 14px;
   color: #333;
 }
 
-.close-btn {
-  background: transparent;
-  color: white;
-  border: none;
-  font-size: 1rem;
-  cursor: pointer;
-}
-
-.open-button {
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  background-color: #222;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+.case-content ul {
+  margin: 0;
+  padding-left: 20px;
 }

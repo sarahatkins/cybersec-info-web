@@ -1,22 +1,10 @@
 import React, { useState } from "react";
 import "./EmailSite.css";
-import type { EmailInterface } from "./Email";
+import type { EmailInterface } from "../../../../components/db";
 import EmailMessage from "./Email";
 import { IonCol, IonGrid, IonIcon, IonRow } from "@ionic/react";
 import { pencil } from "ionicons/icons";
-
-const mockEmails: EmailInterface[] = [
-  {
-    id: 1,
-    sender: "alison@cybersec.com",
-    subject: "Hacker Forum Link",
-    body: `Hey,\n Thanks for coming to my lecture.\n Here is the link you requested: 
-    hackerforum.com \n Alison`,
-    date: "2025-07-16",
-    isRead: false,
-    folder: "Inbox",
-  },
-];
+import { game_emails } from "../../../../components/db";
 
 export const SIDEBAR_OPTIONS = ["Inbox", "Sent", "Spam", "Bin"];
 
@@ -29,7 +17,7 @@ const EmailSite: React.FC = () => {
   const setEmailRead = (e: EmailInterface) => {
     e.isRead = true;
   };
-
+  
   return (
     <div className="email-site">
       {/* Sidebar */}
@@ -63,7 +51,7 @@ const EmailSite: React.FC = () => {
       ) : (
         <div className="email-container">
           <div className="email-list">
-            {mockEmails.map((email) => (
+            {game_emails.map((email) => (
               <IonGrid
                 key={email.id}
                 className={` email-item ${!email.isRead ? "unread-email" : ""}`}
@@ -79,7 +67,7 @@ const EmailSite: React.FC = () => {
                   <IonCol className="email-summary">
                     <p className="summary-person">{email.sender}</p>
                     <p className="summary-person">{email.subject}</p>
-                    <p>{email.body}</p>
+                    <p className="summary-body">{email.summary}</p>
                     {!email.isRead && <span className="unread-dot">●</span>}
                   </IonCol>
                 </IonRow>

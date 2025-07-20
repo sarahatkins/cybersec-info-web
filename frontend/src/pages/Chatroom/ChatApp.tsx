@@ -4,24 +4,12 @@ import "./ChatApp.css";
 import ChatList from "./ChatList";
 import ChatView from "./ChatView";
 import CallView from "./CallView";
+import { game_chat_users, type Person } from "../../components/db";
 
 interface ChatAppProps {
   isOpen: boolean;
   onClose: () => void;
 }
-
-interface Person {
-  id: number;
-  name: string;
-  avatar: string;
-}
-
-const people: Person[] = [
-  { id: 1, name: "Mona Kane", avatar: "👩‍🎨" },
-  { id: 2, name: "Eric Ishida", avatar: "👨‍💻" },
-  { id: 3, name: "Marketing Team", avatar: "📊" },
-];
-
 const MIN_WIDTH = 400;
 const MIN_HEIGHT = 300;
 
@@ -35,7 +23,9 @@ const TeamsWindow: React.FC<ChatAppProps> = ({ isOpen, onClose }) => {
   const [isResizing, setIsResizing] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
-  const [selectedPerson, setSelectedPerson] = useState<Person>(people[0]);
+  const [selectedPerson, setSelectedPerson] = useState<Person>(
+    game_chat_users[0]
+  );
   const [activeTab, setActiveTab] = useState<"chat" | "call">("chat");
   const [messages, setMessages] = useState<Record<number, string[]>>({
     1: ["Hey there!"],
@@ -141,7 +131,7 @@ const TeamsWindow: React.FC<ChatAppProps> = ({ isOpen, onClose }) => {
       {/* Body */}
       <div className="teams-body">
         <ChatList
-          people={people}
+          people={game_chat_users}
           selectedId={selectedPerson.id}
           onSelect={setSelectedPerson}
         />

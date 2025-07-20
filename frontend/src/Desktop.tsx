@@ -6,6 +6,8 @@ import { IonApp } from "@ionic/react";
 import { useState } from "react";
 import Chatroom from "./pages/Chatroom/ChatApp";
 import CaseFiles from "./pages/CaseFiles/CaseFiles";
+import { GameProvider } from "./context/GameContext";
+import GameMaster from "./components/GameMaster";
 
 export default function FakeDesktop() {
   const [terminalOpen, setTerminalOpen] = useState<boolean>(false);
@@ -14,21 +16,27 @@ export default function FakeDesktop() {
   const [caseFilesOpen, setCaseFilesOpen] = useState<boolean>(false);
   return (
     <IonApp>
-      <div className="desktop-view">
-        <Terminal
-          isOpen={terminalOpen}
-          onClose={() => setTerminalOpen(false)}
-        />
-        <Window isOpen={webOpen} onClose={() => setWebOpen(false)} />
-        <Chatroom isOpen={chatOpen} onClose={() => setChatOpen(false)} />
-        <CaseFiles isOpen={caseFilesOpen} onClose={() => setCaseFilesOpen(false)} />
-        <Toolbar
-          openTerminal={() => setTerminalOpen(true)}
-          openWeb={() => setWebOpen(true)}
-          openChat={() => setChatOpen(true)}
-          openCaseFiles={() => setCaseFilesOpen(true)}
-        />
-      </div>
+      <GameProvider>
+        <div className="desktop-view">
+          <GameMaster />
+          <Terminal
+            isOpen={terminalOpen}
+            onClose={() => setTerminalOpen(false)}
+          />
+          <Window isOpen={webOpen} onClose={() => setWebOpen(false)} />
+          <Chatroom isOpen={chatOpen} onClose={() => setChatOpen(false)} />
+          <CaseFiles
+            isOpen={caseFilesOpen}
+            onClose={() => setCaseFilesOpen(false)}
+          />
+          <Toolbar
+            openTerminal={() => setTerminalOpen(true)}
+            openWeb={() => setWebOpen(true)}
+            openChat={() => setChatOpen(true)}
+            openCaseFiles={() => setCaseFilesOpen(true)}
+          />
+        </div>
+      </GameProvider>
     </IonApp>
   );
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./HackerForum.css";
 
 interface Thread {
@@ -41,6 +41,7 @@ const threads: Thread[] = [
 ];
 
 const HackerForum: React.FC = () => {
+
   return (
     <div className="app-container">
       <header className="header">

@@ -1,14 +1,6 @@
 import React from "react";
 import "./Email.css";
-export interface EmailInterface {
-  id: number;
-  sender: string;
-  subject: string;
-  body: string;
-  date: string;
-  isRead: boolean;
-  folder: "Inbox" | "Spam" | "Bin" | "Sent";
-}
+import type { EmailInterface } from "../../../../components/db";
 
 interface EmailProps {
   selectedEmail: EmailInterface | null;
@@ -23,7 +15,7 @@ const EmailMessage: React.FC<EmailProps> = ({ selectedEmail, onBack }) => {
           <button onClick={() => onBack()}>Back</button>
           <h2>{selectedEmail.subject}</h2>
           <h4>From: {selectedEmail.sender}</h4>
-          <p>{selectedEmail.body}</p>
+          <p dangerouslySetInnerHTML={{ __html: selectedEmail.body }} />
           <small>{selectedEmail.date}</small>
         </>
       ) : (

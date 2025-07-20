@@ -9,20 +9,12 @@ import {
   add,
 } from "ionicons/icons";
 import { IonIcon } from "@ionic/react";
-import NewsSite from "./WebContentPages/News";
-import HackerForum from "./WebContentPages/HackerForum";
-import EmailSite from "./WebContentPages/EmailSite/EmailSite";
 import HomeSite from "./WebContentPages/Home";
 import NotFound from "./WebContentPages/NotFound";
 import React from "react";
-
-const websiteMap: Record<string, React.FC> = {
-  "https://home.com": HomeSite,
-  "https://hackerforum.com": HackerForum,
-  "https://your-emails.com": EmailSite,
-  "https://global-news.com": NewsSite,
-  "https://unknown-address.com": NotFound,
-};
+import { websiteMap } from "../../components/db";
+import EmailSite from "./WebContentPages/EmailSite/EmailSite";
+import { useGame } from "../../context/GameContext";
 
 interface WindowProps {
   isOpen: boolean;
@@ -36,9 +28,15 @@ const Window: React.FC<WindowProps> = ({ isOpen, onClose }) => {
   const [rel, setRel] = useState({ x: 0, y: 0 });
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [url, setUrl] = useState("https://home.com");
+  const { gameStage, setGameStage } = useGame();
 
   const [tabs, setTabs] = useState([
-    { id: 0, url: "https://home.com", title: "Home", Component: HomeSite },
+    {
+      id: 0,
+      url: "https://your-emails.com",
+      title: "Emails",
+      Component: EmailSite,
+    },
   ]);
   const [activeTabId, setActiveTabId] = useState(0);
 
@@ -89,14 +87,19 @@ const Window: React.FC<WindowProps> = ({ isOpen, onClose }) => {
       Component,
     };
 
+    console.log("HELLOOOO",title)
+
+    if (title === "hackerforum" && gameStage < 3) {
+      console.log("Woah")
+      setGameStage(3);
+    }
+
     setTabs((prevTabs) => [
       ...prevTabs.filter((tab) => tab.id !== activeTab?.id),
       newTab,
     ]);
-    // find the tab with the same id as the current tab and update
 
     setActiveTabId(newTab.id);
-    console.log(newTab.id);
     setUrl(searchUrl);
   };
 
@@ -129,6 +132,8 @@ const Window: React.FC<WindowProps> = ({ isOpen, onClose }) => {
     const active = tabs.find((tab) => tab.id === activeTabId);
     if (active) setUrl(active.url);
   }, [activeTabId, tabs]);
+
+  useEffect(() => {});
 
   return isOpen ? (
     <div

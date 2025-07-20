@@ -1,6 +1,5 @@
 import React from "react";
 import "./Email.css";
-import { SIDEBAR_OPTIONS } from "./EmailSite";
 export interface EmailInterface {
   id: number;
   sender: string;

@@ -24,13 +24,12 @@ const websiteMap: Record<string, React.FC> = {
   "https://unknown-address.com": NotFound,
 };
 
-const Window = ({
-  isOpen,
-  onClose,
-}: {
+interface WindowProps {
   isOpen: boolean;
   onClose: () => void;
-}) => {
+}
+
+const Window: React.FC<WindowProps> = ({ isOpen, onClose }) => {
   const windowRef = useRef<HTMLDivElement>(null);
   const [pos, setPos] = useState({ x: 100, y: 100 });
   const [dragging, setDragging] = useState(false);
@@ -90,8 +89,14 @@ const Window = ({
       Component,
     };
 
-    setTabs([...tabs, newTab]);
+    setTabs((prevTabs) => [
+      ...prevTabs.filter((tab) => tab.id !== activeTab?.id),
+      newTab,
+    ]);
+    // find the tab with the same id as the current tab and update
+
     setActiveTabId(newTab.id);
+    console.log(newTab.id);
     setUrl(searchUrl);
   };
 

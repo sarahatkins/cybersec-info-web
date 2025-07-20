@@ -8,21 +8,13 @@ import { pencil } from "ionicons/icons";
 const mockEmails: EmailInterface[] = [
   {
     id: 1,
-    sender: "alice@example.com",
-    subject: "Team Meeting",
-    body: "Reminder: team meeting at 10 AM.",
+    sender: "alison@cybersec.com",
+    subject: "Hacker Forum Link",
+    body: `Hey,\n Thanks for coming to my lecture.\n Here is the link you requested: 
+    hackerforum.com \n Alison`,
     date: "2025-07-16",
     isRead: false,
     folder: "Inbox",
-  },
-  {
-    id: 2,
-    sender: "bob@example.com",
-    subject: "Project Update",
-    body: "The new version has been deployed successfully.",
-    date: "2025-07-15",
-    isRead: true,
-    folder: "Sent"
   },
 ];
 
@@ -78,7 +70,6 @@ const EmailSite: React.FC = () => {
                 onClick={() => {
                   setSelectedEmail(email);
                   setEmailRead(email);
-            
                 }}
               >
                 <IonRow>

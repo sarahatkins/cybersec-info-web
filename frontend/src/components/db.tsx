@@ -4,14 +4,17 @@ import HomeSite from "../pages/Web/WebContentPages/Home";
 import NewsSite from "../pages/Web/WebContentPages/News";
 import NotFound from "../pages/Web/WebContentPages/NotFound";
 
-
+export interface EmailThreadInterface {
+  id: number;
+  body: string;
+  date: string;
+}
 export interface EmailInterface {
   id: number;
   sender: string;
   subject: string;
   summary: string;
-  body: string;
-  date: string;
+  thread: EmailThreadInterface[];
   isRead: boolean;
   folder: "Inbox" | "Spam" | "Bin" | "Sent";
 }
@@ -21,12 +24,17 @@ export const game_emails: EmailInterface[] = [
     id: 0,
     sender: "alison@cybersec.com",
     subject: "Hacker Forum Link",
-    summary: "Hey, Thanks for coming to my lecture...",
-    body: `<p>Hey,</p>
+    thread: [
+      {
+        id: 0,
+        body: `<p>Hey,</p>
   <p>Thanks for coming to my lecture.</p>
   <p>Here is the link you requested: <a href="https://hackerforum.com">hackerforum.com</a></p>
   <p>Alison</p>`,
-    date: "2025-07-16",
+        date: "2025-07-16",
+      },
+    ],
+    summary: "Hey, Thanks for coming to my lecture...",
     isRead: false,
     folder: "Inbox",
   },

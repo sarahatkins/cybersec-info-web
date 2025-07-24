@@ -1,5 +1,9 @@
 // 1. Read Alison's email - it has a link to the hacker forums; on click launch stage 2
+      // CaseFile: Seems like you have an email from Alison Read Alison's email
 // 2. HackerForums - ProTraf ads?? QBot from LightSpeed; a lot of people talking about QBot - when you click on it, and scroll to the bottom
+    // CaseFile: It seems like this LightSpeed guy has a lot of traction - need to keep an eye on him
+    // QBot: Information on QBots
+    // Check your emails
 // 3. Email from Google - describing the attacks and linking you with some people from research community
 //        Specifically Akamai - one of the largest was hit
 // 4. Message from researcher saying that they made a honeypot - a home router; just run this code to get the
@@ -25,35 +29,104 @@ import { game_emails } from "./db";
 // Message from boss after email saying that you must find it out, and once you have figured it out
 //      to send him the names - if you send him the wrong ones then he will be like nah
 
+// TERMINAL:
+// LOAD THE CODE GIVEN FOR THE HONEY POT TO RECEIVE THE LOGS
+// 
+
+
+// LOGIC
+// Each email chain has a link??
+
 
 const GameMaster: React.FC = ({
 }) => {
   const { gameStage, setGameStage } = useGame();
   // The GAME is just pushing things into an arr
 
- 
+
   useEffect(() => {
     console.log(gameStage)
     switch (gameStage) {
+      case 0:
+        // Set up...
+        // Potentially where the help is launched
+
+        break;
       case 1:
-       
+        // Send email sending hacker to forum and asking if anything is amiss 
         break;
       case 2:
-       
+       // Send email corroborating everything you have said
         break;
       case 3:
+        // Another email sent saying she has researchers that have a honey pot and logs you can look at
+        //    Check your messages as they should've messaged you
+
+        // Message from researchers - sound, and notification bullet
+        //    Should give you a command to run in the terminal
+        //    Message back with the correct thing - the different things
+        break;
+      case 4:
+        // They will message back corroborating what you are saying
+        break;
+      case 5: 
+        // Email from GOOGLE
+        
+        break;
+      case 6: 
+        // Message from BOSS
+        // MEssage from TEAM - here is some sample code
+        //      FInding alaskan honey pot - thing and can look through code in terminal
+        //      Find honey pot
+        break;
+      case 7: 
+        // Email from BackConnect emailing you to let you know about Paras and stuff
+        //      With link to website in case you haven't found it before (??
+        
+        break;
+      case 8: 
+        // Email from Paras saying that he has nothing to do with it
+        // Wait a certain amount of seconds and send Mirai code
+        // Wait a bit more - send message from team saying bad news, mirai code leaked
+        //      You must check the forum and find the code
+        break;
+
+        case 9: 
+        // Message from team saying they found the proto of Mirai that has the IP address linking 
+        // to Josiah
+        
+        break;
+        case 10: 
+        // Josiah Emails and says he doesn't want to answer more questions
+        
+        break;
+        case 11: 
+        // MESSAGE - Hold tight
+        // Wait and tehn break the internet
+        // WAIT and then message about what is happening
+        // MESSAGE BOSS WITH WHAT YOU KNOW
+        break;
+        case 12: 
+        // End screen
+        // Epilogue
+        
+        break;
+      case 1000:
         game_emails.unshift({
           id: game_emails.length++,
           sender: "search_engine_ceo@engimail.com",
           subject: "EMERGENCY: Social Media Down",
+          thread: [{
+            id: 0,
+            body: `<p>To whom it may concern,</p>
+    <p>This email is to inform you that we have had some negative activity happening on one of our social media platforms.</p>
+    <p>The well known hacker catcher: Brian Krebs is being repeatedly hit with a DDoS attack. Despite Akamai, the bot network performing this attack is taking him offline for several days.</p>
+    <p>This is now leaking into our other platforms. We are hoping you can find who made this bot network and catch them before it is <bold>too late</bold>.</p>
+    <p>Kindest regards,</p>
+    <p>Search Engine CEO</p>`,
+            date: "2025-07-16",
+          }],
           summary: "To whom it may concern, This email is...",
-          body: `<p>To whom it may concern,</p>
-  <p>This email is to inform you that we have had some negative activity happening on one of our social media platforms.</p>
-  <p>The well known hacker catcher: Brian Krebs is being repeatedly hit with a DDoS attack. Despite Akamai, the bot network performing this attack is taking him offline for several days.</p>
-  <p>This is now leaking into our other platforms. We are hoping you can find who made this bot network and catch them before it is <bold>too late</bold>.</p>
-  <p>Kindest regards,</p>
-  <p>Search Engine CEO</p>`,
-          date: "2025-07-16",
           isRead: false,
           folder: "Inbox",
         });

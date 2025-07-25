@@ -40,6 +40,13 @@ export const game_emails: EmailInterface[] = [
   },
 ];
 
+export function addReplyToEmail(emailId: number, reply: EmailThreadInterface) {
+  const email = game_emails.find(e => e.id === emailId);
+  if (email) {
+    email.thread.push(reply);
+  }
+}
+
 export const websiteMap: Record<string, React.FC> = {
   "https://home.com": HomeSite,
   "https://hackerforum.com": HackerForum,

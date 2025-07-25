@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "./Email.css";
-import type {
-  EmailInterface,
-  EmailThreadInterface,
+import {
+  addReplyToEmail,
+  game_emails,
+  type EmailInterface,
+  type EmailThreadInterface,
 } from "../../../../components/db";
 
 interface EmailProps {
-  selectedEmail: EmailInterface | null;
+  selectedEmail: EmailInterface;
   onBack: any;
 }
 
@@ -32,13 +34,15 @@ const EmailMessage: React.FC<EmailProps> = ({ selectedEmail, onBack }) => {
     setThread([...thread, newReply]);
     setReplyText("");
     setShowReplyBox(false);
+    addReplyToEmail(selectedEmail.id, newReply);
+    console.log(game_emails);
   };
 
   return (
     <div className="email-view">
       {selectedEmail ? (
         <>
-          <div>
+          <div className="email-btn">
             <button onClick={onBack}>Back</button>
             <button onClick={() => setShowReplyBox(true)}>Reply</button>
           </div>

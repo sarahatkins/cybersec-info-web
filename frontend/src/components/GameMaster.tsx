@@ -1,44 +1,56 @@
-// 1. Read Alison's email - it has a link to the hacker forums; on click launch stage 2
-// CaseFile: Seems like you have an email from Alison Read Alison's email
-// 2. HackerForums - ProTraf ads?? QBot from LightSpeed; a lot of people talking about QBot - when you click on it, and scroll to the bottom
-// CaseFile: It seems like this LightSpeed guy has a lot of traction - need to keep an eye on him
-// QBot: Information on QBots
-// Check your emails
-// 3. Email from Google - describing the attacks and linking you with some people from research community
-//        Specifically Akamai - one of the largest was hit
-// 4. Message from researcher saying that they made a honeypot - a home router; just run this code to get the
-//      results for what has hit it
-// 5. From this you learn what Mirai is - you will get a message after running the code
-//       They ask you to look into the forums and see if you can find anything
-// 6. A post has been sent from someone asking if they have any devices infected with Mirai
-//        They post some information - including the **IP address** of someone
-// 7. Found that it had connections with BackConnect - so you message BackConnect and they
-//        they give you information about ProTraf - link to it
-// 8. ProTraf website has the email to people leading it - Josiah and Paras; you send them and email
-// 9. This leads to the code being leaked on the forum
-// 10. The Internet breaks - you get an article from the news
-// 11. Message your coworkers - they inform you this probably means you are on the right track
-//        Try sending them an email to see if they collaborate
-//        They say that it is exactly what you think it is
-// 12. Queue end where you get the rest of the story - and a link to the article you used
-
 import { useEffect } from "react";
 import { useGame } from "../context/GameContext";
-import { game_chat_users, game_emails, user_messages, type Person } from "./db";
-// CaseFiles - full of hints of where you are and everything you have learnt
-// Message from boss after email saying that you must find it out, and once you have figured it out
-//      to send him the names - if you send him the wrong ones then he will be like nah
+import {
+  forumPosts,
+  game_chat_users,
+  game_emails,
+  PLAYER_EMAIL,
+  user_messages,
+  type EmailThreadInterface,
+  type Person,
+} from "./db";
 
-// TERMINAL:
-// LOAD THE CODE GIVEN FOR THE HONEY POT TO RECEIVE THE LOGS
-//
-
-// LOGIC
-// Each email chain has a link??
+// TODO: Casefiles, break internet, saving place
 
 const GameMaster: React.FC = ({}) => {
   const { gameStage, setGameStage } = useGame();
   // The GAME is just pushing things into an arr
+  const pushEmail = (emailData: any) => {
+    game_emails.unshift({
+      id: game_emails.length,
+      isRead: false,
+      folder: "Inbox",
+      ...emailData,
+    });
+  };
+
+  const pushEmailThread = (index: number, content: string) => {
+    game_emails[index].thread.push({
+      id: game_emails[index].thread.length,
+      date: new Date().toISOString(),
+      body: content,
+    });
+  };
+
+  const pushChatMessage = (chatName: string, message: string) => {
+    const user = game_chat_users.find((u) => u.name === chatName);
+    const thread = user_messages.find(
+      (m) => m.chat_with_id === user?.id
+    )?.message_thread;
+    if (user && thread) {
+      thread.push({ from_id: user.id, content: message });
+    }
+  };
+
+  const addForumPost = (title: string, author: string, content = "") => {
+    forumPosts.unshift({
+      id: forumPosts.length,
+      title,
+      author: { id: 0, username: author },
+      content,
+      comments: [],
+    });
+  };
 
   useEffect(() => {
     console.log(gameStage);
@@ -50,26 +62,24 @@ const GameMaster: React.FC = ({}) => {
         break;
       case 1:
         // Send email sending hacker to forum and asking if anything is amiss
-        game_emails[0].thread.push({
-          id: game_emails.length,
-          body: `<p>Hey,</p>
-<p>Thanks for coming to my lecture.</p>
-<p>Here is the link you requested: hackerforum.com</p>
-<p>Alison</p>`,
-          date: "2025-07-16",
-        });
+        pushEmailThread(
+          0,
+          `<p>Hey,</p>
+            <p>Thanks for coming to my lecture.</p>
+            <p>Here is the link you requested: hackerforum.com</p>
+            <p>Alison</p>`
+        );
         console.log("Stage 1 started");
         break;
       case 2:
         // Send email corroborating everything you have said
-        game_emails[0].thread.push({
-          id: game_emails.length,
-          body: `<p>Hey,</p>
-                  <p>Thanks for coming to my lecture.</p>
-                  <p>Here is the link you requested: hackerforum.com</p>
-                  <p>Alison</p>`,
-          date: "2025-07-16",
-        });
+        pushEmailThread(
+          0,
+          `<p>Hey,</p>
+            <p>Thanks for coming to my lecture.</p>
+            <p>Here is the link you requested: hackerforum.com</p>
+            <p>Alison</p>`
+        );
         setGameStage(3);
         // Some researchers are reaching out
         break;
@@ -77,83 +87,64 @@ const GameMaster: React.FC = ({}) => {
         // Message from researchers - sound, and notification bullet
         //    Should give you a command to run in the terminal
         //    Message back with the correct thing - the different things
-        setTimeout(() => {
-          game_emails.unshift({
-            id: game_emails.length++,
+       setTimeout(() => {
+          pushEmail({
             sender: "alison@cybersec.com",
-            subject: "Some people should be reaching out",
+            receiver: PLAYER_EMAIL,
+            subject: "Researchers Reaching Out",
             thread: [
               {
                 id: 0,
-                body: `<p>To whom it may concern,</p>
-                      <p>This email is to inform you that we have had some negative activity happening on one of our social media platforms.</p>
-                      <p>The well known hacker catcher: Brian Krebs is being repeatedly hit with a DDoS attack. Despite Akamai, the bot network performing this attack is taking him offline for several days.</p>
-                      <p>This is now leaking into our other platforms. We are hoping you can find who made this bot network and catch them before it is <bold>too late</bold>.</p>
-                      <p>Kindest regards,</p>
-                      <p>Search Engine CEO</p>`,
+                body: `<p>Akamai has been overwhelmed by DDoS attacks. We hope you can identify the botnet before it’s too late.</p>`,
                 date: "2025-07-16",
               },
             ],
-            summary: "To whom it may concern, This email is...",
-            isRead: false,
-            folder: "Inbox",
+            summary: "Akamai has been overwhelmed...",
           });
 
-          // Creating a new person
-          const newPerson: Person = {
+          const researcher: Person = {
             id: game_chat_users.length,
             name: "Researchers",
             avatar: ":0",
           };
-
-          game_chat_users.push(newPerson);
+          game_chat_users.push(researcher);
 
           user_messages.push({
-            chat_with_id: newPerson.id,
+            chat_with_id: researcher.id,
             message_thread: [
-              { from_id: newPerson.id, content: "Hello we are researchers" },
+              { from_id: researcher.id, content: "Hello, we are researchers." },
             ],
           });
         }, 5000);
+        break;
         // Another email sent saying she has researchers that have a honey pot and logs you can look at
         //    Check your messages as they should've messaged you
 
         break;
       case 4:
-        const messages = user_messages.find(
-          (msg) => msg.chat_with_id === 2
-        )?.message_thread;
-        messages?.push({
-          from_id: 2,
-          content: "Corroboration",
-        });
+        pushChatMessage("Researchers", "Corroboration");
         // They will message back corroborating what you are saying
         break;
       case 5:
         // Email from GOOGLE
-        game_emails.unshift({
-          id: game_emails.length++,
+        pushEmail({
           sender: "geegle@geegle.com",
+          receiver: PLAYER_EMAIL,
           subject: "EMERGENCY",
           thread: [
             {
               id: 0,
-              body: `<p>To whom it may concern,</p>
-                      <p>This email is to inform you that we have had some negative activity happening on one of our social media platforms.</p>
-                      <p>The well known hacker catcher: Brian Krebs is being repeatedly hit with a DDoS attack. Despite Akamai, the bot network performing this attack is taking him offline for several days.</p>
-                      <p>This is now leaking into our other platforms. We are hoping you can find who made this bot network and catch them before it is <bold>too late</bold>.</p>
-                      <p>Kindest regards,</p>
-                      <p>Search Engine CEO</p>`,
+              body: `<p>Brian Krebs is under sustained attack. Akamai is losing control. We need help tracking the botnet.</p>`,
               date: "2025-07-16",
             },
           ],
-          summary: "To whom it may concern, This email is...",
-          isRead: false,
-          folder: "Inbox",
+          summary: "Brian Krebs is under attack...",
         });
         break;
       case 6:
         // Message from BOSS
+        pushChatMessage("Boss", "Let me know when you have found out who they are.");
+        pushChatMessage("Researchers", "We found an Alaskan honeypot.");
         // MEssage from TEAM - here is some sample code
         //      FInding alaskan honey pot - thing and can look through code in terminal
         //      Find honey pot
@@ -161,70 +152,75 @@ const GameMaster: React.FC = ({}) => {
       case 7:
         // Email from BackConnect emailing you to let you know about Paras and stuff
         //      With link to website in case you haven't found it before (??
-        game_emails.unshift({
-            id: game_emails.length++,
-            sender: "backconnect@backconnect.com",
-            subject: "We are back connect",
-            thread: [
-              {
-                id: 0,
-                body: `<p>To whom it may concern,</p>
-                      <p>This email is to inform you that we have had some negative activity happening on one of our social media platforms.</p>
-                      <p>The well known hacker catcher: Brian Krebs is being repeatedly hit with a DDoS attack. Despite Akamai, the bot network performing this attack is taking him offline for several days.</p>
-                      <p>This is now leaking into our other platforms. We are hoping you can find who made this bot network and catch them before it is <bold>too late</bold>.</p>
-                      <p>Kindest regards,</p>
-                      <p>Search Engine CEO</p>`,
-                date: "2025-07-16",
-              },
-            ],
-            summary: "To whom it may concern, This email is...",
-            isRead: false,
-            folder: "Inbox",
-          });
+         pushEmail({
+          sender: "backconnect@backconnect.com",
+          receiver: PLAYER_EMAIL,
+          subject: "ProTraf Connection",
+          thread: [
+            {
+              id: 0,
+              body: `<p>We traced links to ProTraf. Check in with Josiah and Paras.</p>`,
+              date: "2025-07-16",
+            },
+          ],
+          summary: "Links to ProTraf...",
+        });
         break;
       case 8:
         // Email from Paras saying that he has nothing to do with it
-        game_emails.unshift({
-            id: game_emails.length++,
-            sender: "paras@protrafsol.com",
-            subject: "I got nothing to do with it",
-            thread: [
-              {
-                id: 0,
-                body: `<p>To whom it may concern,</p>
-                      <p>This email is to inform you that we have had some negative activity happening on one of our social media platforms.</p>
-                      <p>The well known hacker catcher: Brian Krebs is being repeatedly hit with a DDoS attack. Despite Akamai, the bot network performing this attack is taking him offline for several days.</p>
-                      <p>This is now leaking into our other platforms. We are hoping you can find who made this bot network and catch them before it is <bold>too late</bold>.</p>
-                      <p>Kindest regards,</p>
-                      <p>Search Engine CEO</p>`,
-                date: "2025-07-16",
-              },
-            ],
-            summary: "To whom it may concern, This email is...",
-            isRead: false,
-            folder: "Inbox",
-          });
+        // TODO:
+        const parasEmailIndex = game_emails.findIndex(
+          (e) => e.sender === PLAYER_EMAIL && e.receiver === "para@paras.com"
+        );
+        pushEmailThread(
+          parasEmailIndex,
+          `<p>I did nothing</p>`
+        );
         // Wait a certain amount of seconds and send Mirai code
         // Wait a bit more - send message from team saying bad news, mirai code leaked
         //      You must check the forum and find the code
+        setTimeout(() => {
+          addForumPost("Mirai Code", "LiteSpeed");
+        }, 5000);
         break;
 
       case 9:
         // Message from team saying they found the proto of Mirai that has the IP address linking
+        pushChatMessage("Researchers", "We found IP address.");
+
         // to Josiah
 
         break;
       case 10:
         // Josiah Emails and says he doesn't want to answer more questions
+        const josiahEmailIndex = game_emails.findIndex(
+          (e) => e.sender === PLAYER_EMAIL && e.receiver === "josiah@josiah.com"
+        );
+        pushEmailThread(
+          josiahEmailIndex,
+          `<p>I did nothing</p>`
+        );
 
+        // Researchers asking what he said
+        pushChatMessage("Researchers", "What did he say?");
         break;
       case 11:
         // MESSAGE - Hold tight
+        pushChatMessage("Researchers", "HOLD TIGHT");
+
         // Wait and tehn break the internet
         // WAIT and then message about what is happening
-        // MESSAGE BOSS WITH WHAT YOU KNOW
+         setTimeout(() => {
+          pushChatMessage("Researchers", "Here is a link to an article describing what is happening");
+          pushChatMessage("Boss", "What have you found out?");
+        }, 3000);
         break;
       case 12:
+        // End screen
+        // Epilogue
+
+        break;
+      case 13:
         // End screen
         // Epilogue
 

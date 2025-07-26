@@ -13,6 +13,7 @@ export interface EmailThreadInterface {
 export interface EmailInterface {
   id: number;
   sender: string;
+  receiver: string;
   subject: string;
   summary: string;
   thread: EmailThreadInterface[];
@@ -20,10 +21,13 @@ export interface EmailInterface {
   folder: "Inbox" | "Spam" | "Bin" | "Sent";
 }
 
+export const PLAYER_EMAIL = 'me@me.com'
+
 export const game_emails: EmailInterface[] = [
   {
     id: 0,
     sender: "alison@cybersec.com",
+    receiver: PLAYER_EMAIL,
     subject: "Hacker Forum Link",
     thread: [
       {

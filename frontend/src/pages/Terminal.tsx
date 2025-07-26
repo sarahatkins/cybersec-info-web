@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import "./Terminal.css";
 import { IonIcon } from "@ionic/react";
-import { close, expand, contract } from "ionicons/icons";
-type CommandKey = "help" | "about" | "leaks" | "join";
+import { close, expand } from "ionicons/icons";
+import { honey_pot_logs } from "../components/db";
+type CommandKey = "help" | "about" | "leaks"| "./watchtower --mode honeypot";
 
 interface TerminalProps {
   isOpen: boolean;
@@ -75,11 +76,7 @@ const Terminal: React.FC<TerminalProps> = ({ isOpen, onClose }) => {
       "- Compromised grandma’s cookie jar. Sweet success.",
       "- Injected memes into the Matrix. Reality destabilizing.",
     ],
-    join: () => [
-      "Wanna be a keyboard ninja?",
-      "Just bring snacks and questionable morals.",
-      "Recruitment currently open.",
-    ],
+    "./watchtower --mode honeypot": () => honey_pot_logs,
   };
 
   const isCommandKey = (cmd: string): cmd is CommandKey => cmd in commands;

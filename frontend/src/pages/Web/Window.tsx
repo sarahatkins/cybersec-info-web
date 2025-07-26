@@ -15,6 +15,7 @@ import React from "react";
 import { websiteMap } from "../../components/db";
 import EmailSite from "./WebContentPages/EmailSite/EmailSite";
 import { useGame } from "../../context/GameContext";
+import HackerForum from "./HackerForum/HackerForum";
 
 interface WindowProps {
   isOpen: boolean;
@@ -35,7 +36,7 @@ const Window: React.FC<WindowProps> = ({ isOpen, onClose }) => {
       id: 0,
       url: "https://your-emails.com",
       title: "Emails",
-      Component: EmailSite,
+      Component: HackerForum,
     },
   ]);
   const [activeTabId, setActiveTabId] = useState(0);

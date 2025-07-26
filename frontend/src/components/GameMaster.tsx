@@ -70,7 +70,13 @@ const GameMaster: React.FC = ({}) => {
                   <p>Alison</p>`,
           date: "2025-07-16",
         });
-        console.log("Stage 2 started");
+        setGameStage(3);
+        // Some researchers are reaching out
+        break;
+      case 3:
+        // Message from researchers - sound, and notification bullet
+        //    Should give you a command to run in the terminal
+        //    Message back with the correct thing - the different things
         setTimeout(() => {
           game_emails.unshift({
             id: game_emails.length++,
@@ -93,6 +99,7 @@ const GameMaster: React.FC = ({}) => {
             folder: "Inbox",
           });
 
+          // Creating a new person
           const newPerson: Person = {
             id: game_chat_users.length,
             name: "Researchers",
@@ -108,21 +115,42 @@ const GameMaster: React.FC = ({}) => {
             ],
           });
         }, 5000);
-        break;
-      case 3:
         // Another email sent saying she has researchers that have a honey pot and logs you can look at
         //    Check your messages as they should've messaged you
 
-        // Message from researchers - sound, and notification bullet
-        //    Should give you a command to run in the terminal
-        //    Message back with the correct thing - the different things
         break;
       case 4:
+        const messages = user_messages.find(
+          (msg) => msg.chat_with_id === 2
+        )?.message_thread;
+        messages?.push({
+          from_id: 2,
+          content: "Corroboration",
+        });
         // They will message back corroborating what you are saying
         break;
       case 5:
         // Email from GOOGLE
-
+        game_emails.unshift({
+          id: game_emails.length++,
+          sender: "geegle@geegle.com",
+          subject: "EMERGENCY",
+          thread: [
+            {
+              id: 0,
+              body: `<p>To whom it may concern,</p>
+                      <p>This email is to inform you that we have had some negative activity happening on one of our social media platforms.</p>
+                      <p>The well known hacker catcher: Brian Krebs is being repeatedly hit with a DDoS attack. Despite Akamai, the bot network performing this attack is taking him offline for several days.</p>
+                      <p>This is now leaking into our other platforms. We are hoping you can find who made this bot network and catch them before it is <bold>too late</bold>.</p>
+                      <p>Kindest regards,</p>
+                      <p>Search Engine CEO</p>`,
+              date: "2025-07-16",
+            },
+          ],
+          summary: "To whom it may concern, This email is...",
+          isRead: false,
+          folder: "Inbox",
+        });
         break;
       case 6:
         // Message from BOSS
@@ -133,10 +161,49 @@ const GameMaster: React.FC = ({}) => {
       case 7:
         // Email from BackConnect emailing you to let you know about Paras and stuff
         //      With link to website in case you haven't found it before (??
-
+        game_emails.unshift({
+            id: game_emails.length++,
+            sender: "backconnect@backconnect.com",
+            subject: "We are back connect",
+            thread: [
+              {
+                id: 0,
+                body: `<p>To whom it may concern,</p>
+                      <p>This email is to inform you that we have had some negative activity happening on one of our social media platforms.</p>
+                      <p>The well known hacker catcher: Brian Krebs is being repeatedly hit with a DDoS attack. Despite Akamai, the bot network performing this attack is taking him offline for several days.</p>
+                      <p>This is now leaking into our other platforms. We are hoping you can find who made this bot network and catch them before it is <bold>too late</bold>.</p>
+                      <p>Kindest regards,</p>
+                      <p>Search Engine CEO</p>`,
+                date: "2025-07-16",
+              },
+            ],
+            summary: "To whom it may concern, This email is...",
+            isRead: false,
+            folder: "Inbox",
+          });
         break;
       case 8:
         // Email from Paras saying that he has nothing to do with it
+        game_emails.unshift({
+            id: game_emails.length++,
+            sender: "paras@protrafsol.com",
+            subject: "I got nothing to do with it",
+            thread: [
+              {
+                id: 0,
+                body: `<p>To whom it may concern,</p>
+                      <p>This email is to inform you that we have had some negative activity happening on one of our social media platforms.</p>
+                      <p>The well known hacker catcher: Brian Krebs is being repeatedly hit with a DDoS attack. Despite Akamai, the bot network performing this attack is taking him offline for several days.</p>
+                      <p>This is now leaking into our other platforms. We are hoping you can find who made this bot network and catch them before it is <bold>too late</bold>.</p>
+                      <p>Kindest regards,</p>
+                      <p>Search Engine CEO</p>`,
+                date: "2025-07-16",
+              },
+            ],
+            summary: "To whom it may concern, This email is...",
+            isRead: false,
+            folder: "Inbox",
+          });
         // Wait a certain amount of seconds and send Mirai code
         // Wait a bit more - send message from team saying bad news, mirai code leaked
         //      You must check the forum and find the code
@@ -161,29 +228,6 @@ const GameMaster: React.FC = ({}) => {
         // End screen
         // Epilogue
 
-        break;
-      case 1000:
-        game_emails.unshift({
-          id: game_emails.length++,
-          sender: "search_engine_ceo@engimail.com",
-          subject: "EMERGENCY: Social Media Down",
-          thread: [
-            {
-              id: 0,
-              body: `<p>To whom it may concern,</p>
-    <p>This email is to inform you that we have had some negative activity happening on one of our social media platforms.</p>
-    <p>The well known hacker catcher: Brian Krebs is being repeatedly hit with a DDoS attack. Despite Akamai, the bot network performing this attack is taking him offline for several days.</p>
-    <p>This is now leaking into our other platforms. We are hoping you can find who made this bot network and catch them before it is <bold>too late</bold>.</p>
-    <p>Kindest regards,</p>
-    <p>Search Engine CEO</p>`,
-              date: "2025-07-16",
-            },
-          ],
-          summary: "To whom it may concern, This email is...",
-          isRead: false,
-          folder: "Inbox",
-        });
-        console.log("New email alert");
         break;
     }
   }, [gameStage]);

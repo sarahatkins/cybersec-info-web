@@ -17,7 +17,7 @@ interface ChatAppProps {
 const MIN_WIDTH = 400;
 const MIN_HEIGHT = 300;
 
-const TeamsWindow: React.FC<ChatAppProps> = ({ isOpen, onClose }) => {
+const ChatApp: React.FC<ChatAppProps> = ({ isOpen, onClose }) => {
   const windowRef = useRef<HTMLDivElement>(null);
   const dragOffset = useRef({ x: 0, y: 0 });
 
@@ -178,4 +178,4 @@ const TeamsWindow: React.FC<ChatAppProps> = ({ isOpen, onClose }) => {
   );
 };
 
-export default TeamsWindow;
+export default ChatApp;

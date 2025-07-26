@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import EmailSite from "../pages/Web/WebContentPages/EmailSite/EmailSite";
 import HackerForum from "../pages/Web/WebContentPages/HackerForum";
 import HomeSite from "../pages/Web/WebContentPages/Home";
@@ -41,7 +42,7 @@ export const game_emails: EmailInterface[] = [
 ];
 
 export function addReplyToEmail(emailId: number, reply: EmailThreadInterface) {
-  const email = game_emails.find(e => e.id === emailId);
+  const email = game_emails.find((e) => e.id === emailId);
   if (email) {
     email.thread.push(reply);
   }
@@ -68,23 +69,22 @@ export const game_chat_users: Person[] = [
   { id: 3, name: "Marketing Team", avatar: "📊" },
 ];
 
-export interface MessageThread {
-  to_id: number;
+export interface MessageInterface {
   from_id: number;
   content: string;
 }
 
 export interface UserChats {
   chat_with_id: number;
-  message_thread: MessageThread[];
+  message_thread: MessageInterface[];
 }
 
 export const user_messages: UserChats[] = [
   {
     chat_with_id: 1,
     message_thread: [
-      { to_id: 0, from_id: 1, content: "Make sure it gets done." },
-      { to_id: 1, from_id: 0, content: "It will." },
+      { from_id: 1, content: "Make sure it gets done." },
+      { from_id: 0, content: "It will." },
     ],
   },
 ];

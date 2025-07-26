@@ -6,7 +6,7 @@ import {
   type EmailInterface,
   type EmailThreadInterface,
 } from "../../../../components/db";
-
+import { useGame } from "../../../../context/GameContext";
 interface EmailProps {
   selectedEmail: EmailInterface;
   onBack: any;
@@ -15,14 +15,20 @@ interface EmailProps {
 const EmailMessage: React.FC<EmailProps> = ({ selectedEmail, onBack }) => {
   const [showReplyBox, setShowReplyBox] = useState<boolean>(false);
   const [replyText, setReplyText] = useState<string>("");
+  const { gameStage, setGameStage } = useGame();
   const [thread, setThread] = useState<EmailThreadInterface[]>(
     selectedEmail?.thread || []
   );
 
   useEffect(() => {
     // Reset thread when selectedEmail changes
-    setThread(selectedEmail?.thread || []);
-  }, [selectedEmail]);
+    const updatedThread = game_emails.find(
+      (e) => e.id === selectedEmail?.id
+    )?.thread;
+    setTimeout(() => {
+      setThread(updatedThread || []);
+    }, 1500);
+  }, [gameStage]);
 
   const handleReply = () => {
     const newReply: EmailThreadInterface = {
@@ -33,9 +39,8 @@ const EmailMessage: React.FC<EmailProps> = ({ selectedEmail, onBack }) => {
 
     setThread([...thread, newReply]);
     setReplyText("");
+    handleReplyStaging(selectedEmail, newReply, gameStage, setGameStage);
     setShowReplyBox(false);
-    addReplyToEmail(selectedEmail.id, newReply);
-    console.log(game_emails);
   };
 
   return (
@@ -71,5 +76,27 @@ const EmailMessage: React.FC<EmailProps> = ({ selectedEmail, onBack }) => {
     </div>
   );
 };
+
+export function handleReplyStaging(
+  email: EmailInterface,
+  reply: EmailThreadInterface,
+  gameStage: number,
+  setGameStage: any
+) {
+  addReplyToEmail(email.id, reply);
+
+  // Now handle game transitions based on logic
+  if (email.sender === "alison@cybersec.com" && gameStage === 0) {
+    setGameStage(1);
+  }
+
+  if (
+    email.sender === "alison@cybersec.com" &&
+    gameStage === 1 
+    // &&reply.body.includes("honey pot")
+  ) {
+    setGameStage(2);
+  }
+}
 
 export default EmailMessage;

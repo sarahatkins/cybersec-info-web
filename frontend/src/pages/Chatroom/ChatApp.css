@@ -1,4 +1,4 @@
-.teams-window {
+.chat-app-window {
   position: absolute;
   background: white;
   border: 1px solid #ccc;
@@ -10,7 +10,7 @@
   overflow: hidden;
 }
 
-.teams-window.fullscreen {
+.chat-app-window.fullscreen {
   top: 0 !important;
   left: 0 !important;
   width: 100vw !important;
@@ -18,7 +18,7 @@
   border-radius: 0;
 }
 
-.teams-header {
+.chat-app-header {
   background: #f3f3f3;
   padding: 8px 16px;
   border-bottom: 1px solid #ddd;
@@ -48,7 +48,7 @@
   cursor: pointer;
 }
 
-.teams-body {
+.chat-app-body {
   display: flex;
   flex: 1;
   overflow: hidden;
@@ -84,7 +84,7 @@
   margin-right: 10px;
 }
 
-.teams-content {
+.chat-app-content {
   flex: 1;
   padding: 16px;
   overflow-y: auto;
@@ -123,7 +123,7 @@
   background: transparent;
 }
 
-.teams-window {
+.chat-app-window {
   position: absolute;
   background: white;
   border: 1px solid #ccc;
@@ -137,7 +137,7 @@
   transition: box-shadow 0.2s ease;
 }
 
-.teams-window.fullscreen {
+.chat-app-window.fullscreen {
   top: 0 !important;
   left: 0 !important;
   width: 100vw !important;
@@ -145,7 +145,7 @@
   border-radius: 0;
 }
 
-.teams-header {
+.chat-app-header {
   height: 40px;
   background: #f3f3f3;
   border-bottom: 1px solid #ccc;
@@ -166,7 +166,7 @@
   cursor: pointer;
 }
 
-.teams-body {
+.chat-app-body {
   flex-grow: 1;
   background: #fafafa;
   overflow: auto;
@@ -181,3 +181,58 @@
   background: transparent;
   cursor: nwse-resize;
 }
+
+/* Sidebar */
+.teams-app {
+  display: flex;
+  height: 100%;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.teams-sidebar {
+  width: 220px;
+  background-color: #2f2f3a;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.sidebar-header {
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.sidebar-list {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar-list li {
+  margin: 8px 0;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 4px;
+}
+
+.sidebar-list li:hover {
+  background-color: #3a3a4a;
+}
+
+.teams-chat {
+  flex: 1;
+  background-color: #f3f2f1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.chat-header {
+  background-color: #ffffff;
+  padding: 15px;
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+}
+
+

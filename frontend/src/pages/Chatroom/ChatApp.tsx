@@ -1,10 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import type { MouseEvent as ReactMouseEvent } from "react";
 import "./ChatApp.css";
-import ChatList from "./ChatList";
 import ChatView from "./ChatView";
 import CallView from "./CallView";
-import { game_chat_users, type Person } from "../../components/db";
+import {
+  game_chat_users,
+  type MessageInterface,
+  user_messages,
+  type Person,
+} from "../../components/db";
 
 interface ChatAppProps {
   isOpen: boolean;
@@ -27,11 +31,16 @@ const TeamsWindow: React.FC<ChatAppProps> = ({ isOpen, onClose }) => {
     game_chat_users[0]
   );
   const [activeTab, setActiveTab] = useState<"chat" | "call">("chat");
-  const [messages, setMessages] = useState<Record<number, string[]>>({
-    1: ["Hey there!"],
-    2: ["Meeting at 3PM"],
-    3: ["Design review slides are ready"],
-  });
+  const [messages, setMessages] = useState<MessageInterface[]>([]);
+
+  useEffect(() => {
+    const specChatMessages = user_messages.find(
+      (chat) => chat.chat_with_id === selectedPerson.id
+    );
+    specChatMessages
+      ? setMessages(specChatMessages.message_thread)
+      : setMessages([]);
+  }, [selectedPerson]);
 
   const handleMouseDownDrag = (e: ReactMouseEvent<HTMLDivElement>) => {
     if (isFullscreen) return;
@@ -80,10 +89,11 @@ const TeamsWindow: React.FC<ChatAppProps> = ({ isOpen, onClose }) => {
 
   const handleSendMessage = (text: string) => {
     if (!text.trim()) return;
-    setMessages((prev) => ({
-      ...prev,
-      [selectedPerson.id]: [...(prev[selectedPerson.id] || []), `You: ${text}`],
-    }));
+    const newMessage: MessageInterface = {
+      from_id: 0,
+      content: text,
+    };
+    setMessages((prev) => [...prev, newMessage]);
   };
 
   if (!isOpen) return null;
@@ -91,7 +101,7 @@ const TeamsWindow: React.FC<ChatAppProps> = ({ isOpen, onClose }) => {
   return (
     <div
       ref={windowRef}
-      className={`teams-window ${isFullscreen ? "fullscreen" : ""}`}
+      className={`chat-app-window ${isFullscreen ? "fullscreen" : ""}`}
       style={
         isFullscreen
           ? {}
@@ -104,8 +114,8 @@ const TeamsWindow: React.FC<ChatAppProps> = ({ isOpen, onClose }) => {
       }
     >
       {/* Header */}
-      <div className="teams-header" onMouseDown={handleMouseDownDrag}>
-        <div className="header-left">🧑‍💻 Fake Teams</div>
+      <div className="chat-app-header" onMouseDown={handleMouseDownDrag}>
+        <div className="header-left">Chat App</div>
         <div className="tabs">
           <button
             className={activeTab === "chat" ? "active" : ""}
@@ -128,18 +138,30 @@ const TeamsWindow: React.FC<ChatAppProps> = ({ isOpen, onClose }) => {
         </div>
       </div>
 
-      {/* Body */}
-      <div className="teams-body">
-        <ChatList
-          people={game_chat_users}
-          selectedId={selectedPerson.id}
-          onSelect={setSelectedPerson}
-        />
-        <div className="teams-content">
+      <div className="chat-app-body">
+        {/* Sidebar */}
+        <div className="chat-app-sidebar">
+          {game_chat_users.map((user: Person, _: number) => {
+            return (
+              <div
+                key={user.id}
+                className={`chatlist-item ${
+                  user.id === selectedPerson.id ? "selected" : ""
+                }`}
+                onClick={() => setSelectedPerson(user)}
+              >
+                <div className="avatar">{user.avatar}</div>
+                <div className="name">{user.name}</div>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="chat-app-content">
           {activeTab === "chat" ? (
             <ChatView
               person={selectedPerson}
-              messages={messages[selectedPerson.id] || []}
+              messages={messages}
               onSend={handleSendMessage}
             />
           ) : (

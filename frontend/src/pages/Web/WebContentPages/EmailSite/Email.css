@@ -16,8 +16,10 @@
 
 .email-btn {
     display: flex;
+    position: absolute;
     justify-content: space-between;
     padding-right: 1rem;
+    width: 75%;
 }
 
 .email-view button {

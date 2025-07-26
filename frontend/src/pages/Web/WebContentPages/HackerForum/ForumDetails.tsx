@@ -1,5 +1,5 @@
 import React from "react";
-import type { ForumPost } from "../../../components/db";
+import type { ForumPost } from "../../../../components/db";
 import "./ForumDetails.css";
 
 interface Props {

@@ -15,8 +15,8 @@ import React from "react";
 import { websiteMap } from "../../components/db";
 import EmailSite from "./WebContentPages/EmailSite/EmailSite";
 import { useGame } from "../../context/GameContext";
-import HackerForum from "./HackerForum/HackerForum";
-import NewsSite from "./WebContentPages/News";
+import HackerForum from "./WebContentPages/HackerForum/HackerForum";
+import NewsSite from "./WebContentPages/News/News";
 
 interface WindowProps {
   isOpen: boolean;

@@ -1,12 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import "./News.css";
-import { newsPosts } from "../../../components/db";
+import { type NewsPostInterface, newsPosts } from "../../../../components/db";
+import ArticleDetail from "./Article";
 
 const NewsSite: React.FC = () => {
+  const [showArticle, setShowArticle] = useState<boolean>(false);
+  const [specificArticle, setSpecificArticle] = useState<NewsPostInterface>();
+
   const breakingNews = newsPosts.find((post) => post.breaking);
   const otherArticles = newsPosts.filter((post) => !post.breaking);
 
-  return (
+  const handleBack = () => {
+    setShowArticle(false);
+  }
+
+  const handleArticleClick = (article: NewsPostInterface) => {
+    setSpecificArticle(article);
+    setShowArticle(true);
+  }
+
+  return showArticle && specificArticle ? <ArticleDetail article={specificArticle} onBack={handleBack} /> : (
     <div className="app-container">
       <header className="header">
         <div className="logo">AUS News</div>
@@ -21,7 +34,7 @@ const NewsSite: React.FC = () => {
        <div className="content-wrapper">
         <main className="main-news">
           {breakingNews && (
-            <article className="featured-article">
+            <article className="featured-article" onClick={() => handleArticleClick(breakingNews)}>
               <img
                 src="https://via.placeholder.com/700x350"
                 alt={breakingNews.title}
@@ -33,7 +46,7 @@ const NewsSite: React.FC = () => {
 
           <section className="other-articles">
             {otherArticles.map((post) => (
-              <article key={post.id}>
+              <article key={post.id} onClick={() => handleArticleClick(post)}>
                 <h2>{post.title}</h2>
                 <p>{post.summary}</p>
               </article>

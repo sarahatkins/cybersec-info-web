@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./HackerForum.css";
-import { forumPosts, type ForumPost } from "../../../components/db";
+import { forumPosts, type ForumPost } from "../../../../components/db";
 import ForumDetails from "./ForumDetails";
 
 const HackerForum: React.FC = () => {

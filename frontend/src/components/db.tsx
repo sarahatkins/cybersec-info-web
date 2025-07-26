@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import EmailSite from "../pages/Web/WebContentPages/EmailSite/EmailSite";
-import HackerForum from "../pages/Web/HackerForum/HackerForum";
+import HackerForum from "../pages/Web/WebContentPages/HackerForum/HackerForum";
 import HomeSite from "../pages/Web/WebContentPages/Home";
-import NewsSite from "../pages/Web/WebContentPages/News";
+import NewsSite from "../pages/Web/WebContentPages/News/News";
 import NotFound from "../pages/Web/WebContentPages/NotFound";
 
 export const websiteMap: Record<string, React.FC> = {
@@ -189,8 +189,37 @@ export interface NewsPostInterface {
 }
 
 export const newsPosts: NewsPostInterface[] = [
-  { id: 0, title: "Breaking News: Major Event in Australia", summary: "This is a summary of the latest breaking news story happening in Australia today. Stay tuned for updates.", author: "", content: "", breaking: true },
-  { id: 1, title: "Local News: City Council Updates", summary: "Details about the latest decisions by the city council.", author: "", content: "", breaking: false },
-  { id: 2, title: "Sports: Big Win for Local Team", summary: "Highlights from yesterday's thrilling game.", author: "", content: "", breaking: false },
-  { id: 3, title: "Culture: New Exhibition Opens", summary: "A new art exhibition has opened downtown.", author: "", content: "", breaking: false },
+  {
+    id: 0,
+    title: "Breaking News: Major Event in Australia",
+    summary:
+      "This is a summary of the latest breaking news story happening in Australia today. Stay tuned for updates.",
+    author: "",
+    content: "",
+    breaking: true,
+  },
+  {
+    id: 1,
+    title: "Local News: City Council Updates",
+    summary: "Details about the latest decisions by the city council.",
+    author: "",
+    content: "",
+    breaking: false,
+  },
+  {
+    id: 2,
+    title: "Sports: Big Win for Local Team",
+    summary: "Highlights from yesterday's thrilling game.",
+    author: "",
+    content: "",
+    breaking: false,
+  },
+  {
+    id: 3,
+    title: "Culture: New Exhibition Opens",
+    summary: "A new art exhibition has opened downtown.",
+    author: "",
+    content: "",
+    breaking: false,
+  },
 ];

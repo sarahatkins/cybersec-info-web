@@ -65,8 +65,6 @@ export interface Person {
 export const game_chat_users: Person[] = [
   { id: 0, name: "YOU", avatar: "👩‍🎨" },
   { id: 1, name: "Boss", avatar: "👩‍🎨" },
-  { id: 2, name: "Eric Ishida", avatar: "👨‍💻" },
-  { id: 3, name: "Marketing Team", avatar: "📊" },
 ];
 
 export interface MessageInterface {

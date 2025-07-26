@@ -1,14 +1,14 @@
 .chat-view-header {
     font-size: 20px;
     font-weight: 600;
-}
-.chat-messages {
-  flex-grow: 1;
-  padding: 20px;
-  overflow-y: auto;
+    border-bottom: 1px solid rgb(119, 122, 150);
+    padding: 20px 0px 15px 10px;
 }
 
-.message {
+.chat-view .chat-messages {
+  height: 300px;
+  overflow-y: auto;
+  background: #f9f9f9;
   margin-bottom: 10px;
 }
 
@@ -34,4 +34,19 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
+}
+.chat-msg {
+    padding: 16px;
+}
+
+.other-sent {
+    background-color: #dcdcef;
+}
+
+.chat-msg-sender {
+    font-weight: 550;
+}
+
+.chat-msg-content {
+    margin-left: 1rem;
 }

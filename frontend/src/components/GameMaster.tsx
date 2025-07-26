@@ -24,7 +24,7 @@
 
 import { useEffect } from "react";
 import { useGame } from "../context/GameContext";
-import { game_emails } from "./db";
+import { game_chat_users, game_emails, user_messages, type Person } from "./db";
 // CaseFiles - full of hints of where you are and everything you have learnt
 // Message from boss after email saying that you must find it out, and once you have figured it out
 //      to send him the names - if you send him the wrong ones then he will be like nah
@@ -65,35 +65,49 @@ const GameMaster: React.FC = ({}) => {
         game_emails[0].thread.push({
           id: game_emails.length,
           body: `<p>Hey,</p>
-<p>Thanks for coming to my lecture.</p>
-<p>Here is the link you requested: hackerforum.com</p>
-<p>Alison</p>`,
+                  <p>Thanks for coming to my lecture.</p>
+                  <p>Here is the link you requested: hackerforum.com</p>
+                  <p>Alison</p>`,
           date: "2025-07-16",
         });
         console.log("Stage 2 started");
         setTimeout(() => {
-game_emails.unshift({
-          id: game_emails.length++,
-          sender: "alison@cybersec.com",
-          subject: "Some people should be reaching out",
-          thread: [
-            {
-              id: 0,
-              body: `<p>To whom it may concern,</p>
-    <p>This email is to inform you that we have had some negative activity happening on one of our social media platforms.</p>
-    <p>The well known hacker catcher: Brian Krebs is being repeatedly hit with a DDoS attack. Despite Akamai, the bot network performing this attack is taking him offline for several days.</p>
-    <p>This is now leaking into our other platforms. We are hoping you can find who made this bot network and catch them before it is <bold>too late</bold>.</p>
-    <p>Kindest regards,</p>
-    <p>Search Engine CEO</p>`,
-              date: "2025-07-16",
-            },
-          ],
-          summary: "To whom it may concern, This email is...",
-          isRead: false,
-          folder: "Inbox",
-        });
+          game_emails.unshift({
+            id: game_emails.length++,
+            sender: "alison@cybersec.com",
+            subject: "Some people should be reaching out",
+            thread: [
+              {
+                id: 0,
+                body: `<p>To whom it may concern,</p>
+                      <p>This email is to inform you that we have had some negative activity happening on one of our social media platforms.</p>
+                      <p>The well known hacker catcher: Brian Krebs is being repeatedly hit with a DDoS attack. Despite Akamai, the bot network performing this attack is taking him offline for several days.</p>
+                      <p>This is now leaking into our other platforms. We are hoping you can find who made this bot network and catch them before it is <bold>too late</bold>.</p>
+                      <p>Kindest regards,</p>
+                      <p>Search Engine CEO</p>`,
+                date: "2025-07-16",
+              },
+            ],
+            summary: "To whom it may concern, This email is...",
+            isRead: false,
+            folder: "Inbox",
+          });
 
-        }, 5000)
+          const newPerson: Person = {
+            id: game_chat_users.length,
+            name: "Researchers",
+            avatar: ":0",
+          };
+
+          game_chat_users.push(newPerson);
+
+          user_messages.push({
+            chat_with_id: newPerson.id,
+            message_thread: [
+              { from_id: newPerson.id, content: "Hello we are researchers" },
+            ],
+          });
+        }, 5000);
         break;
       case 3:
         // Another email sent saying she has researchers that have a honey pot and logs you can look at

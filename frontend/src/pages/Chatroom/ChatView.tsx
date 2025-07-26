@@ -23,11 +23,11 @@ const ChatView: React.FC<ChatViewProps> = ({ person, messages, onSend }) => {
       </div>
       <div className="chat-messages">
         {messages.map((msg: MessageInterface, _: number) => (
-          <div className="chat-msg">
-            <div>
-              {msg.from_id === person.id ? person.name : "Bilbo Baggins"}
+          <div className={`chat-msg ${msg.from_id === person.id && "other-sent"}`}>
+            <div className="chat-msg-sender">
+              {msg.from_id === person.id ? person.name : "YOU"}
             </div>
-            <div>{msg.content}</div>
+            <div className="chat-msg-content">{msg.content}</div>
           </div>
         ))}
       </div>

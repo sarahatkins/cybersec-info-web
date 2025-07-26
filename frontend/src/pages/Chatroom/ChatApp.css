@@ -86,21 +86,7 @@
 
 .chat-app-content {
   flex: 1;
-  padding: 16px;
   overflow-y: auto;
-}
-
-.chat-view .chat-messages {
-  height: 300px;
-  overflow-y: auto;
-  background: #f9f9f9;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-}
-
-.chat-msg {
-  margin-bottom: 8px;
 }
 
 .chat-input {
@@ -183,6 +169,10 @@
 }
 
 /* Sidebar */
+.chat-app-sidebar {
+    border-right: 1px solid #ccc;
+}
+
 .teams-app {
   display: flex;
   height: 100%;
@@ -218,21 +208,6 @@
 
 .sidebar-list li:hover {
   background-color: #3a3a4a;
-}
-
-.teams-chat {
-  flex: 1;
-  background-color: #f3f2f1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.chat-header {
-  background-color: #ffffff;
-  padding: 15px;
-  font-weight: bold;
-  border-bottom: 1px solid #ccc;
 }
 
 

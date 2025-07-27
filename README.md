@@ -16,12 +16,13 @@ The game uses a linear progression system defined by `gameStage` (from 1 to 14),
 
 | Stage | Description | Required Action |
 |-------|-------------|-----------------|
-| 1 | Alison sends an email explaining DDoS and QBot | Read the email |
-| 2 | Researchers reach out via chat and Alison follows up | Read the email and chat |
-| 3 | Terminal command introduced | Run `./watchtower --mode honeypot` |
-| 4 | Researchers analyze logs and Google sends an emergency email | Read both email and chat |
-| 5 | News post about the DDoS on Brian Krebs | Read the article |
-| 6 | Researchers give a new terminal command | Run `./alaskan-security-camera-dvr --mode infectionLogs` |
+| 0 | Login and go to emails. Alison sends an email reaching out | Respond to the email |
+| 1 | Alison sends an email explaining DDoS and QBot. Another email sent, and researchers have messaged | Respond to the message |
+| 2 | Researchers reach out via chat and Alison follows up | Respond to the chat |
+| 3 | Terminal command introduced | Run `./watchtower --mode honeypot` and respond to the chat |
+| 4 | Researchers summarise logs and Google sends an emergency email | Read both email and respond to the chat with the Boss |
+| 5 | News post about the DDoS on Brian Krebs | Read the news article |
+| 6 | Researchers give a new terminal command | Run `./alaskan-security-camera-dvr --mode infectionLogs` and respond to Researchers.|
 | 7 | Researchers recommend emailing BackConnect | Email `backconnect@backconnect.com` |
 | 8 | BackConnect responds, mentions ProTraf | Email `paras.jha@protraf.com` |
 | 9 | Paras responds, and the Mirai source code is leaked in the hacker forum | Read the forum post |
@@ -29,7 +30,7 @@ The game uses a linear progression system defined by `gameStage` (from 1 to 14),
 | 11 | Josiah denies wrongdoing | Report to researchers |
 | 12 | Internet goes offline | Respond “yes” in chat |
 | 13 | News confirms global internet outage | Summarize findings to boss |
-| 14 | Game ends | 🎉 Game complete |
+| 14 | Game ends | Game complete!! |
 
 ---
 
@@ -48,9 +49,8 @@ The following functions drive the game's story:
 
 ## Developer Tips
 
-- `GameMaster.tsx` must be mounted at all times; it's the game's narrative engine.
 - The progression is **linear** and relies on advancing `gameStage` correctly.
-- You can skip ahead in development by using `setGameStage(n)` in dev tools or the context.
+- You can skip ahead in development by using `setGameStage(n)` in dev tools or the context (may be quite buggy if you do that - seems to get stuck at Stage 5).
 - UI components (Email, Chat, Terminal, News) should reflect the shared game state.
 
 ---
@@ -67,18 +67,11 @@ The following functions drive the game's story:
 
 ---
 
-## Files Involved
-
-- `GameMaster.tsx` – Controls all story state and progression.
-- `db.ts` – Stores game data like users, emails, messages, forum posts.
-- `Window.tsx` – Renders UI for email/chat/news, and terminal interaction.
-- `GameContext.tsx` – Holds shared state like `gameStage`, `newEmail`, `internetBroken`.
-
----
-
 ## Thematic Summary
 
-This game is a fictionalized dramatization of real-world cybersecurity incidents. It reflects the complexity of IoT threats and how investigative collaboration can lead to uncovering large-scale malicious operations.
+This game is a fictionalized dramatization of a real-world cybersecurity incident, involving three teenagers and hundreds of thousands of vulnerable devices. It reflects the complexity of IoT threats and how investigative collaboration can lead to uncovering large-scale malicious operations.
+
+It is a fun way to leanr about the dangers of the Internet-of-Things when left unprotected.
 
 ---
 

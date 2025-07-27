@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./EmailSite.css";
-import type { EmailInterface } from "../../../../components/db";
+import type {
+  EmailInterface,
+} from "../../../../components/db";
 import EmailMessage from "./Email";
 import { IonCol, IonGrid, IonIcon, IonRow } from "@ionic/react";
 import { pencil } from "ionicons/icons";
@@ -13,16 +15,35 @@ const EmailSite: React.FC = () => {
   const [selectedEmail, setSelectedEmail] = useState<EmailInterface | null>(
     null
   );
+  const [writingEmail, setWritingEmail] = useState<boolean>(false);
 
   const setEmailRead = (e: EmailInterface) => {
     e.isRead = true;
   };
-  
+
+
+
+  const handleWriteClick = () => {
+    const email: EmailInterface = {
+      id: game_emails.length,
+      sender: "me",
+      receiver: "",
+      subject: "",
+      summary: "",
+      thread: [],
+      isRead: true,
+      folder: "Sent",
+    };
+
+    setSelectedEmail(email);
+    setWritingEmail(true);
+  };
+
   return (
     <div className="email-site">
       {/* Sidebar */}
       <div className="email-sidebar">
-        <button className="email-write">
+        <button className="email-write" onClick={handleWriteClick}>
           <IonIcon icon={pencil} />
           Write
         </button>
@@ -45,8 +66,12 @@ const EmailSite: React.FC = () => {
       {/* Email List */}
       {selectedEmail ? (
         <EmailMessage
+          creatingEmail={writingEmail}
           selectedEmail={selectedEmail}
-          onBack={() => setSelectedEmail(null)}
+          onBack={() => {
+            setSelectedEmail(null);
+            setWritingEmail(false);
+          }}
         />
       ) : (
         <div className="email-container">

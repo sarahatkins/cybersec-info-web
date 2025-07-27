@@ -9,12 +9,19 @@ import {
 import { useGame } from "../../../../context/GameContext";
 import CreateEmail from "./CreateEmail";
 interface EmailProps {
+  creatingEmail?: boolean;
   selectedEmail: EmailInterface;
   onBack: any;
 }
 
-const EmailMessage: React.FC<EmailProps> = ({ selectedEmail, onBack }) => {
-  const [showReplyBox, setShowReplyBox] = useState<boolean>(false);
+const EmailMessage: React.FC<EmailProps> = ({
+  creatingEmail,
+  selectedEmail,
+  onBack,
+}) => {
+  const [showReplyBox, setShowReplyBox] = useState<boolean>(
+    creatingEmail || false
+  );
   const [replyText, setReplyText] = useState<string>("");
   const { gameStage, setGameStage } = useGame();
   const [thread, setThread] = useState<EmailThreadInterface[]>(
@@ -46,23 +53,46 @@ const EmailMessage: React.FC<EmailProps> = ({ selectedEmail, onBack }) => {
     setShowReplyBox(false);
   };
 
+  const handleCreateEmail = (
+    receiver: string,
+    subject: string,
+    thread: EmailThreadInterface
+  ) => {
+    console.log("handling...");
+    const newEmail: EmailInterface = {
+      id: game_emails.length,
+      sender: "me",
+      receiver: receiver,
+      subject: subject,
+      summary: thread.body.slice(0, 50) + "...",
+      thread: [thread],
+      isRead: true,
+      folder: "Sent",
+    };
+    console.log("sending...", newEmail);
+    game_emails.unshift(newEmail);
+    onBack();
+  };
+
   return (
     <div className="email-view">
-      {selectedEmail ? (
+      <div className="email-btn">
+        <button onClick={onBack}>Back</button>
+        {!creatingEmail && (
+          <button
+            onClick={() => {
+              setShowReplyBox(true);
+              setTimeout(() => {
+                bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+              }, 100);
+            }}
+          >
+            Reply
+          </button>
+        )}
+      </div>
+      {!creatingEmail && (
         <>
-          <div className="email-btn">
-            <button onClick={onBack}>Back</button>
-            <button
-              onClick={() => {
-                setShowReplyBox(true);
-                setTimeout(() => {
-                  bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-                }, 100);
-              }}
-            >
-              Reply
-            </button>
-          </div>
           <h2 className="email-view-header">{selectedEmail.subject}</h2>
           <h4>From: {selectedEmail.sender}</h4>
           {thread.map((info, index) => (
@@ -71,15 +101,19 @@ const EmailMessage: React.FC<EmailProps> = ({ selectedEmail, onBack }) => {
               <small>{info.date}</small>
             </div>
           ))}
-          {showReplyBox && (
-            <CreateEmail setEmailInfo={setReplyText} setShowCreate={setShowReplyBox} handleSend={handleReply} sendTo={selectedEmail.sender}/>
-          )}
-
-          <div ref={bottomRef}></div>
         </>
-      ) : (
-        <div className="placeholder">Select an email to view</div>
       )}
+
+      {showReplyBox && (
+        <CreateEmail
+          setEmailInfo={setReplyText}
+          setShowCreate={setShowReplyBox}
+          handleSend={creatingEmail ? handleCreateEmail : handleReply}
+          sendTo={creatingEmail ? null : selectedEmail.sender}
+        />
+      )}
+
+      <div ref={bottomRef}></div>
     </div>
   );
 };

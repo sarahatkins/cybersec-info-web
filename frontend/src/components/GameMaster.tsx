@@ -20,7 +20,7 @@ const GameMaster: React.FC = ({}) => {
     setNewMessage,
     setGameFinished,
   } = useGame();
-  // The GAME is just pushing things into an arr
+
   const pushEmail = (emailData: any) => {
     game_emails.unshift({
       id: game_emails.length,
@@ -276,7 +276,6 @@ const GameMaster: React.FC = ({}) => {
         break;
 
       case 7:
-        // MENTION SOME OF THE BACKSTORY BEHIND BACKCONNECT
         pushChatMessage(
           "Researchers",
           "We noticed the BackConnect involvement. They are a cybersecurity company known for its anti-DDoS services and threat intelligence. "
@@ -296,8 +295,6 @@ const GameMaster: React.FC = ({}) => {
 
         break;
       case 8:
-        // Email from BackConnect emailing you to let you know about Paras and stuff
-        //      With link to website in case you haven't found it before (??
         const backConnectEmailThread = game_emails.findIndex(
           (e) =>
             e.sender === PLAYER_EMAIL &&
@@ -339,9 +336,6 @@ const GameMaster: React.FC = ({}) => {
         );
         setNewEmail(true);
 
-        // Wait a certain amount of seconds and send Mirai code
-        // Wait a bit more - send message from team saying bad news, mirai code leaked
-        //      You must check the forum and find the code
         setTimeout(() => {
           addForumPost(
             "Mirai Code OFFICIALLY RELEASED",

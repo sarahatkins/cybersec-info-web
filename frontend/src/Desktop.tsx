@@ -15,7 +15,7 @@ export default function FakeDesktop() {
   const [chatOpen, setChatOpen] = useState<boolean>(false);
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
 
-  const { gameFinished, setGameStage } = useGame();
+  const { gameFinished, setGameStage, setGameFinished } = useGame();
 
   return !loggedIn ? (
     <Login onLogin={() => setLoggedIn(true)} />
@@ -36,6 +36,7 @@ export default function FakeDesktop() {
           onRestart={() => {
             setLoggedIn(false);
             setGameStage(0);
+            setGameFinished(false);
           }}
         />
       )}

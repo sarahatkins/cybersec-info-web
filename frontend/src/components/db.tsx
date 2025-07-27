@@ -5,9 +5,6 @@ import NewsSite from "../pages/Web/WebContentPages/News/News";
 import NotFound from "../pages/Web/WebContentPages/NotFound";
 import ProTraf from "../pages/Web/WebContentPages/ProTraf";
 
-// TODO: You can drag the things off the screen
-// Add author to the journal
-
 export const websiteMap: Record<string, React.FC> = {
   "https://home.com": HomeSite,
   "https://hackerforum.com": HackerForum,

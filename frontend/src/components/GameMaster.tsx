@@ -298,6 +298,8 @@ const GameMaster: React.FC = ({}) => {
             e.sender === PLAYER_EMAIL &&
             e.receiver === "backconnect@backconnect.com"
         );
+        console.log(backConnectEmailThread, game_emails)
+        backConnectEmailThread != -1 &&
         pushEmailThread(
           backConnectEmailThread,
           `<p>Hello,</p>
@@ -377,7 +379,7 @@ const GameMaster: React.FC = ({}) => {
         const josiahEmailIndex = game_emails.findIndex(
           (e) =>
             e.sender === PLAYER_EMAIL &&
-            e.receiver === "josiah.white@protrafsol.com"
+            e.receiver === "josiah.white@protraf.com"
         );
         pushEmailThread(
           josiahEmailIndex,

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./CreateEmail.css";
-import type { EmailThreadInterface } from "../../../../components/db";
+import { PLAYER_EMAIL, type EmailThreadInterface } from "../../../../components/db";
 
 interface CreateEmailProps {
   sendTo?: string | null;
@@ -49,7 +49,7 @@ const CreateEmail: React.FC<CreateEmailProps> = ({
     <div className="reply-container">
       <div className="reply-header">
         <div>
-          <strong>From:</strong> you@yourmail.com
+          <strong>From:</strong> {PLAYER_EMAIL}
         </div>
         <div>
           <strong>To:</strong>{" "}

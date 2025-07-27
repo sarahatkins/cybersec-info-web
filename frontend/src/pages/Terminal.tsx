@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import "./Terminal.css";
 import { IonIcon } from "@ionic/react";
-import { close, expand } from "ionicons/icons";
+import { close } from "ionicons/icons";
 import { alaskan_logs, honey_pot_logs } from "../components/db";
 type CommandKey =
   | "help"

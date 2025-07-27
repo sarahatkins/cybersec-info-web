@@ -3,6 +3,7 @@ import "./Email.css";
 import {
   addReplyToEmail,
   game_emails,
+  PLAYER_EMAIL,
   type EmailInterface,
   type EmailThreadInterface,
 } from "../../../../components/db";
@@ -60,7 +61,7 @@ const EmailMessage: React.FC<EmailProps> = ({
   ) => {
     const newEmail: EmailInterface = {
       id: game_emails.length,
-      sender: "me",
+      sender: PLAYER_EMAIL,
       receiver: receiver,
       subject: subject,
       summary: thread.body.slice(0, 50) + "...",
@@ -70,6 +71,7 @@ const EmailMessage: React.FC<EmailProps> = ({
     };
 
     game_emails.unshift(newEmail);
+    handleCreateStaging(newEmail, gameStage, setGameStage)
     onBack();
   };
 
@@ -117,7 +119,7 @@ const EmailMessage: React.FC<EmailProps> = ({
   );
 };
 
-export function handleReplyStaging(
+function handleReplyStaging(
   email: EmailInterface,
   reply: EmailThreadInterface,
   gameStage: number,
@@ -126,25 +128,45 @@ export function handleReplyStaging(
   addReplyToEmail(email.id, reply);
 
   // Define stage transitions based on sender and current stage
-  const stageTransitions: Record<string, Record<number, number>> = {
+  const stageTransitionsSender: Record<string, Record<number, number>> = {
     "alison@cybersec.com": {
       0: 1,
       1: 2,
     },
+  };
+
+  let nextStage = stageTransitionsSender[email.sender]?.[gameStage];
+  if (nextStage !== undefined) {
+    setGameStage(nextStage);
+    return;
+  }
+}
+
+function handleCreateStaging(
+  email: EmailInterface,
+  gameStage: number,
+  setGameStage: any
+) {
+  // Define stage transitions based on sender and current stage
+  const stageTransitionsReceiver: Record<string, Record<number, number>> = {
     "backconnect@backconnect.com": {
       7: 8,
     },
     "paras.jha@protraf.com": {
       8: 9,
     },
-    "josiahwhite@protraf.com": {
+    "josiah.white@protraf.com": {
       10: 11,
     },
   };
 
-  const nextStage = stageTransitions[email.sender]?.[gameStage];
+  console.log(email.receiver);
+  const nextStage = stageTransitionsReceiver[email.receiver]?.[gameStage];
+  console.log(gameStage, nextStage)
   if (nextStage !== undefined) {
     setGameStage(nextStage);
+    console.log("next stage");
+    return;
   }
 }
 

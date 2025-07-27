@@ -44,7 +44,7 @@ const HackerForum: React.FC = () => {
       ) : (
         <div>
           {forumPosts.map((post: ForumPost, _: number) => (
-            <div className="post-summary" onClick={() => handlePostClick(post)}>
+            <div key={_} className="post-summary" onClick={() => handlePostClick(post)}>
               <h3>{post.title}</h3>
               <p className="author">by {post.author.username}</p>
               <p className="preview">{post.content.substring(0, 100)}...</p>

@@ -34,10 +34,6 @@ const NewsSite: React.FC = () => {
         <main className="main-news">
           {breakingNews && (
             <article className="featured-article" onClick={() => handleArticleClick(breakingNews)}>
-              <img
-                src="https://via.placeholder.com/700x350"
-                alt={breakingNews.title}
-              />
               <h1>{breakingNews.title}</h1>
               <p>{breakingNews.summary}</p>
             </article>

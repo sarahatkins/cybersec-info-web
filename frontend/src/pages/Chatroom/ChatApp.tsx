@@ -88,12 +88,18 @@ const ChatApp: React.FC<ChatAppProps> = ({ isOpen, onClose }) => {
   }, [isDragging, isResizing]);
 
   const handleSendMessage = (text: string) => {
+    console.log(text)
     if (!text.trim()) return;
     const newMessage: MessageInterface = {
       from_id: 0,
       content: text,
     };
+    console.log(newMessage)
     setMessages((prev) => [...prev, newMessage]);
+    const specChatMessages = user_messages.find(
+      (chat) => chat.chat_with_id === selectedPerson.id
+    );
+    specChatMessages?.message_thread.push(newMessage);
   };
 
   if (!isOpen) return null;

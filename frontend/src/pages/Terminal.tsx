@@ -2,8 +2,13 @@ import { useState, useRef, useEffect } from "react";
 import "./Terminal.css";
 import { IonIcon } from "@ionic/react";
 import { close, expand } from "ionicons/icons";
-import { honey_pot_logs } from "../components/db";
-type CommandKey = "help" | "about" | "leaks"| "./watchtower --mode honeypot";
+import { alaskan_logs, honey_pot_logs } from "../components/db";
+type CommandKey =
+  | "help"
+  | "about"
+  | "leaks"
+  | "./watchtower --mode honeypot"
+  | "./alaskan-security-camera-dvr --mode infectionLogs";
 
 interface TerminalProps {
   isOpen: boolean;
@@ -77,11 +82,12 @@ const Terminal: React.FC<TerminalProps> = ({ isOpen, onClose }) => {
       "- Injected memes into the Matrix. Reality destabilizing.",
     ],
     "./watchtower --mode honeypot": () => honey_pot_logs,
+    "./alaskan-security-camera-dvr --mode infectionLogs": () => alaskan_logs,
   };
 
   const isCommandKey = (cmd: string): cmd is CommandKey => cmd in commands;
 
-  const handleCommand = (cmd: string) => {
+  const handleCommand = async (cmd: string) => {
     if (cmd === "clear") {
       setLines([]);
       return;
@@ -89,7 +95,13 @@ const Terminal: React.FC<TerminalProps> = ({ isOpen, onClose }) => {
 
     setLines((prev) => [...prev, `>>> ${cmd}`]);
 
-    if (isCommandKey(cmd)) {
+    if (
+      cmd === "./watchtower --mode honeypot" ||
+      cmd === "./alaskan-security-camera-dvr --mode infectionLogs"
+    ) {
+      const logs = commands[cmd as CommandKey]();
+      await simulateLogOutput(logs, cmd);
+    } else if (isCommandKey(cmd)) {
       setLines((prev) => [...prev, ...commands[cmd](), ""]);
     } else {
       setLines((prev) => [
@@ -98,6 +110,30 @@ const Terminal: React.FC<TerminalProps> = ({ isOpen, onClose }) => {
         "",
       ]);
     }
+  };
+
+  const simulateLogOutput = async (logs: string[], cmd: string) => {
+    const loadingMessages = [
+      "[*] Establishing secure session...",
+      "[*] Checking credentials...",
+      "[*] Downloading telemetry from remote device...",
+      "[*] Loading data into memory...",
+      "[+] Starting live stream...",
+    ];
+
+    // Print loading messages first
+    for (const line of loadingMessages) {
+      await new Promise((res) => setTimeout(res, 500));
+      setLines((prev) => [...prev, line]);
+    }
+
+    // Simulate actual log line-by-line output
+    for (const line of logs) {
+      await new Promise((res) => setTimeout(res, 150));
+      setLines((prev) => [...prev, line]);
+    }
+
+    setLines((prev) => [...prev, ""]);
   };
 
   const onSubmit = (e: React.FormEvent) => {
@@ -116,7 +152,6 @@ const Terminal: React.FC<TerminalProps> = ({ isOpen, onClose }) => {
   }, [lines]);
 
   return isOpen ? (
-    
     <div
       className="terminal"
       ref={terminalRef}
@@ -153,7 +188,7 @@ const Terminal: React.FC<TerminalProps> = ({ isOpen, onClose }) => {
         </form>
       </div>
     </div>
-  ): null;
+  ) : null;
 };
 
 export default Terminal;

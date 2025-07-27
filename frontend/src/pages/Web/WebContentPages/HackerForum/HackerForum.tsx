@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./HackerForum.css";
 import { forumPosts, type ForumPost } from "../../../../components/db";
 import ForumDetails from "./ForumDetails";
+import { useGame } from "../../../../context/GameContext";
 
 const HackerForum: React.FC = () => {
+  const { gameStage, setGameStage } = useGame();
   const [showPost, setShowPost] = useState<boolean>(false);
   const [specificPost, setSpecificPost] = useState<ForumPost>();
 
@@ -16,15 +18,25 @@ const HackerForum: React.FC = () => {
     setShowPost(false);
     setSpecificPost(undefined);
   };
+
+  useEffect(() => {
+    specificPost && handlePostStaging(specificPost, gameStage, setGameStage);
+  }, [specificPost]);
   return (
     <div className="hackerforum-container">
       <header className="forum-header">
         <h1>🛡️ Hacker Forum</h1>
         <nav>
           <a href="#">Home</a>
-          <a href="#" className="unlink">Categories</a>
-          <a href="#" className="unlink">Messages</a>
-          <a href="#" className="unlink">Account</a>
+          <a href="#" className="unlink">
+            Categories
+          </a>
+          <a href="#" className="unlink">
+            Messages
+          </a>
+          <a href="#" className="unlink">
+            Account
+          </a>
         </nav>
       </header>
       {showPost ? (
@@ -46,5 +58,13 @@ const HackerForum: React.FC = () => {
     </div>
   );
 };
-
+export function handlePostStaging(
+  post: ForumPost,
+  gameStage: number,
+  setGameStage: any
+) {
+  if (post.title === "Mirai Code OFFICIALLY RELEASED" && gameStage === 9) {
+    setGameStage(10);
+  }
+}
 export default HackerForum;

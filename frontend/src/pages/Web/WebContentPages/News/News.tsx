@@ -79,7 +79,6 @@ export function handleArticleStaging(
   if (
     article.title === "Massive DDoS Attack Knocks Cyber Journalist Brian Krebs Offline" &&
     gameStage === 5
-    // &&reply.body.includes("honey pot")
   ) {
     setGameStage(6);
   }

@@ -12,8 +12,6 @@ import {
   type Person,
 } from "./db";
 
-// TODO: Casefiles, break internet, saving place
-
 const GameMaster: React.FC = ({}) => {
   const {
     gameStage,
@@ -21,6 +19,7 @@ const GameMaster: React.FC = ({}) => {
     setInternetBroken,
     setNewEmail,
     setNewMessage,
+    setGameFinished
   } = useGame();
   // The GAME is just pushing things into an arr
   const pushEmail = (emailData: any) => {
@@ -211,7 +210,7 @@ const GameMaster: React.FC = ({}) => {
               id: 0,
               body: `<p>To whom it may concern,</p>
               <p>We are currently responding to a massive DDoS attack targeting Brian Krebs’s website, <em>KrebsOnSecurity</em>. Akamai, his hosting provider and a major content delivery network (CDN) specializing in DDoS mitigation, was unable to sustain the scale of the assault, forcing them to step back.</p>  
-              <p>Google has now stepped in to protect the site via Project Shield, but the attack continues unabated. This attack is being powered by the Mirai botnet — a rapidly spreading network of compromised IoT devices exploiting default credentials such as routers, IP cameras, and DVRs.</p>
+              <p>Google has now stepped in to protect the site via Project Shield, but the attack continues unabated. This attack is being powered by the Mirai botnet - a rapidly spreading network of compromised IoT devices exploiting default credentials such as routers, IP cameras, and DVRs.</p>
               <p>Mirai’s botnet is aggressively taking over infected devices, apparently fighting for control against other botnets. The full extent of the threat is still unknown, and we urgently need assistance in identifying infection points and tracking command-and-control infrastructure.</p>
               <p>We have also notified your supervisor to ensure coordination at all levels.</p>
               <p>Please provide any relevant data or logs you may have as soon as possible. This is a high-priority security incident.</p>
@@ -316,12 +315,13 @@ const GameMaster: React.FC = ({}) => {
             e.sender === PLAYER_EMAIL &&
             e.receiver === "backconnect@backconnect.com"
         );
-        console.log(backConnectEmailThread, game_emails);
+        game_emails[backConnectEmailThread].isRead = false;
+
         backConnectEmailThread != -1 &&
           pushEmailThread(
             backConnectEmailThread,
             `<p>Hello,</p>
-            <p>We want to clarify that BackConnect was previously used—via a BGP hijack—to host servers associated with the Mirai botnet. Since then, we have taken steps to cease any such hosting and have distanced ourselves from those operations.</p>
+            <p>We want to clarify that BackConnect was previously used-via a BGP hijack-to host servers associated with the Mirai botnet. Since then, we have taken steps to cease any such hosting and have distanced ourselves from those operations.</p>
             <p>While we do not have current involvement with Mirai, one of our acquaintances maintains contact with Paras Jha, a cofounder of ProTraf Solutions, who has been linked to Mirai’s development.</p>
             <p>You might consider reaching out to ProTraf for more direct insights. Their website and contact information are publicly available at <a href="https://protraf.com" target="_blank">protraf.com</a>.</p>
             <p>We hope this information assists your investigation.</p>
@@ -333,12 +333,11 @@ const GameMaster: React.FC = ({}) => {
 
         break;
       case 9:
-        // Email from Paras saying that he has nothing to do with it
-        // TODO:
         const parasEmailIndex = game_emails.findIndex(
           (e) =>
             e.sender === PLAYER_EMAIL && e.receiver === "paras.jha@protraf.com"
         );
+        game_emails[parasEmailIndex].isRead = false;
         pushEmailThread(
           parasEmailIndex,
           `
@@ -362,7 +361,7 @@ const GameMaster: React.FC = ({}) => {
             `<p>So today, I have an amazing release for you.</p>
             <p>I've got the source code for the Mirai botnet available here. This malware exploits IoT devices like routers, cameras, and DVRs to launch massive DDoS attacks.</p>
 
-            <p>Use it responsibly — or at your own risk.</p>
+            <p>Use it responsibly - or at your own risk.</p>
             <pre><code>
             // Mirai infection vector - Telnet brute force
             void infect_target(char *ip) {
@@ -406,6 +405,9 @@ const GameMaster: React.FC = ({}) => {
             e.sender === PLAYER_EMAIL &&
             e.receiver === "josiah.white@protraf.com"
         );
+
+        game_emails[josiahEmailIndex].isRead = false;
+
         pushEmailThread(
           josiahEmailIndex,
           `<p>Hey,</p>
@@ -451,6 +453,7 @@ const GameMaster: React.FC = ({}) => {
         break;
       case 14:
         // End screen
+        setGameFinished(true);
         // Epilogue
 
         break;

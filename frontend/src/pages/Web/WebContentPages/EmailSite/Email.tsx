@@ -96,6 +96,7 @@ const EmailMessage: React.FC<EmailProps> = ({
         <>
           <h2 className="email-view-header">{selectedEmail.subject}</h2>
           <h4>From: {selectedEmail.sender}</h4>
+          <h5>To: {selectedEmail.receiver}</h5>
           {thread.map((info, index) => (
             <div className="thread-info" key={index}>
               <p dangerouslySetInnerHTML={{ __html: info.body }} />

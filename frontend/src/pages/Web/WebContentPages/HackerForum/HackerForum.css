@@ -1,0 +1,77 @@
+.hackerforum-container {
+  background-color: #0e0e0e;
+  color: #e0e0e0;
+  font-family: "Courier New", monospace;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+.posts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+
+.post-summary {
+  background: #1e1e1e;
+  padding: 15px;
+  border: 1px solid #333;
+  border-radius: 5px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.post-summary:hover {
+  background: #252525;
+  border-color: #00ffcc;
+}
+
+.post-summary h3 {
+  color: #00ffcc;
+  margin: 0 0 5px;
+}
+
+.author {
+  font-size: 0.9em;
+  color: #888;
+}
+
+.preview {
+  margin: 10px 0;
+}
+
+.comment-count {
+  font-size: 0.8em;
+  color: #ff00ff;
+}
+
+.forum-header {
+  background: #1e1e1e;
+  padding: 10px 20px;
+  border-bottom: 2px solid #00ffcc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.forum-header h1 {
+  margin: 0;
+  color: #00ffcc;
+  font-size: 1.5em;
+}
+
+.forum-header nav a {
+  margin-left: 15px;
+  color: #ccc;
+  text-decoration: none;
+  font-size: 0.95em;
+}
+
+.forum-header nav a:hover {
+  color: #00ffcc;
+}
+
+.forum-header .unlink {
+    cursor:not-allowed 
+}

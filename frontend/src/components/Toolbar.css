@@ -1,0 +1,76 @@
+.toolbar {
+    height: 100%;
+    width: 3rem;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(0, 0, 0, 0.75);
+    justify-content: space-between;
+    padding-top: 1rem;
+}
+
+.toolbar-icon {
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+    color: white;
+    font-size:xx-large;
+    transition: 0.5s;
+}
+
+.toolbar-icon:hover {
+    cursor: pointer;
+    transform: scale(1.25);
+}
+
+/* Notifications */
+.toolbar-icon {
+  position: relative;
+}
+
+.toolbar-icon.notification::after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+
+/* Menu */
+.toolbar-menu {
+  position: absolute;
+  left: 3.25rem;
+  top: -10%; /* instead of 50% */
+  transform: translateY(-40%);
+  background: #1c1c1c;
+  border: 1px solid #444;
+  border-radius: 4px;
+  z-index: 999;
+  min-width: 140px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  padding: 0.25rem 0;
+}
+
+.menu-item {
+  padding: 10px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s ease;
+}
+
+.menu-item:hover {
+  background: #333;
+}

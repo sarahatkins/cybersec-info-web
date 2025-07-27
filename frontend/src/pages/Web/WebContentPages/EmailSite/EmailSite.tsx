@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./EmailSite.css";
-import type {
-  EmailInterface,
-} from "../../../../components/db";
+import type { EmailInterface } from "../../../../components/db";
 import EmailMessage from "./Email";
 import { IonCol, IonGrid, IonIcon, IonRow } from "@ionic/react";
 import { pencil } from "ionicons/icons";
@@ -21,8 +19,6 @@ const EmailSite: React.FC = () => {
     e.isRead = true;
   };
 
-
-
   const handleWriteClick = () => {
     const email: EmailInterface = {
       id: game_emails.length,
@@ -34,9 +30,15 @@ const EmailSite: React.FC = () => {
       isRead: true,
       folder: "Sent",
     };
+    // Always clear the previous email and force re-render
+    setSelectedEmail(null);
+    setWritingEmail(false); 
 
-    setSelectedEmail(email);
-    setWritingEmail(true);
+    // Then re-set a new draft on the next tick
+    setTimeout(() => {
+      setSelectedEmail(email);
+      setWritingEmail(true);
+    }, 0);
   };
 
   return (

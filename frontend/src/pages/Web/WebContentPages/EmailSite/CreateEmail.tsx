@@ -17,11 +17,17 @@ const CreateEmail: React.FC<CreateEmailProps> = ({
   setShowCreate,
   handleSend,
 }) => {
+  const [showWarning, setShowWarning] = useState<boolean>(false);
   const [emailText, setEmailText] = useState<string>("");
   const [senderTo, setSenderTo] = useState<string>(sendTo || "");
   const [subject, setSubject] = useState<string>("");
-  
+
   const handleSendClick = () => {
+    if (!emailText.trim() || !senderTo.trim() || !subject.trim()) {
+      setShowWarning(true);
+      return;
+    }
+
     const thread: EmailThreadInterface = {
       id: 0,
       body: emailText,
@@ -60,7 +66,10 @@ const CreateEmail: React.FC<CreateEmailProps> = ({
         {!sendTo && (
           <>
             <strong>Subject: </strong>
-            <input value={subject} onChange={(e) => setSubject(e.target.value)}/>
+            <input
+              value={subject}
+              onChange={(e) => setSubject(e.target.value)}
+            />
           </>
         )}
       </div>
@@ -70,6 +79,7 @@ const CreateEmail: React.FC<CreateEmailProps> = ({
         value={emailText}
         onChange={(e) => setEmailText(e.target.value)}
       />
+      {showWarning && <p style={{color: "red", margin: 0,}}>* Please fill out the To, Subject, and Body fields.</p>}
       <div className="reply-actions">
         <button className="send-btn" onClick={handleSendClick}>
           Send

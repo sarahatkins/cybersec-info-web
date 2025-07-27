@@ -15,8 +15,6 @@ import React from "react";
 import { websiteMap } from "../../components/db";
 import EmailSite from "./WebContentPages/EmailSite/EmailSite";
 import { useGame } from "../../context/GameContext";
-import HackerForum from "./WebContentPages/HackerForum/HackerForum";
-import NewsSite from "./WebContentPages/News/News";
 
 interface WindowProps {
   isOpen: boolean;
@@ -30,14 +28,14 @@ const Window: React.FC<WindowProps> = ({ isOpen, onClose }) => {
   const [rel, setRel] = useState({ x: 0, y: 0 });
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [url, setUrl] = useState("https://home.com");
-  const { gameStage, setGameStage } = useGame();
+  const { gameStage, setGameStage, internetBroken } = useGame();
 
   const [tabs, setTabs] = useState([
     {
       id: 0,
       url: "https://your-emails.com",
       title: "Emails",
-      Component: NewsSite,
+      Component: EmailSite,
     },
   ]);
   const [activeTabId, setActiveTabId] = useState(0);
@@ -89,10 +87,10 @@ const Window: React.FC<WindowProps> = ({ isOpen, onClose }) => {
       Component,
     };
 
-    console.log("HELLOOOO",title)
+    console.log("HELLOOOO", title);
 
     if (title === "hackerforum" && gameStage < 3) {
-      console.log("Woah")
+      console.log("Woah");
       setGameStage(3);
     }
 
@@ -162,7 +160,7 @@ const Window: React.FC<WindowProps> = ({ isOpen, onClose }) => {
                 className={`tab ${tab.id === activeTabId ? "active" : ""}`}
                 onClick={() => setActiveTabId(tab.id)}
               >
-                {tab.title}
+                {internetBroken ? "404 WEBSITE OFFLINE" : tab.title}
                 <IonIcon
                   icon={close}
                   className="tab-close"
@@ -195,7 +193,7 @@ const Window: React.FC<WindowProps> = ({ isOpen, onClose }) => {
           <form onSubmit={handleSearch} className="address-bar">
             <input
               type="text"
-              value={url}
+              value={internetBroken ? "000:111;2222":url}
               onChange={(e) => setUrl(e.target.value)}
               className="url-input"
               spellCheck={false}
@@ -210,17 +208,19 @@ const Window: React.FC<WindowProps> = ({ isOpen, onClose }) => {
         </div>
 
         {/* Page Content */}
-        <div className="page-content">
-          {activeTab ? (
-            activeTab.Component === HomeSite ? (
-              <HomeSite onSearchSubmit={handleExternalSearch} />
+        {!internetBroken && (
+          <div className="page-content">
+            {activeTab ? (
+              activeTab.Component === HomeSite ? (
+                <HomeSite onSearchSubmit={handleExternalSearch} />
+              ) : (
+                React.createElement(activeTab.Component)
+              )
             ) : (
-              React.createElement(activeTab.Component)
-            )
-          ) : (
-            <HomeSite onSearchSubmit={handleExternalSearch} />
-          )}
-        </div>
+              <HomeSite onSearchSubmit={handleExternalSearch} />
+            )}
+          </div>
+        )}
       </div>
     </div>
   ) : null;

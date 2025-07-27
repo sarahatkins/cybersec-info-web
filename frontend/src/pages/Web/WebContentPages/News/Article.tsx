@@ -19,7 +19,7 @@ const ArticleDetail: React.FC<ArticleDetailProps> = ({ article, onBack }) => {
   return (
     <div className="article-detail-container">
       <header className="header">
-        <div className="logo">AUS News</div>
+        <div className="logo">CYBER News</div>
         <nav className="nav">
           <button onClick={onBack}>← Back to News</button>
         </nav>

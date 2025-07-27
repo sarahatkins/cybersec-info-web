@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import EmailSite from "../pages/Web/WebContentPages/EmailSite/EmailSite";
 import HackerForum from "../pages/Web/WebContentPages/HackerForum/HackerForum";
 import HomeSite from "../pages/Web/WebContentPages/Home";
@@ -45,9 +44,14 @@ export const game_emails: EmailInterface[] = [
       {
         id: 0,
         body: `<p>Hey,</p>
-  <p>Thanks for coming to my lecture.</p>
-  <p>Here is the link you requested: <a href="https://hackerforum.com">hackerforum.com</a></p>
-  <p>Alison</p>`,
+            <p>Thanks again for coming to my lecture! I loved talking with you.</p>
+            <p>To answer some of your other questions...</p>
+            <p>I've been spending some time investigating a series of increasingly frequent, large-scale hacking attempts that have been hitting networks daily. The patterns are wide-ranging, and it's clear they're not random.</p>
+            <p>While digging around online, I came across this forum: <strong>hackerforum.com</strong>.</p>
+            <p>It's an open web platform where (what seems like) young attackers openly brag about their exploits, trade toolkits, and sell access to compromised systems. It's chaotic - but fascinating.</p>
+            <p>Interestingly, there's a lot of chatter about something called <strong>QBot</strong> - a malware strain that seems to be involved in many of these attacks. Some users claim to have developed it, or at least modified versions.</p>
+            <p><strong>Email me back</strong> with what else you learn about <strong>QBots</strong> through the hacker forum.</p>
+            <p>Best,<br/>Alison</p>`,
         date: "2025-07-16",
       },
     ],
@@ -192,6 +196,78 @@ export const newsPosts: NewsPostInterface[] = [
   {
     id: 0,
     title: "Breaking News: Major Event in Australia",
+    summary:
+      "This is a summary of the latest breaking news story happening in Australia today. Stay tuned for updates.",
+    author: "",
+    content: "",
+    breaking: true,
+  },
+  {
+    id: 1,
+    title: "Local News: City Council Updates",
+    summary: "Details about the latest decisions by the city council.",
+    author: "",
+    content: "",
+    breaking: false,
+  },
+  {
+    id: 2,
+    title: "Sports: Big Win for Local Team",
+    summary: "Highlights from yesterday's thrilling game.",
+    author: "",
+    content: "",
+    breaking: false,
+  },
+  {
+    id: 3,
+    title: "Culture: New Exhibition Opens",
+    summary: "A new art exhibition has opened downtown.",
+    author: "",
+    content: "",
+    breaking: false,
+  },
+];
+
+export const newsRotation1: NewsPostInterface[] = [
+  {
+    id: 0,
+    title: "Breaking News: Brian Krebs",
+    summary:
+      "This is a summary of the latest breaking news story happening in Australia today. Stay tuned for updates.",
+    author: "",
+    content: "",
+    breaking: true,
+  },
+  {
+    id: 1,
+    title: "Local News: City Council Updates",
+    summary: "Details about the latest decisions by the city council.",
+    author: "",
+    content: "",
+    breaking: false,
+  },
+  {
+    id: 2,
+    title: "Sports: Big Win for Local Team",
+    summary: "Highlights from yesterday's thrilling game.",
+    author: "",
+    content: "",
+    breaking: false,
+  },
+  {
+    id: 3,
+    title: "Culture: New Exhibition Opens",
+    summary: "A new art exhibition has opened downtown.",
+    author: "",
+    content: "",
+    breaking: false,
+  },
+];
+
+export const newsRotation2: NewsPostInterface[] = [
+  {
+    id: 0,
+    title: "Breaking News: Brian Krebs",
     summary:
       "This is a summary of the latest breaking news story happening in Australia today. Stay tuned for updates.",
     author: "",

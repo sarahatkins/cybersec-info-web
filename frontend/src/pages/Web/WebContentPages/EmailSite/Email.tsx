@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Email.css";
 import {
   addReplyToEmail,
@@ -7,6 +7,7 @@ import {
   type EmailThreadInterface,
 } from "../../../../components/db";
 import { useGame } from "../../../../context/GameContext";
+import CreateEmail from "./CreateEmail";
 interface EmailProps {
   selectedEmail: EmailInterface;
   onBack: any;
@@ -19,6 +20,8 @@ const EmailMessage: React.FC<EmailProps> = ({ selectedEmail, onBack }) => {
   const [thread, setThread] = useState<EmailThreadInterface[]>(
     selectedEmail?.thread || []
   );
+
+  const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Reset thread when selectedEmail changes
@@ -49,9 +52,18 @@ const EmailMessage: React.FC<EmailProps> = ({ selectedEmail, onBack }) => {
         <>
           <div className="email-btn">
             <button onClick={onBack}>Back</button>
-            <button onClick={() => setShowReplyBox(true)}>Reply</button>
+            <button
+              onClick={() => {
+                setShowReplyBox(true);
+                setTimeout(() => {
+                  bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+                }, 100);
+              }}
+            >
+              Reply
+            </button>
           </div>
-          <h2>{selectedEmail.subject}</h2>
+          <h2 className="email-view-header">{selectedEmail.subject}</h2>
           <h4>From: {selectedEmail.sender}</h4>
           {thread.map((info, index) => (
             <div className="thread-info" key={index}>
@@ -60,15 +72,10 @@ const EmailMessage: React.FC<EmailProps> = ({ selectedEmail, onBack }) => {
             </div>
           ))}
           {showReplyBox && (
-            <div>
-              Reply:
-              <input
-                value={replyText}
-                onChange={(e) => setReplyText(e.target.value)}
-              />
-              <button onClick={handleReply}>Send</button>
-            </div>
+            <CreateEmail setEmailInfo={setReplyText} setShowCreate={setShowReplyBox} handleSend={handleReply} sendTo={selectedEmail.sender}/>
           )}
+
+          <div ref={bottomRef}></div>
         </>
       ) : (
         <div className="placeholder">Select an email to view</div>
@@ -92,7 +99,7 @@ export function handleReplyStaging(
 
   if (
     email.sender === "alison@cybersec.com" &&
-    gameStage === 1 
+    gameStage === 1
     // &&reply.body.includes("honey pot")
   ) {
     setGameStage(2);

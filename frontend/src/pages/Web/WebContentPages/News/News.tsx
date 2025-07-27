@@ -22,14 +22,7 @@ const NewsSite: React.FC = () => {
   return showArticle && specificArticle ? <ArticleDetail article={specificArticle} onBack={handleBack} /> : (
     <div className="app-container">
       <header className="header">
-        <div className="logo">AUS News</div>
-        <nav className="nav">
-          <a href="#">Home</a>
-          <a href="#">Politics</a>
-          <a href="#">Business</a>
-          <a href="#">Sport</a>
-          <a href="#">Culture</a>
-        </nav>
+        <div className="logo">CYBER News</div>
       </header>
        <div className="content-wrapper">
         <main className="main-news">

@@ -1,7 +1,8 @@
 .email-view {
   flex: 2;
-  padding: 1rem;
+  padding:  0 1rem 0 1rem;
   overflow-y: auto;
+  position: relative;
 }
 
 .placeholder {
@@ -10,24 +11,27 @@
 }
 
 .thread-info {
-    padding-bottom: 1rem;;
-    border-bottom: 1px solid rgb(202, 202, 202);
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgb(202, 202, 202);
 }
 
 .email-btn {
-    display: flex;
-    position: absolute;
-    justify-content: space-between;
-    padding-right: 1rem;
-    width: 75%;
+  position: sticky;
+  top: 0;
+  background-color: #fff; /* match background to avoid overlap */
+  z-index: 10; /* ensure it stays on top */
+  padding:  10px 0px 010px 0;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #ccc;
 }
 
 .email-view button {
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    background-color: #c4e6ff;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  background-color: #c4e6ff;
+}
+.email-view button:hover {
+  background-color: #bbd4ff;
 }
 
-.email-view button:hover {
-    background-color: #bbd4ff;
-}

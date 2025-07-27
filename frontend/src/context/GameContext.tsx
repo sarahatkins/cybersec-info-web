@@ -3,15 +3,21 @@ import React, { createContext, useState, useContext } from "react";
 type GameContextType = {
   gameStage: number;
   setGameStage: (stage: number) => void;
+  internetBroken: boolean;
+  setInternetBroken: (isBroken: boolean) => void;
 };
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
 
-export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [gameStage, setGameStage] = useState(0);
-
+export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const [gameStage, setGameStage] = useState<number>(0);
+  const [internetBroken, setInternetBroken] = useState<boolean>(false);
   return (
-    <GameContext.Provider value={{ gameStage, setGameStage }}>
+    <GameContext.Provider
+      value={{ gameStage, setGameStage, internetBroken, setInternetBroken }}
+    >
       {children}
     </GameContext.Provider>
   );

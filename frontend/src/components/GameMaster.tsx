@@ -4,16 +4,19 @@ import {
   forumPosts,
   game_chat_users,
   game_emails,
+  newsPosts,
+  newsRotation1,
+  newsRotation2,
   PLAYER_EMAIL,
   user_messages,
-  type EmailThreadInterface,
+  type NewsPostInterface,
   type Person,
 } from "./db";
 
 // TODO: Casefiles, break internet, saving place
 
 const GameMaster: React.FC = ({}) => {
-  const { gameStage, setGameStage } = useGame();
+  const { gameStage, setGameStage, setInternetBroken } = useGame();
   // The GAME is just pushing things into an arr
   const pushEmail = (emailData: any) => {
     game_emails.unshift({
@@ -52,8 +55,13 @@ const GameMaster: React.FC = ({}) => {
     });
   };
 
+  const updateNewsCycle = (newPosts: NewsPostInterface[]) => {
+    // Clear and replace news
+    newsPosts.length = 0;
+    newsPosts.push(...newPosts);
+  };
+
   useEffect(() => {
-    console.log(gameStage);
     switch (gameStage) {
       case 0:
         // Set up...
@@ -62,23 +70,34 @@ const GameMaster: React.FC = ({}) => {
         break;
       case 1:
         // Send email sending hacker to forum and asking if anything is amiss
+        // Information in email:
+        // i've been investigating networks for attacks and i've been curious as to where these daily, wide-rangin hacking attempts have been coming from.
+        // I've been googling and I discovered this hacker forum:
+        // Forum link
+        // It's a platform on the open web where seemingly young people brag about their attacks and sell their toolkits.
+        // You can find the identity of some of these miscreants.
+        // 
         pushEmailThread(
           0,
           `<p>Hey,</p>
-            <p>Thanks for coming to my lecture.</p>
-            <p>Here is the link you requested: hackerforum.com</p>
-            <p>Alison</p>`
+            <p>You might be able to piece together who’s behind it by browsing through their posts. Keep your eyes open - some of these users are more careless with their identities than you'd expect.</p>
+            <p>Best,<br/>Alison</p>`
         );
-        console.log("Stage 1 started");
         break;
       case 2:
         // Send email corroborating everything you have said
         pushEmailThread(
           0,
-          `<p>Hey,</p>
-            <p>Thanks for coming to my lecture.</p>
-            <p>Here is the link you requested: hackerforum.com</p>
-            <p>Alison</p>`
+          `<p>Yeah I agree with you!</p>
+            `
+            // Here is some other things I noticed, LiteSpeed is very prominent on the site - whilst there
+            // are a lot of different bots they all stem from a few users - LiteSpeed being one of them. He
+            // He might be someone to look out for. On top of that, most of these seem to be teenagers.
+            // A lot of them have sites that you can look at - LiteSpeed I know has a site to sell his services.
+
+            // I tseems to be a lot of botnets - like a battle of them. here are groups f young blackhats with names like Lizard Squad and 
+
+            // I've been noticign 
         );
         setGameStage(3);
         // Some researchers are reaching out
@@ -87,7 +106,7 @@ const GameMaster: React.FC = ({}) => {
         // Message from researchers - sound, and notification bullet
         //    Should give you a command to run in the terminal
         //    Message back with the correct thing - the different things
-       setTimeout(() => {
+        setTimeout(() => {
           pushEmail({
             sender: "alison@cybersec.com",
             receiver: PLAYER_EMAIL,
@@ -117,10 +136,9 @@ const GameMaster: React.FC = ({}) => {
           });
         }, 5000);
         break;
-        // Another email sent saying she has researchers that have a honey pot and logs you can look at
-        //    Check your messages as they should've messaged you
+      // Another email sent saying she has researchers that have a honey pot and logs you can look at
+      //    Check your messages as they should've messaged you
 
-        break;
       case 4:
         pushChatMessage("Researchers", "Corroboration");
         // They will message back corroborating what you are saying
@@ -140,10 +158,14 @@ const GameMaster: React.FC = ({}) => {
           ],
           summary: "Brian Krebs is under attack...",
         });
+        updateNewsCycle(newsRotation1);
         break;
       case 6:
         // Message from BOSS
-        pushChatMessage("Boss", "Let me know when you have found out who they are.");
+        pushChatMessage(
+          "Boss",
+          "Let me know when you have found out who they are."
+        );
         pushChatMessage("Researchers", "We found an Alaskan honeypot.");
         // MEssage from TEAM - here is some sample code
         //      FInding alaskan honey pot - thing and can look through code in terminal
@@ -152,7 +174,7 @@ const GameMaster: React.FC = ({}) => {
       case 7:
         // Email from BackConnect emailing you to let you know about Paras and stuff
         //      With link to website in case you haven't found it before (??
-         pushEmail({
+        pushEmail({
           sender: "backconnect@backconnect.com",
           receiver: PLAYER_EMAIL,
           subject: "ProTraf Connection",
@@ -172,10 +194,7 @@ const GameMaster: React.FC = ({}) => {
         const parasEmailIndex = game_emails.findIndex(
           (e) => e.sender === PLAYER_EMAIL && e.receiver === "para@paras.com"
         );
-        pushEmailThread(
-          parasEmailIndex,
-          `<p>I did nothing</p>`
-        );
+        pushEmailThread(parasEmailIndex, `<p>I did nothing</p>`);
         // Wait a certain amount of seconds and send Mirai code
         // Wait a bit more - send message from team saying bad news, mirai code leaked
         //      You must check the forum and find the code
@@ -196,10 +215,7 @@ const GameMaster: React.FC = ({}) => {
         const josiahEmailIndex = game_emails.findIndex(
           (e) => e.sender === PLAYER_EMAIL && e.receiver === "josiah@josiah.com"
         );
-        pushEmailThread(
-          josiahEmailIndex,
-          `<p>I did nothing</p>`
-        );
+        pushEmailThread(josiahEmailIndex, `<p>I did nothing</p>`);
 
         // Researchers asking what he said
         pushChatMessage("Researchers", "What did he say?");
@@ -209,15 +225,26 @@ const GameMaster: React.FC = ({}) => {
         pushChatMessage("Researchers", "HOLD TIGHT");
 
         // Wait and tehn break the internet
+        setInternetBroken(true);
+
         // WAIT and then message about what is happening
-         setTimeout(() => {
-          pushChatMessage("Researchers", "Here is a link to an article describing what is happening");
-          pushChatMessage("Boss", "What have you found out?");
+        updateNewsCycle(newsRotation2);
+
+        setTimeout(() => {
+          pushChatMessage("Researchers", "Did you get this message?");
         }, 3000);
         break;
       case 12:
-        // End screen
-        // Epilogue
+        setInternetBroken(false);
+        updateNewsCycle(newsRotation2);
+
+        setTimeout(() => {
+          pushChatMessage(
+            "Researchers",
+            "Here is a link to an article describing what is happening"
+          );
+          pushChatMessage("Boss", "What have you found out?");
+        }, 3000);
 
         break;
       case 13:

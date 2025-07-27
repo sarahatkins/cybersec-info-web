@@ -1,0 +1,14 @@
+.article-detail-container .nav button {
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.article-detail-container .nav button:hover {
+  transform: scale(1.05);
+}
+
+.article-detail {
+  padding: 1rem;
+}

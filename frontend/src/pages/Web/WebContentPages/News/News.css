@@ -1,5 +1,5 @@
 .app-container {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background: white;
   color: #222;
   max-width: 1200px;
@@ -9,7 +9,7 @@
 .content-wrapper {
   display: flex;
   gap: 20px;
-  padding: 20px;
+  padding: 0px 10px 0px 10px;
 }
 
 /* Header */
@@ -60,14 +60,17 @@
   line-height: 1.5;
 }
 
-.other-articles {
-  margin-top: 20px;
-}
-
+.featured-article,
 .other-articles article {
-  margin-bottom: 15px;
+  cursor: pointer;
+  padding: 1rem;
+  border-radius: 1rem;
+  transition: 0.5s;
 }
-
+.featured-article:hover,
+.other-articles article:hover {
+  background-color: rgb(231, 236, 255);
+}
 .other-articles h2 {
   font-size: 1.25rem;
   color: #0066cc;

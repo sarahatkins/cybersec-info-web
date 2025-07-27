@@ -1,6 +1,6 @@
 import React from "react";
 import { type NewsPostInterface } from "../../../../components/db";
-
+import './Article.css'
 interface ArticleDetailProps {
   article: NewsPostInterface;
   onBack: any;
@@ -19,9 +19,9 @@ const ArticleDetail: React.FC<ArticleDetailProps> = ({ article, onBack }) => {
   return (
     <div className="article-detail-container">
       <header className="header">
-        <div className="logo">CYBER News</div>
+        <div className="logo" >CYBER News</div>
         <nav className="nav">
-          <button onClick={onBack}>← Back to News</button>
+          <button onClick={onBack}>Back Home</button>
         </nav>
       </header>
 
@@ -29,17 +29,13 @@ const ArticleDetail: React.FC<ArticleDetailProps> = ({ article, onBack }) => {
         <h1>{article.title}</h1>
         <p className="summary">{article.summary}</p>
         <div className="content">
-          {article.content ? (
-            <p>{article.content}</p>
+          {article.content ? (           
+            <p dangerouslySetInnerHTML={{ __html: article.content }} />
           ) : (
             <p>[Full article content will appear here soon.]</p>
           )}
         </div>
       </main>
-
-      <footer className="footer">
-        <p>© 2025 AUS News. All rights reserved.</p>
-      </footer>
     </div>
   );
 };

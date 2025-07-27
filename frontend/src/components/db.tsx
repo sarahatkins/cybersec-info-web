@@ -6,9 +6,6 @@ import NotFound from "../pages/Web/WebContentPages/NotFound";
 import ProTraf from "../pages/Web/WebContentPages/ProTraf";
 
 // TODO: You can drag the things off the screen
-// Cyber news html
-// cber news click
-// Fix Send button css - email
 // Fix receiving messages - chat
 // Go to new messages on chat
 // Make it obvious when new messages sent

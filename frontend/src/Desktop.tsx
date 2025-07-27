@@ -15,7 +15,7 @@ export default function FakeDesktop() {
   const [chatOpen, setChatOpen] = useState<boolean>(false);
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
 
-  const { gameFinished } = useGame();
+  const { gameFinished, setGameStage } = useGame();
 
   return !loggedIn ? (
     <Login onLogin={() => setLoggedIn(true)} />
@@ -32,12 +32,18 @@ export default function FakeDesktop() {
           <Chatroom isOpen={chatOpen} onClose={() => setChatOpen(false)} />
         </>
       ) : (
-        <GameEndWidget />
+        <GameEndWidget
+          onRestart={() => {
+            setLoggedIn(false);
+            setGameStage(0);
+          }}
+        />
       )}
       <Toolbar
         openTerminal={() => setTerminalOpen(true)}
         openWeb={() => setWebOpen(true)}
         openChat={() => setChatOpen(true)}
+        logout={() => setLoggedIn(false)}
       />
     </div>
   );

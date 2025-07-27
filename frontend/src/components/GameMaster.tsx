@@ -5,7 +5,6 @@ import {
   game_chat_users,
   game_emails,
   newsPosts,
-  newsRotation,
   PLAYER_EMAIL,
   user_messages,
   type NewsPostInterface,
@@ -19,7 +18,7 @@ const GameMaster: React.FC = ({}) => {
     setInternetBroken,
     setNewEmail,
     setNewMessage,
-    setGameFinished
+    setGameFinished,
   } = useGame();
   // The GAME is just pushing things into an arr
   const pushEmail = (emailData: any) => {
@@ -59,24 +58,13 @@ const GameMaster: React.FC = ({}) => {
     });
   };
 
-  const updateNewsCycle = (newPosts: NewsPostInterface[]) => {
-    // Clear and replace news
-    newsPosts.length = 0;
-    newsPosts.push(...newPosts);
-  };
-
   useEffect(() => {
     switch (gameStage) {
-      case 0:
-        // Set up...
-        // Potentially where the help is launched
-
-        break;
       case 1:
         pushEmailThread(
           0,
           `<p>Hey,</p>
-            <p>Just breaking this down in plain terms so it's easier to follow.</p>
+            <p>I found some things similar! Here are the notes I made:</p>
 
             <p><strong>What’s a DDoS attack?</strong></p>
             <ul>
@@ -118,7 +106,7 @@ const GameMaster: React.FC = ({}) => {
                 <p>Just reaching out to let you know I have talked to the researchers. They should have messaged you in the <strong>Chat App</strong>.</p>
                 <p>Be sure to check it out!</p>
                 <p>Best of luck with your future research,</br>Alison.`,
-                date: "2025-07-16",
+                date: new Date().toISOString(),
               },
             ],
             summary: "Akamai has been overwhelmed...",
@@ -127,7 +115,7 @@ const GameMaster: React.FC = ({}) => {
           const researcher: Person = {
             id: game_chat_users.length,
             name: "Researchers",
-            avatar: ":0",
+            avatar: "🤯",
           };
           game_chat_users.push(researcher);
 
@@ -159,7 +147,7 @@ const GameMaster: React.FC = ({}) => {
       case 3:
         pushChatMessage(
           "Researchers",
-          "Alright, if you open up and run this command: ./watchtower --mode honeypot"
+          "Alright, if you open up your terminal and run this command: ./watchtower --mode honeypot"
         );
         pushChatMessage(
           "Researchers",
@@ -216,7 +204,7 @@ const GameMaster: React.FC = ({}) => {
               <p>Please provide any relevant data or logs you may have as soon as possible. This is a high-priority security incident.</p>
               <p>Thank you for your prompt attention.</p>
               <p>Sincerely,<br/>Google Security Response Team</p>`,
-              date: "2025-07-16",
+              date: new Date().toISOString(),
             },
           ],
           summary:
@@ -233,7 +221,7 @@ const GameMaster: React.FC = ({}) => {
           author: "WIRED",
           summary:
             "A record-breaking DDoS attack using the Mirai botnet has taken down KrebsOnSecurity, the website of investigative journalist Brian Krebs. The source of the attack remains unknown, but experts say it signals a dangerous new era in IoT-powered cyberattacks.",
-          content: `<p>In September 2016, Brian Krebs, the investigative journalist behind KrebsOnSecurity, was hit by one of the largest distributed denial-of-service (DDoS) attacks ever recorded. The assault, which peaked at over 620 gigabits per second, forced his website offline after his DDoS protection provider, Akamai, withdrew its support due to the attack's scale and cost.</p>
+          content: `<p>Brian Krebs, the investigative journalist behind KrebsOnSecurity, was just hit by one of the largest distributed denial-of-service (DDoS) attacks ever recorded. The assault, which peaked at over 620 gigabits per second, forced his website offline after his DDoS protection provider, Akamai, withdrew its support due to the attack's scale and cost.</p>
           <p>The attack appears to have been carried out using a newly identified botnet known as <strong>Mirai</strong>, which hijacks Internet of Things (IoT) devices such as unsecured routers, IP cameras, and DVRs. Security researchers say the botnet is composed of hundreds of thousands of compromised systems, many of which are running outdated or default software.</p>
           <p>At this point, the identity of the attackers remains unknown. Some believe it may be retaliation for Krebs's reporting on the DDoS-for-hire industry, which has led to several recent arrests. Others suggest it may be a broader warning-or a demonstration of Mirai's capabilities.</p>
           <p>The source of the Mirai botnet traffic is still being analyzed, but early investigations suggest it was remarkably sophisticated and highly distributed, leveraging consumer-grade devices in dozens of countries. Experts warn that unless IoT security improves rapidly, more attacks like this are likely.</p>
@@ -261,7 +249,7 @@ const GameMaster: React.FC = ({}) => {
         );
         pushChatMessage(
           "Researchers",
-          "First, we think it might be best if you look into this news article to get a better understanding of the situation: cyber-news.com"
+          "First, we think it might be best if you look into this news article \"DDoS Attack Knocks Krebs Offline\" to get a better understanding of the situation: cyber-news.com"
         );
         pushChatMessage(
           "Researchers",
@@ -323,7 +311,7 @@ const GameMaster: React.FC = ({}) => {
             `<p>Hello,</p>
             <p>We want to clarify that BackConnect was previously used-via a BGP hijack-to host servers associated with the Mirai botnet. Since then, we have taken steps to cease any such hosting and have distanced ourselves from those operations.</p>
             <p>While we do not have current involvement with Mirai, one of our acquaintances maintains contact with Paras Jha, a cofounder of ProTraf Solutions, who has been linked to Mirai’s development.</p>
-            <p>You might consider reaching out to ProTraf for more direct insights. Their website and contact information are publicly available at <a href="https://protraf.com" target="_blank">protraf.com</a>.</p>
+            <p>You might consider reaching out to ProTraf for more direct insights. Their website and contact information are publicly available at: <strong>protraf-solutions.com</strong>.</p>
             <p>We hope this information assists your investigation.</p>
             <p>Best regards,<br/>
             BackConnect Security Team</p>`
@@ -439,7 +427,23 @@ const GameMaster: React.FC = ({}) => {
 
         break;
       case 13:
-        updateNewsCycle(newsRotation);
+        const internet_broken_post: NewsPostInterface = {
+          id: newsPosts.length,
+          title: "Internet BROKEN by Mirai",
+          author: "WIRED",
+          summary: "What just happened with the Internet",
+          content: `<p>You'll have noticed that the internet just went offline!</p>
+                    <p>A massive coordinated DDoS attack has just taken down critical infrastructure across the web.</p>
+                    <p>According to initial reports, over <strong>170,000 websites</strong> are affected - including major platforms, news sites, banks, and cloud services.</p>
+                    <p>The attack appears to be powered by a rapidly spreading botnet known as <strong>Mirai</strong>, which is hijacking vulnerable IoT devices like routers and cameras to flood key services with junk traffic.</p>
+                    <p>DNS provider <strong>Dyn</strong> was among the first to be overwhelmed, causing outages across huge portions of the internet.</p>
+                    <p>Mirai spreads by scanning the internet for poorly secured devices - usually those with factory-default usernames and passwords - and remotely installs malware that forces them to join the attack.</p>
+                    <p>Engineers are currently working to contain the spread and restore functionality. In the meantime, you may continue to experience disruptions.</p>
+                    <p><em>This is one of the largest cyberattacks ever recorded.</em></p>`,
+          breaking: true,
+        };
+        newsPosts[0].breaking = false;
+        newsPosts.unshift(internet_broken_post);
         setInternetBroken(false);
 
         setTimeout(() => {

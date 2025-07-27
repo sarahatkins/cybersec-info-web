@@ -161,12 +161,9 @@ function handleCreateStaging(
     },
   };
 
-  console.log(email.receiver);
   const nextStage = stageTransitionsReceiver[email.receiver]?.[gameStage];
-  console.log(gameStage, nextStage)
   if (nextStage !== undefined) {
     setGameStage(nextStage);
-    console.log("next stage");
     return;
   }
 }

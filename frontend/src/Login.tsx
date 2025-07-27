@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./Login.css";
 import { IonIcon } from "@ionic/react";
 import { eyeOffOutline, eyeOutline } from "ionicons/icons";
-
 interface LoginProps {
   onLogin: any;
 }
@@ -13,7 +12,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   return (
     <div className="ubuntu-login">
       <div className="login-box">
-        <div className="avatar" />
+        <div className="login-avatar" />
         <div className="username">YOU</div>
 
         <div onSubmit={onLogin} className="login-form">
@@ -30,6 +29,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
             >
               <IonIcon icon={showPassword ? eyeOutline : eyeOffOutline} />
             </button>
+            <p className="best-exp">~ For the best experience,<br /> please <strong>press F11</strong></p>
             <button className="login-btn" onClick={onLogin}>Login</button>
           </div>
         </div>

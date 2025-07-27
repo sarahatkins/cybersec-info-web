@@ -6,7 +6,7 @@ import NotFound from "../pages/Web/WebContentPages/NotFound";
 import ProTraf from "../pages/Web/WebContentPages/ProTraf";
 
 // TODO: You can drag the things off the screen
-//  need to update what happens at the end
+// Add author to the journal
 
 export const websiteMap: Record<string, React.FC> = {
   "https://home.com": HomeSite,
@@ -57,7 +57,7 @@ export const game_emails: EmailInterface[] = [
             <p>Interestingly, there's a lot of chatter about something called <strong>QBot</strong> - a malware strain that seems to be involved in many of these attacks. Some users claim to have developed it, or at least modified versions.</p>
             <p><strong>Email me back</strong> with what else you learn about <strong>QBots</strong> through the hacker forum.</p>
             <p>Best,<br/>Alison</p>`,
-        date: "2025-07-16",
+        date: new Date().toISOString(),
       },
     ],
     summary: "Hey, Thanks for coming to my lecture...",
@@ -84,8 +84,8 @@ export interface Person {
 }
 
 export const game_chat_users: Person[] = [
-  { id: 0, name: "YOU", avatar: "👩‍🎨" },
-  { id: 1, name: "Boss", avatar: "👩‍🎨" },
+  { id: 0, name: "YOU", avatar: "🐈" },
+  { id: 1, name: "Boss", avatar: "💼" },
 ];
 
 export interface MessageInterface {
@@ -421,42 +421,6 @@ export const newsPosts: NewsPostInterface[] = [
     author: "Herald Sun",
     content:
       `Australian customers of Louis Vuitton are among those affected by a global data leak. Exposed data includes names, dates of birth, email addresses, phone numbers and passport numbers. Cybersecurity expert Dr Shaanan Cohney attributes the surge in breaches to poorly secured cloud services. He advises adopting strong, unique passwords, biometric logins, and avoiding SMS‑based two‑factor authentication.`, 
-    breaking: false,
-  },
-];
-
-export const newsRotation: NewsPostInterface[] = [
-  {
-    id: 0,
-    title: "Breaking News: Brian Krebs",
-    summary:
-      "This is a summary of the latest breaking news story happening in Australia today. Stay tuned for updates.",
-    author: "",
-    content: "",
-    breaking: true,
-  },
-  {
-    id: 1,
-    title: "Local News: City Council Updates",
-    summary: "Details about the latest decisions by the city council.",
-    author: "",
-    content: "",
-    breaking: false,
-  },
-  {
-    id: 2,
-    title: "Sports: Big Win for Local Team",
-    summary: "Highlights from yesterday's thrilling game.",
-    author: "",
-    content: "",
-    breaking: false,
-  },
-  {
-    id: 3,
-    title: "Culture: New Exhibition Opens",
-    summary: "A new art exhibition has opened downtown.",
-    author: "",
-    content: "",
     breaking: false,
   },
 ];

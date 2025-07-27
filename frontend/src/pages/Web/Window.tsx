@@ -201,7 +201,7 @@ const Window: React.FC<WindowProps> = ({ isOpen, onClose }) => {
             <input
               type="text"
               disabled={true}
-              value={internetBroken ? "000:111;2222" : url}
+              value={internetBroken ? "2001:4860:4000:0:0:0:0:0" : url}
               className="url-input"
             />
           </form>

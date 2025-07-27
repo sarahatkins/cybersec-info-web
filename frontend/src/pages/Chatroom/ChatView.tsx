@@ -14,7 +14,7 @@ interface ChatViewProps {
 }
 
 const ChatView: React.FC<ChatViewProps> = ({ person, messages, onSend }) => {
-  const { gameStage, setGameStage } = useGame();
+  const { gameStage, setGameStage, setGameFinished } = useGame();
   const bottomRef = useRef<HTMLDivElement | null>(null);
 
   const [input, setInput] = useState("");
@@ -76,7 +76,7 @@ const ChatView: React.FC<ChatViewProps> = ({ person, messages, onSend }) => {
         <button
           onClick={() => {
             handleSend();
-            handleReplyStaging(person.id, input, gameStage, setGameStage);
+            handleReplyStaging(person.id, input, gameStage, setGameStage, setGameFinished);
           }}
         >
           Send
@@ -90,7 +90,8 @@ export function handleReplyStaging(
   to_id: number,
   reply: string,
   gameStage: number,
-  setGameStage: any
+  setGameStage: any,
+  setGameFinished: any
 ) {
   const find_user = game_chat_users.find((e) => e.id === to_id)?.name;
   // Now handle game transitions based on logic
@@ -102,7 +103,7 @@ export function handleReplyStaging(
     reply.toLocaleLowerCase().includes("paras") &&
     reply.toLocaleLowerCase().includes("josiah")
   ) {
-    console.log("YOU WON");
+    setGameFinished(true)
     return;
   }
 

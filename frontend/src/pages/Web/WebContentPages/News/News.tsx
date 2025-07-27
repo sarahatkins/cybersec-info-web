@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./News.css";
 import { type NewsPostInterface, newsPosts } from "../../../../components/db";
 import ArticleDetail from "./Article";
+import { useGame } from "../../../../context/GameContext";
 
 const NewsSite: React.FC = () => {
+  const {gameStage, setGameStage} = useGame();
   const [showArticle, setShowArticle] = useState<boolean>(false);
   const [specificArticle, setSpecificArticle] = useState<NewsPostInterface>();
 
@@ -18,6 +20,10 @@ const NewsSite: React.FC = () => {
     setSpecificArticle(article);
     setShowArticle(true);
   }
+
+  useEffect(() => {
+    specificArticle && handleArticleStaging(specificArticle, gameStage, setGameStage);
+  }, [specificArticle])
 
   return showArticle && specificArticle ? <ArticleDetail article={specificArticle} onBack={handleBack} /> : (
     <div className="app-container">
@@ -50,10 +56,10 @@ const NewsSite: React.FC = () => {
         <aside className="sidebar">
           <h3>Trending</h3>
           <ul>
-            <li><a href="#">Election Results Announced</a></li>
-            <li><a href="#">Stock Market Update</a></li>
-            <li><a href="#">Weather Alert: Storm Incoming</a></li>
-            <li><a href="#">Interview: Famous Aussie Actor</a></li>
+            <li><a href="#">CyberSecurity Trends</a></li>
+            <li><a href="#">A New Threat on the Horizons</a></li>
+            <li><a href="#">Weather Alert: DDoS Incoming</a></li>
+            <li><a href="#">A Hackers Worst Nightmare</a></li>
           </ul>
         </aside>
       </div>
@@ -64,5 +70,19 @@ const NewsSite: React.FC = () => {
     </div>
   );
 };
+
+export function handleArticleStaging(
+  article: NewsPostInterface,
+  gameStage: number,
+  setGameStage: any
+) {
+  if (
+    article.title === "Massive DDoS Attack Knocks Cyber Journalist Brian Krebs Offline" &&
+    gameStage === 5
+    // &&reply.body.includes("honey pot")
+  ) {
+    setGameStage(6);
+  }
+}
 
 export default NewsSite;

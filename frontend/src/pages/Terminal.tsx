@@ -100,7 +100,7 @@ const Terminal: React.FC<TerminalProps> = ({ isOpen, onClose }) => {
       cmd === "./alaskan-security-camera-dvr --mode infectionLogs"
     ) {
       const logs = commands[cmd as CommandKey]();
-      await simulateLogOutput(logs, cmd);
+      await simulateLogOutput(logs);
     } else if (isCommandKey(cmd)) {
       setLines((prev) => [...prev, ...commands[cmd](), ""]);
     } else {
@@ -112,7 +112,7 @@ const Terminal: React.FC<TerminalProps> = ({ isOpen, onClose }) => {
     }
   };
 
-  const simulateLogOutput = async (logs: string[], cmd: string) => {
+  const simulateLogOutput = async (logs: string[]) => {
     const loadingMessages = [
       "[*] Establishing secure session...",
       "[*] Checking credentials...",

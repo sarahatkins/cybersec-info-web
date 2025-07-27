@@ -126,17 +126,26 @@ export function handleReplyStaging(
 ) {
   addReplyToEmail(email.id, reply);
 
-  // Now handle game transitions based on logic
-  if (email.sender === "alison@cybersec.com" && gameStage === 0) {
-    setGameStage(1);
-  }
+  // Define stage transitions based on sender and current stage
+  const stageTransitions: Record<string, Record<number, number>> = {
+    "alison@cybersec.com": {
+      0: 1,
+      1: 2,
+    },
+    "backconnect@backconnect.com": {
+      7: 8,
+    },
+    "paras.jha@protraf.com": {
+      8: 9,
+    },
+    "josiahwhite@protraf.com": {
+      10: 11,
+    },
+  };
 
-  if (
-    email.sender === "alison@cybersec.com" &&
-    gameStage === 1
-    // &&reply.body.includes("honey pot")
-  ) {
-    setGameStage(2);
+  const nextStage = stageTransitions[email.sender]?.[gameStage];
+  if (nextStage !== undefined) {
+    setGameStage(nextStage);
   }
 }
 

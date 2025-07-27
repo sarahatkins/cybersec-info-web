@@ -3,12 +3,14 @@ import HackerForum from "../pages/Web/WebContentPages/HackerForum/HackerForum";
 import HomeSite from "../pages/Web/WebContentPages/Home";
 import NewsSite from "../pages/Web/WebContentPages/News/News";
 import NotFound from "../pages/Web/WebContentPages/NotFound";
+import ProTraf from "../pages/Web/WebContentPages/ProTraf";
 
 export const websiteMap: Record<string, React.FC> = {
   "https://home.com": HomeSite,
   "https://hackerforum.com": HackerForum,
   "https://your-emails.com": EmailSite,
   "https://global-news.com": NewsSite,
+  "https://protraf-solutions.com": ProTraf,
   "https://unknown-address.com": NotFound,
 };
 

@@ -81,32 +81,40 @@ const ChatView: React.FC<ChatViewProps> = ({ person, messages, onSend }) => {
   );
 };
 
-export function handleReplyStaging(to_id: number, reply: string, gameStage: number, setGameStage: any) {
+export function handleReplyStaging(
+  to_id: number,
+  reply: string,
+  gameStage: number,
+  setGameStage: any
+) {
   const find_user = game_chat_users.find((e) => e.id === to_id)?.name;
   // Now handle game transitions based on logic
-  console.log('hey', find_user)
-  if (
-    find_user === "Researchers" &&
-    gameStage === 2 &&
-    reply.toLocaleLowerCase().includes("yes")
-  ) {
-    setGameStage(3);
-  }
-
-  if (
-    find_user === "Researchers" &&
-    gameStage === 3  
-    // && reply.toLocaleLowerCase().includes("yes")
-  ) {
-    setGameStage(4);
-  }
+  console.log(reply);
+  if (!find_user) return;
 
   if (
     find_user === "Boss" &&
-    gameStage === 5  
-    // && reply.toLocaleLowerCase().includes("yes")
+    gameStage === 13 &&
+    reply.toLocaleLowerCase().includes("paras") &&
+    reply.toLocaleLowerCase().includes("josiah")
   ) {
-    setGameStage(6);
+    return;
+  }
+
+  const stageTransitions: Record<string, Record<number, number>> = {
+    Researchers: {
+      2: 3,
+      3: 4,
+      // 5: 6, - news
+      6: 7,
+      11: 12,
+      12: 13,
+    },
+  };
+
+  const nextStage = stageTransitions[find_user]?.[gameStage];
+  if (nextStage !== undefined) {
+    setGameStage(nextStage);
   }
 }
 

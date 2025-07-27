@@ -15,7 +15,7 @@ import React from "react";
 import { websiteMap } from "../../components/db";
 import EmailSite from "./WebContentPages/EmailSite/EmailSite";
 import { useGame } from "../../context/GameContext";
-import HackerForum from "./WebContentPages/HackerForum/HackerForum";
+import ProTraf from "./WebContentPages/ProTraf";
 
 interface WindowProps {
   isOpen: boolean;
@@ -36,7 +36,7 @@ const Window: React.FC<WindowProps> = ({ isOpen, onClose }) => {
       id: 0,
       url: "https://your-emails.com",
       title: "Emails",
-      Component: EmailSite,
+      Component: ProTraf,
     },
   ]);
   const [activeTabId, setActiveTabId] = useState(0);
@@ -87,8 +87,6 @@ const Window: React.FC<WindowProps> = ({ isOpen, onClose }) => {
       title: title.charAt(0).toUpperCase() + title.slice(1),
       Component,
     };
-
-    console.log("HELLOOOO", title);
 
     if (title === "hackerforum" && gameStage < 3) {
       console.log("Woah");

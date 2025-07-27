@@ -187,7 +187,6 @@ const GameMaster: React.FC = ({}) => {
         );
         setTimeout(() => {
           pushChatMessage("Boss", "Check your email. It's important.");
-          pushChatMessage("Boss", "Message back ASAP.");
           setGameStage(5);
         }, 1500);
         break;
@@ -371,7 +370,7 @@ const GameMaster: React.FC = ({}) => {
       case 10:
         pushChatMessage(
           "Researchers",
-          "We found an IP address. It's is linked to someone named Josiah White."
+          "We found an IP address. It's is linked to someone named Josiah White. You should email him."
         );
         break;
       case 11:
@@ -379,7 +378,7 @@ const GameMaster: React.FC = ({}) => {
         const josiahEmailIndex = game_emails.findIndex(
           (e) =>
             e.sender === PLAYER_EMAIL &&
-            e.receiver === "josiahwhite@protrafsol.com"
+            e.receiver === "josiah.white@protrafsol.com"
         );
         pushEmailThread(
           josiahEmailIndex,
@@ -421,7 +420,7 @@ const GameMaster: React.FC = ({}) => {
         }, 3000);
 
         break;
-      case 13:
+      case 14:
         // End screen
         // Epilogue
 

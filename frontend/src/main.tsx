@@ -1,7 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import FakeDesktop from './Desktop.tsx'
 
 // Ionic core styles
 import '@ionic/react/css/core.css';
@@ -18,9 +17,10 @@ import '@ionic/react/css/text-alignment.css';
 import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
+import App from './App.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <FakeDesktop />
+    <App />
   </StrictMode>,
 )

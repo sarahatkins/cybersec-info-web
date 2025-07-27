@@ -28,7 +28,8 @@ const Window: React.FC<WindowProps> = ({ isOpen, onClose }) => {
   const [rel, setRel] = useState({ x: 0, y: 0 });
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [url, setUrl] = useState("https://home.com");
-  const { gameStage, setGameStage, internetBroken } = useGame();
+  const { gameStage, setGameStage, internetBroken, newEmail, setNewEmail } =
+    useGame();
 
   const [tabs, setTabs] = useState([
     {
@@ -155,9 +156,18 @@ const Window: React.FC<WindowProps> = ({ isOpen, onClose }) => {
               <div
                 key={tab.id}
                 className={`tab ${tab.id === activeTabId ? "active" : ""}`}
-                onClick={() => setActiveTabId(tab.id)}
+                onClick={() => {setActiveTabId(tab.id);
+                  tab.title === "Emails" && newEmail && setNewEmail(false)
+                }}
               >
                 {internetBroken ? "404 WEBSITE OFFLINE" : tab.title}
+
+                {tab.title === "Emails" && newEmail && (
+                  <span
+                    className="notification-dot"
+                  />
+                )}
+
                 <IonIcon
                   icon={close}
                   className="tab-close"
@@ -191,14 +201,11 @@ const Window: React.FC<WindowProps> = ({ isOpen, onClose }) => {
             <input
               type="text"
               disabled={true}
-              value={internetBroken ? "000:111;2222":url}
+              value={internetBroken ? "000:111;2222" : url}
               className="url-input"
             />
           </form>
-          <IonIcon
-            icon={reloadOutline}
-            className="icon reload"
-          />
+          <IonIcon icon={reloadOutline} className="icon reload" />
           <IonIcon icon={ellipsisVertical} className="icon menu" />
         </div>
 

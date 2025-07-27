@@ -5,6 +5,10 @@ type GameContextType = {
   setGameStage: (stage: number) => void;
   internetBroken: boolean;
   setInternetBroken: (isBroken: boolean) => void;
+  newMessage:boolean;
+  setNewMessage: (newMessage: boolean) => void;
+  newEmail:boolean;
+  setNewEmail: (newEmail: boolean) => void;
 };
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -14,22 +18,25 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [gameStage, setGameStage] = useState<number>(0);
   const [internetBroken, setInternetBroken] = useState<boolean>(false);
-  useEffect(() => {
-    let i = 0;
-    const interval = setInterval(() => {
-      setGameStage(i);
-      console.log("Setting gameStage to", i);
-      i++;
-      if (i > 7) clearInterval(interval);
-    }, 500);
-    return () => clearInterval(interval);
-  }, []);
-  useEffect(() => {
-    console.log("gameStage updated:", gameStage);
-  }, [gameStage]);
+  const [newMessage, setNewMessage] = useState<boolean>(false);
+  const [newEmail, setNewEmail] = useState<boolean>(false);
+
+// useEffect(() => {
+//   let i = 0;
+//   const interval = setInterval(() => {
+//     setGameStage(i);
+//     console.log("Setting gameStage to", i);
+//     i++;
+//     if (i > 7) clearInterval(interval);
+//   }, 500);
+//   return () => clearInterval(interval);
+// }, []);
+// useEffect(() => {
+//   console.log("gameStage updated:", gameStage);
+// }, [gameStage]);
   return (
     <GameContext.Provider
-      value={{ gameStage, setGameStage, internetBroken, setInternetBroken }}
+      value={{ gameStage, setGameStage, internetBroken, setInternetBroken, newMessage, setNewMessage,newEmail, setNewEmail }}
     >
       {children}
     </GameContext.Provider>

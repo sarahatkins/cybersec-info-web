@@ -2,13 +2,13 @@ import React, { useState, useRef, useEffect } from "react";
 import type { MouseEvent as ReactMouseEvent } from "react";
 import "./ChatApp.css";
 import ChatView from "./ChatView";
-import CallView from "./CallView";
 import {
   game_chat_users,
   type MessageInterface,
   user_messages,
   type Person,
 } from "../../components/db";
+import { useGame } from "../../context/GameContext";
 
 interface ChatAppProps {
   isOpen: boolean;
@@ -20,6 +20,7 @@ const MIN_HEIGHT = 300;
 const ChatApp: React.FC<ChatAppProps> = ({ isOpen, onClose }) => {
   const windowRef = useRef<HTMLDivElement>(null);
   const dragOffset = useRef({ x: 0, y: 0 });
+  const {gameStage} = useGame();
 
   const [position, setPosition] = useState({ x: 100, y: 100 });
   const [size, setSize] = useState({ width: 800, height: 500 });
@@ -30,17 +31,18 @@ const ChatApp: React.FC<ChatAppProps> = ({ isOpen, onClose }) => {
   const [selectedPerson, setSelectedPerson] = useState<Person>(
     game_chat_users[0]
   );
-  const [activeTab, setActiveTab] = useState<"chat" | "call">("chat");
   const [messages, setMessages] = useState<MessageInterface[]>([]);
 
   useEffect(() => {
     const specChatMessages = user_messages.find(
       (chat) => chat.chat_with_id === selectedPerson.id
     );
-    specChatMessages
+    setTimeout(() => {
+      specChatMessages
       ? setMessages(specChatMessages.message_thread)
       : setMessages([]);
-  }, [selectedPerson]);
+    }, 2000)
+  }, [selectedPerson, gameStage]);
 
   const handleMouseDownDrag = (e: ReactMouseEvent<HTMLDivElement>) => {
     if (isFullscreen) return;
@@ -121,20 +123,6 @@ const ChatApp: React.FC<ChatAppProps> = ({ isOpen, onClose }) => {
       {/* Header */}
       <div className="chat-app-header" onMouseDown={handleMouseDownDrag}>
         <div className="header-left">Chat App</div>
-        <div className="tabs">
-          <button
-            className={activeTab === "chat" ? "active" : ""}
-            onClick={() => setActiveTab("chat")}
-          >
-            💬 Chat
-          </button>
-          <button
-            className={activeTab === "call" ? "active" : ""}
-            onClick={() => setActiveTab("call")}
-          >
-            📞 Call
-          </button>
-        </div>
         <div className="window-controls">
           <button onClick={() => setIsFullscreen(!isFullscreen)}>
             {isFullscreen ? "🗗" : "🗖"}
@@ -163,15 +151,11 @@ const ChatApp: React.FC<ChatAppProps> = ({ isOpen, onClose }) => {
         </div>
 
         <div className="chat-app-content">
-          {activeTab === "chat" ? (
-            <ChatView
-              person={selectedPerson}
-              messages={messages}
-              onSend={handleSendMessage}
-            />
-          ) : (
-            <CallView person={selectedPerson} />
-          )}
+          <ChatView
+            person={selectedPerson}
+            messages={messages}
+            onSend={handleSendMessage}
+          />
         </div>
       </div>
 

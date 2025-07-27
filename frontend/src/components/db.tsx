@@ -6,13 +6,10 @@ import NotFound from "../pages/Web/WebContentPages/NotFound";
 import ProTraf from "../pages/Web/WebContentPages/ProTraf";
 
 // TODO: You can drag the things off the screen
-// Fix receiving messages - chat
-// Go to new messages on chat
-// Make it obvious when new messages sent
+// Make it obvious when new messages sent - might be a lost cause
 // Make the cases different cause all of a sudden Google has reached out before we can even comprehend what is happening
 // update protraf sol name in backconnect email - remove WIRED mention
 // TO BOX - email
-// update josiah email
 //  need to update what happens at the end
 export const websiteMap: Record<string, React.FC> = {
   "https://home.com": HomeSite,

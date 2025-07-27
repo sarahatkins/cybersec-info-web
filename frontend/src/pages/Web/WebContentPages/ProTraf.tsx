@@ -43,12 +43,12 @@ const ProTraf: React.FC = () => {
             <ul>
               <li>
                 Paras Jha:{" "}
-                <a href="mailto:paras.jha@protraf.com">paras.jha@protraf.com</a>
+                <a href="">paras.jha@protraf.com</a>
               </li>
               <li>
                 Josiah White:{" "}
-                <a href="mailto:josiah.white@protrafsol.com">
-                  josiah.white@protrafsol.com
+                <a href="">
+                  josiah.white@protraf.com
                 </a>
               </li>
             </ul>

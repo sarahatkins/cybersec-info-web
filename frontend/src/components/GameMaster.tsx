@@ -15,7 +15,13 @@ import {
 // TODO: Casefiles, break internet, saving place
 
 const GameMaster: React.FC = ({}) => {
-  const { gameStage, setGameStage, setInternetBroken } = useGame();
+  const {
+    gameStage,
+    setGameStage,
+    setInternetBroken,
+    setNewEmail,
+    setNewMessage,
+  } = useGame();
   // The GAME is just pushing things into an arr
   const pushEmail = (emailData: any) => {
     game_emails.unshift({
@@ -146,6 +152,9 @@ const GameMaster: React.FC = ({}) => {
           );
           pushChatMessage("Researchers", "Let us know.");
         }, 5000);
+
+        setNewEmail(true);
+        setNewMessage(true);
         break;
 
       case 3:
@@ -185,11 +194,13 @@ const GameMaster: React.FC = ({}) => {
           "Poor sadDVR - not made for all this war."
         );
         setTimeout(() => {
-          pushChatMessage("Boss", "Check your email. It's important.");
-          setGameStage(5);
+          pushChatMessage(
+            "Boss",
+            "Check your email. It's important. Respond when you have."
+          );
+          setNewMessage(true);
         }, 1500);
-        break;
-      case 5:
+
         // Email from GOOGLE
         pushEmail({
           sender: "security-team@google.com",
@@ -212,7 +223,10 @@ const GameMaster: React.FC = ({}) => {
           summary:
             "Google requests urgent help to track Mirai botnet after Akamai drops Krebs.",
         });
+        setNewEmail(true);
 
+        break;
+      case 5:
         const brian_krebbs_news: NewsPostInterface = {
           id: newsPosts.length,
           title:
@@ -235,7 +249,7 @@ const GameMaster: React.FC = ({}) => {
         pushChatMessage("Boss", "Google has reached out.");
         pushChatMessage(
           "Boss",
-          "Your new task is to figure out who has made the Mirai botnet. The researchers are working with you to figure this all out."
+          "Your new task is to figure out who has made the Mirai botnet. The researchers are working with you to figure this all out. They should have messaged."
         );
         pushChatMessage(
           "Boss",
@@ -248,12 +262,13 @@ const GameMaster: React.FC = ({}) => {
         );
         pushChatMessage(
           "Researchers",
-          "First, we think it might be best if you look into this news article to get a better understanding of the situation: news.com"
+          "First, we think it might be best if you look into this news article to get a better understanding of the situation: cyber-news.com"
         );
         pushChatMessage(
           "Researchers",
           "We'll message if there have been any updates."
         );
+
         break;
       case 6:
         pushChatMessage(
@@ -269,6 +284,8 @@ const GameMaster: React.FC = ({}) => {
           "Here is the logs: ./alaskan-security-camera-dvr --mode infectionLogs"
         );
         pushChatMessage("Researchers", "Message back with what you find.");
+        setNewMessage(true);
+
         break;
 
       case 7:
@@ -289,6 +306,7 @@ const GameMaster: React.FC = ({}) => {
           "Researchers",
           "You might want to send them an email to find out what they know about Mirai. Here is their email address: backconnect@backconnect.com"
         );
+
         break;
       case 8:
         // Email from BackConnect emailing you to let you know about Paras and stuff
@@ -298,18 +316,20 @@ const GameMaster: React.FC = ({}) => {
             e.sender === PLAYER_EMAIL &&
             e.receiver === "backconnect@backconnect.com"
         );
-        console.log(backConnectEmailThread, game_emails)
+        console.log(backConnectEmailThread, game_emails);
         backConnectEmailThread != -1 &&
-        pushEmailThread(
-          backConnectEmailThread,
-          `<p>Hello,</p>
-            <p>We want to clarify that BackConnect was previously used—via a BGP hijack—to host servers associated with the Mirai botnet, as reported in the recent WIRED article. Since then, we have taken steps to cease any such hosting and have distanced ourselves from those operations.</p>
+          pushEmailThread(
+            backConnectEmailThread,
+            `<p>Hello,</p>
+            <p>We want to clarify that BackConnect was previously used—via a BGP hijack—to host servers associated with the Mirai botnet. Since then, we have taken steps to cease any such hosting and have distanced ourselves from those operations.</p>
             <p>While we do not have current involvement with Mirai, one of our acquaintances maintains contact with Paras Jha, a cofounder of ProTraf Solutions, who has been linked to Mirai’s development.</p>
             <p>You might consider reaching out to ProTraf for more direct insights. Their website and contact information are publicly available at <a href="https://protraf.com" target="_blank">protraf.com</a>.</p>
             <p>We hope this information assists your investigation.</p>
             <p>Best regards,<br/>
             BackConnect Security Team</p>`
-        );
+          );
+        setNewEmail(true);
+        setNewMessage(true);
 
         break;
       case 9:
@@ -330,6 +350,8 @@ const GameMaster: React.FC = ({}) => {
         Paras Jha</p>
       `
         );
+        setNewEmail(true);
+
         // Wait a certain amount of seconds and send Mirai code
         // Wait a bit more - send message from team saying bad news, mirai code leaked
         //      You must check the forum and find the code
@@ -365,6 +387,7 @@ const GameMaster: React.FC = ({}) => {
           `
           );
           pushChatMessage("Researchers", "YOU NEED TO CHECK THE HACKER FORUM");
+          setNewMessage(true);
         }, 5000);
         break;
 
@@ -373,6 +396,8 @@ const GameMaster: React.FC = ({}) => {
           "Researchers",
           "We found an IP address. It's is linked to someone named Josiah White. You should email him."
         );
+        setNewMessage(true);
+
         break;
       case 11:
         // Josiah Emails and says he doesn't want to answer more questions
@@ -392,6 +417,8 @@ const GameMaster: React.FC = ({}) => {
 
         // Researchers asking what he said
         pushChatMessage("Researchers", "What did he say?");
+        setNewEmail(true);
+        setNewMessage(true);
         break;
       case 12:
         // MESSAGE - Hold tight
@@ -407,6 +434,7 @@ const GameMaster: React.FC = ({}) => {
             "Did you get this message? Please respond yes if so!"
           );
         }, 3000);
+
         break;
       case 13:
         updateNewsCycle(newsRotation);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   game_chat_users,
   user_messages,
@@ -15,6 +15,7 @@ interface ChatViewProps {
 
 const ChatView: React.FC<ChatViewProps> = ({ person, messages, onSend }) => {
   const { gameStage, setGameStage } = useGame();
+  const bottomRef = useRef<HTMLDivElement | null>(null);
 
   const [input, setInput] = useState("");
   const [messageThread, setMessageThread] = useState<MessageInterface[]>(
@@ -34,6 +35,9 @@ const ChatView: React.FC<ChatViewProps> = ({ person, messages, onSend }) => {
     setMessageThread(updatedThread || []);
   }, [user_messages, person.id]);
 
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messageThread]);
   return (
     <div className="chat-view">
       <div className="chat-view-header">
@@ -61,6 +65,7 @@ const ChatView: React.FC<ChatViewProps> = ({ person, messages, onSend }) => {
             </div>
           );
         })}
+        <div ref={bottomRef} />
       </div>
       <div className="chat-input">
         <input
@@ -97,10 +102,14 @@ export function handleReplyStaging(
     reply.toLocaleLowerCase().includes("paras") &&
     reply.toLocaleLowerCase().includes("josiah")
   ) {
+    console.log("YOU WON");
     return;
   }
 
   const stageTransitions: Record<string, Record<number, number>> = {
+    Boss: {
+      4: 5,
+    },
     Researchers: {
       2: 3,
       3: 4,

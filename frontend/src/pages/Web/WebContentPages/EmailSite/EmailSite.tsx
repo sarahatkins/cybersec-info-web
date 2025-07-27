@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./EmailSite.css";
 import type { EmailInterface } from "../../../../components/db";
 import EmailMessage from "./Email";

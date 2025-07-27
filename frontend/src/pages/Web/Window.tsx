@@ -15,6 +15,7 @@ import React from "react";
 import { websiteMap } from "../../components/db";
 import EmailSite from "./WebContentPages/EmailSite/EmailSite";
 import { useGame } from "../../context/GameContext";
+import HackerForum from "./WebContentPages/HackerForum/HackerForum";
 
 interface WindowProps {
   isOpen: boolean;
@@ -193,16 +194,14 @@ const Window: React.FC<WindowProps> = ({ isOpen, onClose }) => {
           <form onSubmit={handleSearch} className="address-bar">
             <input
               type="text"
+              disabled={true}
               value={internetBroken ? "000:111;2222":url}
-              onChange={(e) => setUrl(e.target.value)}
               className="url-input"
-              spellCheck={false}
             />
           </form>
           <IonIcon
             icon={reloadOutline}
             className="icon reload"
-            onClick={() => alert("Refreshing!")}
           />
           <IonIcon icon={ellipsisVertical} className="icon menu" />
         </div>

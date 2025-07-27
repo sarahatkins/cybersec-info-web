@@ -1,5 +1,9 @@
-import React, { useState } from "react";
-import type { MessageInterface, Person } from "../../components/db";
+import React, { useEffect, useState } from "react";
+import {
+  user_messages,
+  type MessageInterface,
+  type Person,
+} from "../../components/db";
 import "./ChatView.css";
 interface ChatViewProps {
   person: Person;
@@ -9,12 +13,24 @@ interface ChatViewProps {
 
 const ChatView: React.FC<ChatViewProps> = ({ person, messages, onSend }) => {
   const [input, setInput] = useState("");
-
+  const [messageThread, setMessageThread] = useState<MessageInterface[]>(
+    messages || []
+  );
   const handleSend = () => {
     onSend(input);
     setInput("");
   };
+  useEffect(() => {
+    const updatedThread = user_messages.find(
+      (e) => e.chat_with_id === person.id
+    )?.message_thread;
 
+    if (updatedThread) {
+      setMessageThread(updatedThread);
+    } else {
+      setMessageThread([]);
+    }
+  }, [user_messages, person.id]);
   return (
     <div className="chat-view">
       <div className="chat-view-header">
@@ -22,14 +38,26 @@ const ChatView: React.FC<ChatViewProps> = ({ person, messages, onSend }) => {
         {person.name}
       </div>
       <div className="chat-messages">
-        {messages.map((msg: MessageInterface, _: number) => (
-          <div className={`chat-msg ${msg.from_id === person.id && "other-sent"}`}>
-            <div className="chat-msg-sender">
-              {msg.from_id === person.id ? person.name : "YOU"}
+        {messageThread.map((msg: MessageInterface, idx: number) => {
+          const prevMsg = messageThread[idx - 1];
+          const showSender = !prevMsg || prevMsg.from_id !== msg.from_id;
+
+          return (
+            <div
+              key={idx}
+              className={`chat-msg ${
+                msg.from_id === person.id ? "other-sent" : ""
+              }`}
+            >
+              {showSender && (
+                <div className="chat-msg-sender">
+                  {msg.from_id === person.id ? person.name : "YOU"}
+                </div>
+              )}
+              <div className="chat-msg-content">{msg.content}</div>
             </div>
-            <div className="chat-msg-content">{msg.content}</div>
-          </div>
-        ))}
+          );
+        })}
       </div>
       <div className="chat-input">
         <input

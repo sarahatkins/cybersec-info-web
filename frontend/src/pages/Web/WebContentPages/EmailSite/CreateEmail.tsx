@@ -23,7 +23,7 @@ const CreateEmail: React.FC<CreateEmailProps> = ({
   const [subject, setSubject] = useState<string>("");
 
   const handleSendClick = () => {
-    if (!emailText.trim() || !senderTo.trim() || !subject.trim()) {
+    if (!emailText.trim() || !senderTo.trim() || (!subject.trim() && !sendTo)) {
       setShowWarning(true);
       return;
     }

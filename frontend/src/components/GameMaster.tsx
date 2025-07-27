@@ -42,6 +42,7 @@ const GameMaster: React.FC = ({}) => {
     )?.message_thread;
     if (user && thread) {
       thread.push({ from_id: user.id, content: message });
+      console.log("hello");
     }
   };
 
@@ -69,40 +70,36 @@ const GameMaster: React.FC = ({}) => {
 
         break;
       case 1:
-        // Send email sending hacker to forum and asking if anything is amiss
-        // Information in email:
-        // i've been investigating networks for attacks and i've been curious as to where these daily, wide-rangin hacking attempts have been coming from.
-        // I've been googling and I discovered this hacker forum:
-        // Forum link
-        // It's a platform on the open web where seemingly young people brag about their attacks and sell their toolkits.
-        // You can find the identity of some of these miscreants.
-        // 
         pushEmailThread(
           0,
           `<p>Hey,</p>
-            <p>You might be able to piece together who’s behind it by browsing through their posts. Keep your eyes open - some of these users are more careless with their identities than you'd expect.</p>
-            <p>Best,<br/>Alison</p>`
+            <p>Just breaking this down in plain terms so it's easier to follow.</p>
+
+            <p><strong>What’s a DDoS attack?</strong></p>
+            <ul>
+              <li>DDoS = Distributed Denial of Service</li>
+              <li>It's when a server or website gets flooded with so much traffic that it slows down or crashes</li>
+              <li>The traffic comes from lots of infected devices around the world, not just one source</li>
+              <li>It’s like sending thousands of people to a shop at once so real customers can’t get in</li>
+            </ul>
+
+            <p><strong>What’s QBot?</strong></p>
+            <ul>
+              <li>QBot is a piece of malware (a worm) that spreads across the internet</li>
+              <li>It infects poorly secured devices like routers and security cameras</li>
+              <li>Once infected, those devices become part of a botnet — a network controlled by the attacker</li>
+              <li>QBot can be used to launch DDoS attacks, act as proxies, or spread to other systems</li>
+            </ul>
+
+            <p>So in short: QBot creates the army, and DDoS is what that army can be used for.</p>
+            <p>I have some researcher friends who have set up a "honeypot" - a device which aims to get infected - so that they
+            can analyse the logs. I'll have them reach out to you!</p>
+            
+            <p>Hope that helps clear things up.<br/>Best,<br/>Alison</p>`
         );
+        setGameStage(2);
         break;
       case 2:
-        // Send email corroborating everything you have said
-        pushEmailThread(
-          0,
-          `<p>Yeah I agree with you!</p>
-            `
-            // Here is some other things I noticed, LiteSpeed is very prominent on the site - whilst there
-            // are a lot of different bots they all stem from a few users - LiteSpeed being one of them. He
-            // He might be someone to look out for. On top of that, most of these seem to be teenagers.
-            // A lot of them have sites that you can look at - LiteSpeed I know has a site to sell his services.
-
-            // I tseems to be a lot of botnets - like a battle of them. here are groups f young blackhats with names like Lizard Squad and 
-
-            // I've been noticign 
-        );
-        setGameStage(3);
-        // Some researchers are reaching out
-        break;
-      case 3:
         // Message from researchers - sound, and notification bullet
         //    Should give you a command to run in the terminal
         //    Message back with the correct thing - the different things
@@ -114,7 +111,10 @@ const GameMaster: React.FC = ({}) => {
             thread: [
               {
                 id: 0,
-                body: `<p>Akamai has been overwhelmed by DDoS attacks. We hope you can identify the botnet before it’s too late.</p>`,
+                body: `<p>Hey!</p>
+                <p>Just reaching out to let you know I have talked to the researchers. They should have messaged you in the <strong>Chat App</strong>.</p>
+                <p>Be sure to check it out!</p>
+                <p>Best of luck with your future research,</br>Alison.`,
                 date: "2025-07-16",
               },
             ],
@@ -131,19 +131,32 @@ const GameMaster: React.FC = ({}) => {
           user_messages.push({
             chat_with_id: researcher.id,
             message_thread: [
-              { from_id: researcher.id, content: "Hello, we are researchers." },
+              {
+                from_id: researcher.id,
+                content:
+                  "Hello, Alison let us know you are interested in learning about QBots. She should have let you know about us.",
+              },
             ],
           });
+          pushChatMessage(
+            "Researchers",
+            'We have a honey pot we call "sad DVR" that we let hackers infect with QBot code.'
+          );
+          pushChatMessage(
+            "Researchers",
+            "Would you like to have a look at the logs?"
+          );
+          pushChatMessage("Researchers", "Let us know.");
         }, 5000);
         break;
       // Another email sent saying she has researchers that have a honey pot and logs you can look at
       //    Check your messages as they should've messaged you
 
-      case 4:
+      case 3:
         pushChatMessage("Researchers", "Corroboration");
         // They will message back corroborating what you are saying
         break;
-      case 5:
+      case 4:
         // Email from GOOGLE
         pushEmail({
           sender: "geegle@geegle.com",
@@ -160,7 +173,7 @@ const GameMaster: React.FC = ({}) => {
         });
         updateNewsCycle(newsRotation1);
         break;
-      case 6:
+      case 5:
         // Message from BOSS
         pushChatMessage(
           "Boss",
@@ -171,7 +184,7 @@ const GameMaster: React.FC = ({}) => {
         //      FInding alaskan honey pot - thing and can look through code in terminal
         //      Find honey pot
         break;
-      case 7:
+      case 6:
         // Email from BackConnect emailing you to let you know about Paras and stuff
         //      With link to website in case you haven't found it before (??
         pushEmail({
@@ -188,7 +201,7 @@ const GameMaster: React.FC = ({}) => {
           summary: "Links to ProTraf...",
         });
         break;
-      case 8:
+      case 7:
         // Email from Paras saying that he has nothing to do with it
         // TODO:
         const parasEmailIndex = game_emails.findIndex(
@@ -203,14 +216,14 @@ const GameMaster: React.FC = ({}) => {
         }, 5000);
         break;
 
-      case 9:
+      case 8:
         // Message from team saying they found the proto of Mirai that has the IP address linking
         pushChatMessage("Researchers", "We found IP address.");
 
         // to Josiah
 
         break;
-      case 10:
+      case 9:
         // Josiah Emails and says he doesn't want to answer more questions
         const josiahEmailIndex = game_emails.findIndex(
           (e) => e.sender === PLAYER_EMAIL && e.receiver === "josiah@josiah.com"
@@ -220,7 +233,7 @@ const GameMaster: React.FC = ({}) => {
         // Researchers asking what he said
         pushChatMessage("Researchers", "What did he say?");
         break;
-      case 11:
+      case 10:
         // MESSAGE - Hold tight
         pushChatMessage("Researchers", "HOLD TIGHT");
 
@@ -234,7 +247,7 @@ const GameMaster: React.FC = ({}) => {
           pushChatMessage("Researchers", "Did you get this message?");
         }, 3000);
         break;
-      case 12:
+      case 11:
         setInternetBroken(false);
         updateNewsCycle(newsRotation2);
 
@@ -247,7 +260,7 @@ const GameMaster: React.FC = ({}) => {
         }, 3000);
 
         break;
-      case 13:
+      case 12:
         // End screen
         // Epilogue
 

@@ -36,7 +36,7 @@
   cursor: pointer;
 }
 .chat-msg {
-    padding: 16px;
+    padding: 5px 16px 0 16px;
 }
 
 .other-sent {

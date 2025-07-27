@@ -13,12 +13,12 @@ const ForumDetails: React.FC<Props> = ({ post, onBack }) => {
       <button className="back-btn" onClick={onBack}>← Back</button>
       <h2>{post.title}</h2>
       <p className="author">by {post.author.username}</p>
-      <div className="content">{post.content}</div>
+      <div className="content"><p dangerouslySetInnerHTML={{ __html: post.content }} /></div>
       <div className="comments-section">
         <h4>Comments</h4>
         {post.comments.map((c, i) => (
           <div key={i} className="comment">
-            <strong>{c.author_id}</strong>: {c.content}
+            <strong>{c.author.username}</strong>: {c.content}
           </div>
         ))}
       </div>

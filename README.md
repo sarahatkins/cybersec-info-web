@@ -1,3 +1,12 @@
+# How to Run the Game
+
+Git clone the repo
+
+Run the command: **npm run dev**
+
+(P.S. Press F11 to have a more enjoyable immersive experience!)
+
+---
 # How to Win the Game – Game Progression Guide
 
 This guide explains how the game logic in `GameMaster.tsx` works, and what the player must do to complete the story. The game simulates a cybersecurity investigation centered around the **Mirai botnet**, DDoS attacks, and real-world inspired incidents.

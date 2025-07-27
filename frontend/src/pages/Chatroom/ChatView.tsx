@@ -89,7 +89,6 @@ export function handleReplyStaging(
 ) {
   const find_user = game_chat_users.find((e) => e.id === to_id)?.name;
   // Now handle game transitions based on logic
-  console.log(reply);
   if (!find_user) return;
 
   if (

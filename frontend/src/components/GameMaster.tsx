@@ -41,7 +41,6 @@ const GameMaster: React.FC = ({}) => {
     )?.message_thread;
     if (user && thread) {
       thread.push({ from_id: user.id, content: message });
-      console.log("hello");
     }
   };
 

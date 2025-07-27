@@ -161,7 +161,6 @@ const Terminal: React.FC<TerminalProps> = ({ isOpen, onClose }) => {
         <div className="terminal-controls" />
         <div className="terminal-title">blow/up/internet</div>
         <div className="terminal-actions">
-          <IonIcon icon={expand} onClick={() => console.log("Expand")} />
           <IonIcon icon={close} color="danger" onClick={() => onClose(false)} />
         </div>
       </div>

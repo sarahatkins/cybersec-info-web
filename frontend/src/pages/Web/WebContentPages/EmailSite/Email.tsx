@@ -58,7 +58,6 @@ const EmailMessage: React.FC<EmailProps> = ({
     subject: string,
     thread: EmailThreadInterface
   ) => {
-    console.log("handling...");
     const newEmail: EmailInterface = {
       id: game_emails.length,
       sender: "me",
@@ -69,7 +68,7 @@ const EmailMessage: React.FC<EmailProps> = ({
       isRead: true,
       folder: "Sent",
     };
-    console.log("sending...", newEmail);
+
     game_emails.unshift(newEmail);
     onBack();
   };

@@ -88,7 +88,6 @@ const Window: React.FC<WindowProps> = ({ isOpen, onClose }) => {
     };
 
     if (title === "hackerforum" && gameStage < 3) {
-      console.log("Woah");
       setGameStage(3);
     }
 

@@ -1,13 +1,13 @@
 .window {
   position: absolute;
-  width: 60vw;
+  width: 80vw;
   color: black;
   border: 1px solid #ccc;
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
   resize: both;
   overflow: auto;
   border-radius: 5px;
-  height: 40vh;
+  height: 60vh;
 }
 
 .window-header {

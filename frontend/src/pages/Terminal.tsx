@@ -66,20 +66,16 @@ const Terminal: React.FC<TerminalProps> = ({ isOpen, onClose }) => {
     help: () => [
       "Available commands:",
       "  help       - Show this help message",
-      "  about      - About Elite Cyber Overlords",
+      "  about      - About this project",
       "  leaks      - Show latest leaks",
-      "  join       - How to join us",
       "  clear      - Clear the terminal",
     ],
     about: () => [
-      "We’re a totally legitimate hacking collective.",
-      "We hack the planet, one fake exploit at a time.",
+      "This is a simulation of the real-world Mirai attack that hit the world in 2016.",
     ],
     leaks: () => [
       "Latest leaks:",
       "- Leaked the source code to 'Hello World' — world shaken.",
-      "- Compromised grandma’s cookie jar. Sweet success.",
-      "- Injected memes into the Matrix. Reality destabilizing.",
     ],
     "./watchtower --mode honeypot": () => honey_pot_logs,
     "./alaskan-security-camera-dvr --mode infectionLogs": () => alaskan_logs,

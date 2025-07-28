@@ -7,8 +7,8 @@ type CommandKey =
   | "help"
   | "about"
   | "leaks"
-  | "./watchtower --mode honeypot"
-  | "./alaskan-security-camera-dvr --mode infectionLogs";
+  | "wget ./watchtower --mode honeypot"
+  | "wget ./alaskan-security-camera-dvr --mode infectionLogs";
 
 interface TerminalProps {
   isOpen: boolean;
@@ -77,8 +77,8 @@ const Terminal: React.FC<TerminalProps> = ({ isOpen, onClose }) => {
       "Latest leaks:",
       "- Leaked the source code to 'Hello World' — world shaken.",
     ],
-    "./watchtower --mode honeypot": () => honey_pot_logs,
-    "./alaskan-security-camera-dvr --mode infectionLogs": () => alaskan_logs,
+    "wget ./watchtower --mode honeypot": () => honey_pot_logs,
+    "wget ./alaskan-security-camera-dvr --mode infectionLogs": () => alaskan_logs,
   };
 
   const isCommandKey = (cmd: string): cmd is CommandKey => cmd in commands;
@@ -92,8 +92,8 @@ const Terminal: React.FC<TerminalProps> = ({ isOpen, onClose }) => {
     setLines((prev) => [...prev, `>>> ${cmd}`]);
 
     if (
-      cmd === "./watchtower --mode honeypot" ||
-      cmd === "./alaskan-security-camera-dvr --mode infectionLogs"
+      cmd === "wget ./watchtower --mode honeypot" ||
+      cmd === "wget ./alaskan-security-camera-dvr --mode infectionLogs"
     ) {
       const logs = commands[cmd as CommandKey]();
       await simulateLogOutput(logs);

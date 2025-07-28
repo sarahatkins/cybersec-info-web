@@ -147,7 +147,7 @@ const GameMaster: React.FC = ({}) => {
       case 3:
         pushChatMessage(
           "Researchers",
-          "Alright, if you open up your terminal and run this command: ./watchtower --mode honeypot"
+          "Alright, if you open up your terminal and run this command: wget ./watchtower --mode honeypot"
         );
         pushChatMessage(
           "Researchers",
@@ -268,7 +268,7 @@ const GameMaster: React.FC = ({}) => {
         );
         pushChatMessage(
           "Researchers",
-          "Here is the logs: ./alaskan-security-camera-dvr --mode infectionLogs"
+          "Here is the logs: wget ./alaskan-security-camera-dvr --mode infectionLogs"
         );
         pushChatMessage("Researchers", "Message back with what you find.");
         setNewMessage(true);

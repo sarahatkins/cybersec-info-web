@@ -28,10 +28,10 @@ The game uses a linear progression system defined by `gameStage` (from 1 to 14),
 | 0 | Login and go to emails. Alison sends an email reaching out | Respond to the email |
 | 1 | Alison sends an email explaining DDoS and QBot. Another email sent, and researchers have messaged | Respond to the message |
 | 2 | Researchers reach out via chat and Alison follows up | Respond to the chat |
-| 3 | Terminal command introduced | Run `./watchtower --mode honeypot` and respond to the chat |
+| 3 | Terminal command introduced | Run `wget ./watchtower --mode honeypot` and respond to the chat |
 | 4 | Researchers summarise logs and Google sends an emergency email | Read both email and respond to the chat with the Boss |
 | 5 | News post about the DDoS on Brian Krebs | Read the news article |
-| 6 | Researchers give a new terminal command | Run `./alaskan-security-camera-dvr --mode infectionLogs` and respond to Researchers.|
+| 6 | Researchers give a new terminal command | Run `wget ./alaskan-security-camera-dvr --mode infectionLogs` and respond to Researchers.|
 | 7 | Researchers recommend emailing BackConnect | Email `backconnect@backconnect.com` |
 | 8 | BackConnect responds, mentions ProTraf | Email `paras.jha@protraf.com` |
 | 9 | Paras responds, and the Mirai source code is leaked in the hacker forum | Read the forum post |

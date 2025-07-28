@@ -28,7 +28,7 @@ const Window: React.FC<WindowProps> = ({ isOpen, onClose }) => {
   const [rel, setRel] = useState({ x: 0, y: 0 });
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [url, setUrl] = useState("https://home.com");
-  const { gameStage, setGameStage, internetBroken, newEmail, setNewEmail } =
+  const { internetBroken, newEmail, setNewEmail } =
     useGame();
 
   const [tabs, setTabs] = useState([
@@ -87,10 +87,6 @@ const Window: React.FC<WindowProps> = ({ isOpen, onClose }) => {
       title: title.charAt(0).toUpperCase() + title.slice(1),
       Component,
     };
-
-    if (title === "hackerforum" && gameStage < 3) {
-      setGameStage(3);
-    }
 
     setTabs((prevTabs) => [
       ...prevTabs.filter((tab) => tab.id !== activeTab?.id),
